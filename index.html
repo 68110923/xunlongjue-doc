@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>寻龙诀 · A股一进二竞价打板量化系统</title>
+<meta name="description" content="寻龙诀 —— 覆盖全市场的数据整理与量化研究工具。全市场首板扫描、竞价评分、技术面筛选、每日复盘。">
+<style>
+  :root{
+    --bg:#0f0f13; --bg2:#15151e; --card:#1a1a23; --border:#27272a;
+    --text:#e4e4e7; --text2:#a1a1aa; --dim:#71717a;
+    --accent:#818cf8; --accent2:#1e1b4a; --gold:#d4a853;
+    --radius:10px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);line-height:1.7;
+       font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',system-ui,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  .glow{position:fixed;top:-240px;left:50%;transform:translateX(-50%);
+        width:760px;height:760px;pointer-events:none;z-index:0;
+        background:radial-gradient(ellipse,rgba(129,140,248,.08) 0%,transparent 70%)}
+  nav{position:sticky;top:0;z-index:100;height:48px;display:flex;align-items:center;
+      padding:0 16px;background:rgba(15,15,19,.85);backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border)}
+  nav .links{display:flex;gap:2px;flex:1;justify-content:center;overflow-x:auto}
+  nav .links a{color:var(--dim);text-decoration:none;font-size:12px;padding:6px 12px;
+               border-radius:6px;white-space:nowrap}
+  nav .links a:hover{color:var(--accent);background:rgba(129,140,248,.08)}
+  nav .login{color:var(--accent);border:1px solid var(--border);border-radius:6px;
+             padding:5px 12px;font-size:12px;text-decoration:none;white-space:nowrap}
+  nav .login:hover{border-color:var(--accent)}
+  .wrap{max-width:880px;margin:0 auto;padding:56px 24px 72px;position:relative;z-index:1}
+  header{text-align:center;margin-bottom:44px}
+  h1{font-size:38px;letter-spacing:.16em;font-weight:600;
+     background:linear-gradient(180deg,#f4f4f5,#a1a1aa);-webkit-background-clip:text;
+     -webkit-text-fill-color:transparent;margin-bottom:10px}
+  .sub{color:var(--text2);font-size:14px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+  .tag{font-size:11px;color:var(--accent);background:var(--accent2);
+       border-radius:999px;padding:3px 11px}
+  h2{font-size:19px;margin:48px 0 18px;display:flex;align-items:center;gap:8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+        padding:20px}
+  .card h3{font-size:15px;margin-bottom:8px;color:var(--gold)}
+  .card p{font-size:13px;color:var(--text2)}
+  .card ul{margin:8px 0 0 16px;font-size:13px;color:var(--text2)}
+  .card li{margin:3px 0}
+  .num{color:var(--accent);font-weight:600}
+  .steps{counter-reset:s;list-style:none;margin-top:8px}
+  .steps li{counter-increment:s;position:relative;padding-left:34px;margin:12px 0;
+            font-size:13px;color:var(--text2)}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:22px;height:22px;
+                    border-radius:50%;background:var(--accent2);color:var(--accent);
+                    font-size:11px;display:flex;align-items:center;justify-content:center}
+  .note{background:var(--bg2);border-left:3px solid var(--gold);border-radius:6px;
+        padding:14px 16px;font-size:12.5px;color:var(--text2);margin-top:20px}
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--border);
+         text-align:center;font-size:11.5px;color:var(--dim)}
+  footer a{color:var(--dim);text-decoration:none;border-bottom:1px dotted var(--dim)}
+  footer a:hover{color:var(--accent)}
+  .disc{margin-top:12px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+
+<nav>
+  <div class="links">
+    <a href="#what">这是什么</a>
+    <a href="#features">功能</a>
+    <a href="#data">数据能力</a>
+    <a href="#how">怎么用</a>
+  </div>
+  <a class="login" href="https://xunlongjue.68110923.xyz/">登录看板</a>
+</nav>
+
+<div class="wrap">
+  <header>
+    <h1>寻 龙 诀</h1>
+    <div class="sub">A 股主板 · 一进二竞价打板量化系统</div>
+    <div class="tags">
+      <span class="tag">一进二</span>
+      <span class="tag">竞价选股</span>
+      <span class="tag">全市场扫描</span>
+      <span class="tag">技术面筛选</span>
+      <span class="tag">每日复盘</span>
+      <span class="tag">数据看板</span>
+    </div>
+  </header>
+
+  <h2 id="what">🎯 这是什么</h2>
+  <div class="card">
+    <p>
+      一套<strong>部署在自己电脑或服务器上</strong>的 A 股量化研究工具。
+      它在本地维护一份覆盖<strong>十年全市场</strong>的数据湖，
+      每天自动完成首板扫描、竞价评分、技术面筛选与收盘复盘，并把结果结构化落表。
+    </p>
+    <p style="margin-top:10px">
+      结果有两个出口：<strong>推送到微信</strong>（含 AI 分析），
+      或经<strong>网页看板</strong>随时查看。两者都从同一份数据取数，互不依赖。
+    </p>
+  </div>
+
+  <h2 id="features">🧩 功能</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>一进二寻龙</h3>
+      <p>全市场首板扫描，多道硬逻辑 + 多维评分，每天 9:25 竞价结束后给出候选。</p>
+      <ul>
+        <li>封板时间、封板资金、连板数</li>
+        <li>竞价涨幅、竞价额、<strong>竞价未匹配量</strong></li>
+        <li>每只票附「买点类型 + 触发条件 + 放弃条件」</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>全市场选好票</h3>
+      <p>按技术面多维打分筛选强多票，盘中可多次重算，并留存在榜/掉出轨迹。</p>
+      <ul>
+        <li>均线 / KDJ / MACD / 布林带多维打分</li>
+        <li>入选时间、掉出时间、掉出原因可追溯</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>每日自动复盘</h3>
+      <p>收盘后自动汇总当日结果，推了什么、表现如何，一目了然。</p>
+    </div>
+    <div class="card">
+      <h3>个股 / 大盘预测</h3>
+      <p>对话式查询：发代码即回方向参考与关键指标。</p>
+    </div>
+    <div class="card">
+      <h3>深度分析</h3>
+      <p>拉取长周期价量序列做结构化解析，辅助判断主力行为痕迹。</p>
+    </div>
+    <div class="card">
+      <h3>明日观察</h3>
+      <p>盘后结合涨停梯队、板块合力与封板质量，梳理次日关注方向。</p>
+    </div>
+  </div>
+
+  <h2 id="data">📊 数据能力</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>十年全市场日线</h3>
+      <p><span class="num">2016 → 今</span>，全市场五千余只标的，未复权原始数据 + 完整复权因子事件流（含配股）。</p>
+    </div>
+    <div class="card">
+      <h3>真实竞价明细</h3>
+      <p>竞价成交量额、<span class="num">未匹配量</span>、竞价换手率、竞价量比、占昨日成交量比。</p>
+    </div>
+    <div class="card">
+      <h3>涨停与梯队</h3>
+      <p>涨停池、炸板池、跌停池、<span class="num">连板梯队矩阵</span>，含权威连板数与涨停原因。</p>
+    </div>
+    <div class="card">
+      <h3>资金与热度</h3>
+      <p>龙虎榜（机构/游资净买卖）、热股榜与排名趋势、个股异动原因。</p>
+    </div>
+    <div class="card">
+      <h3>板块体系</h3>
+      <p>同花顺行业与概念指数成分股，可做行业级与概念级共振分析。</p>
+    </div>
+    <div class="card">
+      <h3>估值与财务</h3>
+      <p>市盈率 / 市净率 / 市销率快照，以及成长、盈利、偿债、营运、现金流五类指标。</p>
+    </div>
+  </div>
+
+  <h2 id="how">🚀 怎么用</h2>
+  <div class="card">
+    <ol class="steps">
+      <li>在自有电脑或服务器上部署（附部署教程，也可协助远程部署）</li>
+      <li>自动回填十年历史数据（首次约数分钟）</li>
+      <li>按需绑定推送渠道，或直接打开网页看板</li>
+      <li>每个交易日自动运行，结果到点可见</li>
+    </ol>
+    <div class="note">
+      <strong>两种使用方式</strong><br>
+      · <strong>源码版</strong>：部署到自己的环境，功能完整，可自行接入 AI 与扩展；<br>
+      · <strong>看板版</strong>：无需部署，登录网页查看结果。
+    </div>
+  </div>
+
+  <footer>
+    <div>
+      <a href="legal/terms.html">用户协议</a> ·
+      <a href="legal/privacy.html">隐私政策</a> ·
+      <a href="legal/risk.html">风险揭示书</a> ·
+      <a href="https://xunlongjue.68110923.xyz/">登录看板</a>
+    </div>
+    <div class="disc">
+      ⚠️ 本站与相关软件仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，
+      不承诺任何收益。所有数据与结果仅供参考，据此操作风险自担。<br>
+      股市有风险，投资须谨慎。
+    </div>
+  </footer>
+</div>
+</body>
+</html>
