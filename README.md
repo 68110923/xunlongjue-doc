@@ -1,8 +1,31 @@
-# xunlongjue-doc
+# docs/ — 文档站源文件（唯一真源）
 
-寻龙诀的**公开站点**：宣传页 + 用户协议 + 隐私政策 + 风险揭示书。
+本目录是 **`xunlongjue-doc` 公开站点的源文件**。
+修改请**只改这里**，由 GitHub Actions 自动同步到 `68110923/xunlongjue-doc` 并发布 Pages。
 
-由 GitHub Pages 托管，内容由私有仓库经 GitHub Actions 自动同步（**请勿直接在此仓库修改**）。
+```
+xunlongjue-pro/docs/   ← 源（本目录，私有）
+        │  Actions: .github/workflows/sync-doc.yml
+        ↓
+xunlongjue-doc（公开）  ← GitHub Pages 直接托管，请勿手工编辑
+```
 
-- 站点：https://xunlongjue.68110923.xyz （登录/看板，私有）
-- 源仓库：`68110923/xunlongjue-web` → `docs/`
+## 内容
+
+| 文件 | 页面 |
+|---|---|
+| `index.html` | 宣传页 |
+| `legal/terms.html` | 用户协议 |
+| `legal/privacy.html` | 隐私政策（含密码加密说明） |
+| `legal/risk.html` | 风险揭示书 |
+
+## 两条编写纪律
+
+1. **宣传页不放业绩数字**——不放胜率、收益、月度柱状图（合规要求，见 WEB-PLATFORM-DESIGN.md §5.6）
+2. **页脚必须有免责声明**——「仅供研究 · 不构成投资建议」
+
+## 本地预览
+
+```bash
+cd docs && python3 -m http.server 8080
+```
