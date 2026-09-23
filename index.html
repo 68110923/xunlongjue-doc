@@ -357,9 +357,16 @@
   .cl-details[open]{border-color:var(--accent-line)}
   .cl-details>summary{
     font-size:14px;color:var(--wht);font-weight:700;cursor:pointer;user-select:none;
-    list-style:none;text-align:center;letter-spacing:.2em;
+    list-style:none;display:flex;align-items:center;justify-content:center;gap:10px;
+    min-height:44px;text-align:center;letter-spacing:.2em;
   }
   .cl-details>summary::-webkit-details-marker{display:none}
+  /* ⚠️ 原生三角被上面这行隐藏了，必须自己画一个 —— 否则折叠栏看不出能展开（用户反馈过） */
+  .cl-details>summary::after{
+    content:'▶';font-size:11px;letter-spacing:0;color:var(--accent);
+    flex:0 0 auto;transition:transform .2s;
+  }
+  .cl-details[open]>summary::after{transform:rotate(90deg)}
   .cl-wrap{margin-top:16px;position:relative;z-index:1}
   .center-dim{text-align:center;color:var(--dim);font-size:12px;padding:10px 0}
   .cl-version{
