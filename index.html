@@ -677,16 +677,7 @@ xlp 核心层（写表）──┤
       </thead>
       <tbody>
         <tr>
-          <td>数据来源</td>
-          <td>同花顺 Fuyao API，<strong>31 个端点逐个实测</strong>（批量上限 / 延迟 / 字段可得性都写进文档）</td>
-        </tr>
-        <tr>
-          <td>竞价数据</td>
-          <td><strong>全市场每日每票一行</strong>的真实竞价：未匹配量、竞价换手率、竞价量比、占昨日成交量比</td>
-        </tr>
-        <tr>
-          <td>涨跌停口径</td>
-          <td><strong>权威涨停比例与涨停价随行落库</strong>（<code>limit_ratio</code> / <code>limit_up_price</code>），「一字」判定不用自己推算</td>
+          <td><strong>权威涨停比例与涨停价随行落库</strong>，各板块 / ST / 新股的幅度都由数据源给出，「一字」判定不用自己推算</td>
         </tr>
         <tr>
           <td>数据组织</td>
@@ -796,7 +787,7 @@ xlp 核心层（写表）──┤
     </div>
     <div class="card">
       <h3>板块体系</h3>
-      <p>同花顺行业与概念指数成分股，可做行业级与概念级共振分析</p>
+      <p>行业（一级 / 二级）与概念指数成分股，可做行业级与概念级共振分析</p>
     </div>
     <div class="card">
       <h3>指数与估值</h3>
@@ -908,7 +899,7 @@ xlp 核心层（写表）──┤
         <tr>
           <td>原版 xunlongjue</td>
           <td>888 元</td>
-          <td>仍在售；与 PRO 版的差别见「PRO 版新增与升级」一节</td>
+          <td>仍在售；与 PRO 版的差别见「PRO 版新增与升级」一节 · <a href="https://68110923.github.io/xunlongjue_doc/" target="_blank" rel="noopener">旧版官网</a></td>
         </tr>
         <tr>
           <td>云服务器（可选，自购）</td>
@@ -999,7 +990,7 @@ xlp 核心层（写表）──┤
     </details>
     <details id="faq-key">
       <summary>数据源 Key 谁付？</summary>
-      <div class="a"><p><strong>自备自付</strong>（同花顺 Fuyao API）。软件是一次性买断，数据源调用成本由使用者承担。</p></div>
+      <div class="a"><p><strong>自备自付</strong>（主流行情数据终端，接入方式与申请入口写在交付文档里）。软件是一次性买断，数据源调用成本由使用者承担。</p></div>
     </details>
     <details id="faq-nocode">
       <summary>需要会编程吗？</summary>
