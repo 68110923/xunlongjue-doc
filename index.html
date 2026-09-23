@@ -6,31 +6,101 @@
 <title>寻龙诀 PRO · A股一进二竞价打板量化系统</title>
 <meta name="description" content="寻龙诀 PRO —— 部署在自己电脑或服务器上的 A 股量化研究工具：十年全市场数据湖 + 全市场真实竞价 + 一进二选票 + 每日自动复盘。一次买断、永久使用，1288 元。仅供研究与学习，不构成任何投资建议。">
 <meta name="theme-color" content="#0f0f13">
+<script>
+// ── 主题引导（必须早于样式生效，避免闪白/闪黑）──
+// 优先级：URL ?theme=light|dark（验收用测试钩子，不写 localStorage）> localStorage 记忆 > 系统 prefers-color-scheme
+(function(){
+  var m = location.search.match(/[?&]theme=(dark|light)/);
+  var forced = m ? m[1] : '';
+  var saved = '';
+  try{ saved = localStorage.getItem('xlp-theme') || ''; }catch(e){}
+  if (saved !== 'light' && saved !== 'dark') saved = '';
+  var sys = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+  var theme = forced || saved || sys;
+  document.documentElement.setAttribute('data-theme', theme);
+  window.__xlpTheme = {forced: !!forced, theme: theme};
+})();
+</script>
 <style>
-  :root{
+  :root{--radius:10px;--nav-h:50px;color-scheme:light dark}
+
+  /* ══ 主题色值 · 分组 ①：暗色（data-theme="dark"，同时是 JS 未执行时的兜底）══ */
+  html[data-theme="dark"],html:not([data-theme]){
     --bg:#0f0f13; --bg2:#15151e; --card:#1a1a23; --card2:#22222e; --border:#27272a;
     --text:#e4e4e7; --text2:#a1a1aa; --dim:#71717a; --wht:#f4f4f5;
     --accent:#818cf8; --accent2:#1e1b4a; --accent-line:rgba(129,140,248,.25);
     --gold:#d4a853; --gold2:#8a6d30;
     --green:#22c55e; --red:#e53935; --orange:#ff9800;
-    --radius:10px; --nav-h:50px;
+    --h1a:#fdf0d5; --h1b:#d4a853; --h1c:#8a6d30;
+    --code-bg:rgba(129,140,248,.10);
+    --hero-a:rgba(129,140,248,.09); --hero-b:rgba(129,140,248,.01);
+    --flow-bg:#0b0b12; --th-bg:rgba(129,140,248,.06);
+    --gold-a:rgba(212,168,83,.08); --gold-b:rgba(212,168,83,.01);
+    --tag-bg:#1e1b4a; --tag-line:rgba(129,140,248,.16);
+    --img-bg:rgba(255,255,255,.03);
+    --shadow:rgba(0,0,0,.45);
+    --nav-bg:rgba(15,15,19,.88); --glow:rgba(129,140,248,.08);
+    color-scheme:dark;
   }
+  /* ══ 主题色值 · 分组 ②：亮色（data-theme="light"；正文 #333，金色强调压深保证可读）══ */
+  html[data-theme="light"]{
+    --bg:#f4f4f7; --bg2:#ffffff; --card:#ffffff; --card2:#f1f1f5; --border:#e0e0e7;
+    --text:#333333; --text2:#52525b; --dim:#6b6b76; --wht:#141418;
+    --accent:#4338ca; --accent2:#e7e7fb; --accent-line:rgba(67,56,202,.28);
+    --gold:#8a6a1e; --gold2:#6b5218;
+    --green:#15803d; --red:#c02626; --orange:#b45309;
+    --h1a:#a9852a; --h1b:#8a6d30; --h1c:#5f4a1a;
+    --code-bg:rgba(67,56,202,.09);
+    --hero-a:rgba(67,56,202,.07); --hero-b:rgba(67,56,202,.01);
+    --flow-bg:#f7f7fb; --th-bg:rgba(67,56,202,.05);
+    --gold-a:rgba(138,106,30,.07); --gold-b:rgba(138,106,30,.01);
+    --tag-bg:#e7e7fb; --tag-line:rgba(67,56,202,.18);
+    --img-bg:rgba(0,0,0,.03);
+    --shadow:rgba(20,20,30,.18);
+    --nav-bg:rgba(255,255,255,.9); --glow:rgba(67,56,202,.06);
+    color-scheme:light;
+  }
+  /* JS 未执行时按系统偏好兜底：系统为亮色 → 用亮色分组（值与上方亮色分组一致） */
+  @media (prefers-color-scheme:light){
+    html:not([data-theme]){
+      --bg:#f4f4f7; --bg2:#ffffff; --card:#ffffff; --card2:#f1f1f5; --border:#e0e0e7;
+      --text:#333333; --text2:#52525b; --dim:#6b6b76; --wht:#141418;
+      --accent:#4338ca; --accent2:#e7e7fb; --accent-line:rgba(67,56,202,.28);
+      --gold:#8a6a1e; --gold2:#6b5218;
+      --green:#15803d; --red:#c02626; --orange:#b45309;
+      --h1a:#a9852a; --h1b:#8a6d30; --h1c:#5f4a1a;
+      --code-bg:rgba(67,56,202,.09);
+      --hero-a:rgba(67,56,202,.07); --hero-b:rgba(67,56,202,.01);
+      --flow-bg:#f7f7fb; --th-bg:rgba(67,56,202,.05);
+      --gold-a:rgba(138,106,30,.07); --gold-b:rgba(138,106,30,.01);
+      --tag-bg:#e7e7fb; --tag-line:rgba(67,56,202,.18);
+      --img-bg:rgba(0,0,0,.03);
+      --shadow:rgba(20,20,30,.18);
+      --nav-bg:rgba(255,255,255,.9); --glow:rgba(67,56,202,.06);
+      color-scheme:light;
+    }
+  }
+
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
+  /* 整页禁止横向滚动：overflow-x:clip 不产生滚动容器，sticky 导航不受影响 */
+  html,body{overflow-x:hidden;overflow-x:clip;max-width:100%}
   body{
     background:var(--bg);color:var(--text);line-height:1.7;
     font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',system-ui,sans-serif;
     -webkit-font-smoothing:antialiased;
+    transition:background .2s,color .2s;
   }
+  img{max-width:100%}
   .glow{
     position:fixed;top:-260px;left:50%;transform:translateX(-50%);
     width:780px;height:780px;pointer-events:none;z-index:0;
-    background:radial-gradient(ellipse,rgba(129,140,248,.08) 0%,transparent 70%);
+    background:radial-gradient(ellipse,var(--glow) 0%,transparent 70%);
   }
   code{
-    background:rgba(129,140,248,.10);color:var(--accent);
+    background:var(--code-bg);color:var(--accent);
     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:.92em;padding:1px 5px;border-radius:4px;
+    font-size:.92em;padding:1px 5px;border-radius:4px;overflow-wrap:break-word;
   }
   strong{color:var(--wht);font-weight:700}
   a{color:var(--accent);text-decoration:none}
@@ -39,11 +109,11 @@
   /* ── 顶部导航 ── */
   nav{
     position:sticky;top:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;
-    padding:0 10px;background:rgba(15,15,19,.88);backdrop-filter:blur(12px);
+    padding:0 10px;background:var(--nav-bg);backdrop-filter:blur(12px);
     -webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
   }
   nav .links{
-    display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none;
+    display:flex;gap:2px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;
     -webkit-overflow-scrolling:touch;
   }
   nav .links::-webkit-scrollbar{display:none}
@@ -51,12 +121,20 @@
     color:var(--dim);font-size:12px;padding:6px 10px;border-radius:6px;
     white-space:nowrap;flex:0 0 auto;
   }
-  nav .links a:hover{color:var(--accent);background:rgba(129,140,248,.08);text-decoration:none}
+  nav .links a:hover{color:var(--accent);background:var(--code-bg);text-decoration:none}
   nav .login{
     flex:0 0 auto;margin-left:8px;color:var(--accent);border:1px solid var(--border);
     border-radius:6px;padding:5px 12px;font-size:12px;white-space:nowrap;
   }
   nav .login:hover{border-color:var(--accent);text-decoration:none}
+  /* 右上角主题切换（🌙 / ☀️） */
+  nav .theme-toggle{
+    flex:0 0 auto;margin-left:8px;width:30px;height:28px;display:flex;align-items:center;
+    justify-content:center;font-size:14px;line-height:1;cursor:pointer;
+    background:transparent;color:var(--text2);
+    border:1px solid var(--border);border-radius:6px;
+  }
+  nav .theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
 
   /* ── 布局 ── */
   .wrap{max-width:960px;margin:0 auto;padding:52px 22px 64px;position:relative;z-index:1}
@@ -65,14 +143,14 @@
     filter:sepia(1) saturate(2.2) hue-rotate(-4deg) brightness(1.15) drop-shadow(0 0 12px rgba(229,57,53,.4))}
   h1{
     font-size:clamp(30px,5vw,44px);font-weight:900;letter-spacing:.14em;margin:8px 0 10px;
-    background:linear-gradient(180deg,#fdf0d5 0%,#d4a853 40%,#8a6d30 100%);
+    background:linear-gradient(180deg,var(--h1a) 0%,var(--h1b) 40%,var(--h1c) 100%);
     -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   }
   .sub{color:var(--text2);font-size:14px;letter-spacing:.06em}
   .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
   .tag{
-    font-size:11px;color:var(--accent);background:var(--accent2);
-    border:1px solid rgba(129,140,248,.16);border-radius:999px;padding:3px 12px;
+    font-size:11px;color:var(--accent);background:var(--tag-bg);
+    border:1px solid var(--tag-line);border-radius:999px;padding:3px 12px;
   }
   h2{
     font-size:20px;font-weight:800;color:var(--wht);
@@ -100,22 +178,24 @@
     padding:14px 16px;font-size:12.5px;color:var(--text2);margin-top:18px;
   }
   .note.accent{border-left-color:var(--accent)}
+
+  /* ── 表格（容器内可横向滚动，不撑破页面） ── */
   .table-wrap{
-    overflow-x:auto;-webkit-overflow-scrolling:touch;
+    max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;
     border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);
   }
   table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:600px}
-  table.pricing{min-width:520px}
+  table.cmp{min-width:0}          /* 对比表只有两列，不需要最小宽度 */
+  table.pricing{min-width:520px}  /* 定价表窄屏时在容器内横向滚动 */
   th,td{padding:11px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
   thead th{
-    background:rgba(129,140,248,.06);color:var(--text2);font-size:11.5px;
+    background:var(--th-bg);color:var(--text2);font-size:11.5px;
     font-weight:700;letter-spacing:.06em;white-space:nowrap;
   }
   tbody tr:last-child td{border-bottom:none}
   td:first-child{color:var(--text);white-space:nowrap}
-  th.pro{color:var(--gold)}
+  .cmp td:first-child{font-weight:700;color:var(--wht);white-space:nowrap}
   .cmp td:last-child{color:var(--text2)}
-  .cmp td:nth-child(2){color:var(--dim)}
 
   /* ── 关键数字 ── */
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:20px}
@@ -129,7 +209,7 @@
 
   /* ── 出口示意 ── */
   pre.flow{
-    background:#0b0b12;border:1px solid var(--border);border-radius:var(--radius);
+    background:var(--flow-bg);border:1px solid var(--border);border-radius:var(--radius);
     padding:16px;margin-top:18px;overflow-x:auto;color:var(--text2);
     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
     font-size:12px;line-height:1.6;
@@ -137,13 +217,13 @@
 
   /* ── 定价 ── */
   .price-hero{
-    background:linear-gradient(135deg,rgba(129,140,248,.09),rgba(129,140,248,.01));
+    background:linear-gradient(135deg,var(--hero-a),var(--hero-b));
     border:1px solid var(--accent-line);border-radius:var(--radius);
     padding:30px 24px;text-align:center;
   }
   .ph-tag{
     display:inline-block;font-size:11px;letter-spacing:.18em;color:var(--gold);
-    border:1px solid rgba(212,168,83,.35);border-radius:999px;padding:3px 14px;margin-bottom:12px;
+    border:1px solid var(--gold-a);border-radius:999px;padding:3px 14px;margin-bottom:12px;
   }
   .ph-price{font-size:clamp(40px,7vw,58px);font-weight:900;color:var(--accent);line-height:1}
   .ph-price small{font-size:18px;color:var(--dim);font-weight:600}
@@ -163,14 +243,19 @@
   .price-card .pc-amt{font-size:24px;font-weight:900;color:var(--gold);margin:6px 0 6px;line-height:1.1}
   .price-card .pc-amt.hot{color:var(--accent)}
   .price-card .pc-desc{font-size:12px;color:var(--dim)}
-  .qr-row{display:flex;flex-wrap:wrap;gap:22px;justify-content:center;margin-top:22px}
-  .qr-item{text-align:center;flex:0 1 180px}
-  .qr-item img{
-    width:100%;max-width:180px;aspect-ratio:1;object-fit:contain;border-radius:8px;
-    border:1px solid var(--border);background:#fff;cursor:zoom-in;
-    transition:transform .2s,box-shadow .2s;
+
+  /* ── 收款码 + 公众号：三张图永远同一行等宽（3 等分 grid，小屏等比缩小不换行） ── */
+  .qr-row{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+    align-items:start;justify-items:center;margin-top:22px;
   }
-  .qr-item img:hover{transform:scale(1.02);box-shadow:0 6px 20px rgba(0,0,0,.45)}
+  .qr-item{text-align:center;min-width:0;width:100%}
+  .qr-item img{
+    width:100%;max-width:180px;margin:0 auto;aspect-ratio:1;object-fit:contain;
+    border-radius:8px;border:1px solid var(--border);background:#fff;cursor:zoom-in;
+    display:block;transition:transform .2s,box-shadow .2s;
+  }
+  .qr-item img:hover{transform:scale(1.02);box-shadow:0 6px 20px var(--shadow)}
   .qr-item .qr-label{font-size:12px;color:var(--wht);font-weight:700;margin-top:6px}
   .qr-item .qr-hint{font-size:11px;color:var(--dim)}
 
@@ -186,18 +271,20 @@
     font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;
   }
   .steps li b{color:var(--wht)}
-  .flow-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));gap:10px;margin-top:14px}
+  /* 进群流程 5 张图：永远 5 等分一行，窄屏等比缩小不换行，点图可开灯箱
+     aspect-ratio 6/13 = 素材（600×1300）真实比例，5 格等高、不产生上下留白 */
+  .flow-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
   .flow-row img{
-    width:100%;height:auto;max-height:320px;object-fit:contain;
-    border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,.03);
-    cursor:zoom-in;transition:transform .2s,box-shadow .2s;
+    width:100%;height:auto;aspect-ratio:6/13;object-fit:contain;
+    border-radius:6px;border:1px solid var(--border);background:var(--img-bg);
+    cursor:zoom-in;display:block;transition:transform .2s,box-shadow .2s;
   }
-  .flow-row img:hover{transform:scale(1.02);box-shadow:0 6px 18px rgba(0,0,0,.45)}
+  .flow-row img:hover{transform:scale(1.02);box-shadow:0 6px 18px var(--shadow)}
 
   /* ── 联系卡 ── */
   .contact{
-    background:linear-gradient(135deg,rgba(212,168,83,.08),rgba(212,168,83,.01));
-    border:1px solid rgba(212,168,83,.28);border-radius:var(--radius);
+    background:linear-gradient(135deg,var(--gold-a),var(--gold-b));
+    border:1px solid var(--gold-a);border-radius:var(--radius);
     padding:24px;text-align:center;margin-top:18px;
   }
   .contact .who{font-size:12px;color:var(--text2);letter-spacing:.08em}
@@ -231,7 +318,7 @@
     content:'▶';font-size:9px;color:var(--dim);flex:0 0 auto;transition:transform .25s;
   }
   .faq details[open]>summary::before{transform:rotate(90deg)}
-  .faq .a{font-size:12.5px;color:var(--text2);margin-top:10px;padding-left:17px}
+  .faq .a{font-size:12.5px;color:var(--text2);margin-top:10px;padding-left:17px;overflow-wrap:break-word}
   .faq .a p{margin:0 0 6px}
   .faq .a p:last-child{margin-bottom:0}
 
@@ -259,7 +346,7 @@
     letter-spacing:.04em;margin-bottom:10px;
   }
   .cl-version .vtag .vdate{font-size:12px;color:var(--dim);font-weight:400;margin-left:8px}
-  .cl-item{font-size:12.5px;color:var(--text);line-height:1.7;padding:3px 0 3px 16px;position:relative}
+  .cl-item{font-size:12.5px;color:var(--text);line-height:1.7;padding:3px 0 3px 16px;position:relative;overflow-wrap:break-word}
   .cl-item::before{content:'▸';position:absolute;left:0;color:var(--accent);font-size:10px}
   .cl-sub-item{font-size:11.5px;color:var(--dim);line-height:1.6;padding:1px 0 1px 30px;position:relative}
   .cl-sub-item::before{content:'·';position:absolute;left:20px;color:var(--dim)}
@@ -276,7 +363,7 @@
     background:linear-gradient(135deg,var(--card),var(--bg2));
     border:1px solid var(--accent-line);border-left:3px solid var(--accent);
     border-radius:var(--radius);padding:13px 40px 13px 16px;
-    box-shadow:0 6px 24px rgba(0,0,0,.45);animation:notifSlide .4s ease-out;
+    box-shadow:0 6px 24px var(--shadow);animation:notifSlide .4s ease-out;
   }
   @keyframes notifSlide{
     from{opacity:0;transform:translateY(-18px)}
@@ -285,7 +372,7 @@
   .notif-card .n-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
   .notif-card .n-badge{font-size:10.5px;color:var(--accent);letter-spacing:.1em;font-weight:700}
   .notif-card .n-range{
-    font-size:10px;color:var(--dim);background:rgba(129,140,248,.08);
+    font-size:10px;color:var(--dim);background:var(--code-bg);
     border-radius:999px;padding:1px 8px;
   }
   .notif-card .n-title{font-size:13px;font-weight:700;color:var(--wht);margin-bottom:4px}
@@ -320,21 +407,80 @@
   /* ── Toast ── */
   #toast{
     position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(12px);
-    background:var(--gold);color:#050508;font-size:13px;font-weight:700;
+    background:var(--wht);color:var(--bg);font-size:13px;font-weight:700;
     padding:11px 22px;border-radius:8px;z-index:10000;opacity:0;
     transition:opacity .3s,transform .3s;pointer-events:none;max-width:88vw;text-align:center;
   }
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-  @media(max-width:600px){
-    .wrap{padding:36px 14px 48px}
-    h2{font-size:17.5px;margin-top:44px}
+  /* ══════════════════════════════════════════════════════════════
+     响应式三档：手机 ≤640 ｜ iPad / 平板 641 ~ 1024 ｜ 桌面 ≥1025
+     ══════════════════════════════════════════════════════════════ */
+
+  /* ── iPad / 平板（641px ~ 1024px）：两列 grid、媒体行仍一行、留白加大 ── */
+  @media (min-width:641px) and (max-width:1024px){
+    .wrap{max-width:900px;padding:46px 30px 60px}
+    .grid{grid-template-columns:repeat(2,1fr);gap:16px}
+    .price-grid{grid-template-columns:repeat(2,1fr);gap:16px}
+    .stats{grid-template-columns:repeat(3,1fr)}
+    h2{font-size:19px;margin-top:50px}
+    .qr-row{gap:22px;margin-top:26px}
+    .flow-row{gap:12px;margin-top:16px}
+  }
+
+  /* ── 手机（≤640px）：单列、字号收紧、对比表卡片化、媒体行 3/5 等分仍一行 ── */
+  @media (max-width:640px){
+    .wrap{padding:34px 14px 48px}
+    h1{letter-spacing:.08em}
+    h2{font-size:17.5px;margin-top:42px}
+    .lead{font-size:12.5px}
     .card{padding:16px}
-    .qr-row{gap:10px}
-    .qr-item{flex:1 1 44%}
+    .grid{grid-template-columns:1fr}
+    .price-grid{grid-template-columns:1fr}
+    .price-hero{padding:24px 14px}
+    .stats{grid-template-columns:1fr 1fr;gap:8px}
+    .stat b{font-size:18px}
     .contact{padding:20px 14px}
+    .steps li{font-size:12.5px}
+    /* 出口示意图：字号再收一点，超出时只在代码块内滚动 */
+    pre.flow{font-size:10.5px;padding:12px}
+    /* 对比表 → 卡片式：每行一个能力块，标题在上、说明在下 */
+    .table-wrap.cmp-wrap{border:none;background:transparent;overflow:visible;border-radius:0}
+    table.cmp{min-width:0;width:100%}
+    .cmp thead{display:none}
+    .cmp,.cmp tbody,.cmp tr,.cmp td{display:block;width:100%}
+    .cmp tr{
+      background:linear-gradient(180deg,var(--card),var(--bg2));
+      border:1px solid var(--border);border-radius:var(--radius);
+      padding:12px 14px;margin-bottom:8px;
+    }
+    .cmp td{border-bottom:none;padding:0;white-space:normal}
+    .cmp td:first-child{
+      font-size:13px;font-weight:700;color:var(--gold);margin-bottom:4px;white-space:normal;
+    }
+    .cmp td:last-child{font-size:12.5px;color:var(--text2);line-height:1.65}
+    /* 定价表：容器内横向滚动，不撑破页面 */
+    table.pricing{min-width:480px}
+    th,td{padding:9px 11px}
+    /* 收款码 + 公众号：仍是 3 等分一行，只缩小间距与圆角 */
+    .qr-row{gap:8px;margin-top:18px}
+    .qr-item .qr-label{font-size:10.5px;margin-top:5px}
+    .qr-item .qr-hint{font-size:10px}
+    /* 进群流程：仍是 5 等分一行，等比缩小 */
+    .flow-row{gap:5px;margin-top:12px}
+    nav{padding:0 8px}
     nav .links a{font-size:11px;padding:6px 8px}
-    .stats{grid-template-columns:1fr 1fr}
+    nav .login{padding:5px 8px;margin-left:6px}
+    nav .theme-toggle{margin-left:6px}
+    .notif-wrap{top:52px}
+  }
+
+  /* ── 桌面（≥1025px）：880~1000px 容器 + 多列 grid ── */
+  @media (min-width:1025px){
+    .wrap{max-width:960px}
+    .grid{grid-template-columns:repeat(auto-fit,minmax(252px,1fr))}
+    .price-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+    .stats{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
   }
 </style>
 </head>
@@ -345,7 +491,7 @@
 <nav>
   <div class="links">
     <a href="#what">🎯 这是什么</a>
-    <a href="#compare">🆚 PRO 版新增</a>
+    <a href="#compare">🆚 PRO 版新增与升级</a>
     <a href="#features">🧩 功能</a>
     <a href="#data">📊 数据能力</a>
     <a href="#reliable">🛡️ 工程与可靠性</a>
@@ -355,6 +501,7 @@
     <a href="#legal">⚖️ 风险与许可</a>
   </div>
   <a class="login" href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">登录看板</a>
+  <button class="theme-toggle" type="button" id="themeToggle" aria-label="切换主题" title="切换主题">🌙</button>
 </nav>
 
 <div class="wrap">
@@ -401,72 +548,72 @@ xlp 核心层（写表）──┤
     <div class="stat"><b>2 核 2 GB</b><span>实测可跑，峰值约 1.1 GB</span></div>
   </div>
 
-  <!-- ═══ 2. PRO 版新增（对比原版） ═══ -->
-  <h2 id="compare">🆚 PRO 版新增（对比原版）</h2>
-  <p class="lead">同样的思路，换成了<strong>真数据、真口径、真体检</strong>。贵 400 元买的是「数字能不能信」。</p>
-  <div class="table-wrap">
+  <!-- ═══ 2. PRO 版新增与升级（与 README 同源，中性表述：只讲 PRO 版怎么做） ═══ -->
+  <h2 id="compare">🆚 PRO 版新增与升级</h2>
+  <p class="lead">
+    原版 xunlongjue（888 元）已经把「一进二竞价打板」这条思路跑通；
+    <strong>PRO 版（1288 元）在同一思路上把每一块做扎实</strong>：
+    数据来源可核对、口径写进文档、体检自动化、性能压到 2 核 2 GB 能跑。两版都可用，按需要选。
+  </p>
+  <div class="table-wrap cmp-wrap">
     <table class="cmp">
       <thead>
-        <tr><th>维度</th><th>原版 xunlongjue（888 元）</th><th class="pro">PRO 版（1288 元）</th></tr>
+        <tr><th>能力</th><th>PRO 版做法</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>数据源</td>
-          <td>自建 SQLite 库 + 第三方接口拼数据</td>
-          <td><strong>同花顺 Fuyao API</strong>，31 个端点全部实测（批量上限 / 延迟 / 字段可得性写进文档）</td>
+          <td>数据来源</td>
+          <td>同花顺 Fuyao API，<strong>31 个端点逐个实测</strong>（批量上限 / 延迟 / 字段可得性都写进文档）</td>
         </tr>
         <tr>
           <td>竞价数据</td>
-          <td>池内票竞价，且 <strong>88.9% 的行用全天成交量冒充竞价量</strong></td>
-          <td><strong>全市场每日每票一行</strong>的<strong>真实</strong>竞价：未匹配量、竞价换手率、竞价量比、占昨日量比</td>
+          <td><strong>全市场每日每票一行</strong>的真实竞价：未匹配量、竞价换手率、竞价量比、占昨日成交量比</td>
         </tr>
         <tr>
-          <td>涨跌停判定</td>
-          <td>靠名字猜板块 / ST 幅度</td>
-          <td><strong>权威涨停比例 + 涨停价</strong>随行落库（<code>limit_ratio</code> / <code>limit_up_price</code>），「一字」判定不再猜</td>
+          <td>涨跌停口径</td>
+          <td><strong>权威涨停比例与涨停价随行落库</strong>（<code>limit_ratio</code> / <code>limit_up_price</code>），「一字」判定不用自己推算</td>
         </tr>
         <tr>
           <td>数据组织</td>
-          <td>一张大表 + 手写 SQL</td>
           <td><strong>本地数据湖</strong>：17 张表按主键只追加不覆盖、批次血缘、<code>v_*</code> 只读视图契约</td>
         </tr>
         <tr>
           <td>质量保障</td>
-          <td>无自动化体检</td>
-          <td><strong>51 条质量断言 + 3 条复权不变量</strong>，每个交易日自动跑；复权口径三种锚定全部校验</td>
+          <td><strong>51 条质量断言 + 3 条复权不变量</strong>，每个交易日自动跑，不过即退出码非零</td>
         </tr>
         <tr>
           <td>调度</td>
-          <td>手写 crontab，休市日照跑</td>
-          <td><strong>16 个作业单一真源</strong>，一键装 systemd / crontab；<strong>法定休市日自动跳过</strong>并自证</td>
+          <td><strong>16 个作业</strong>由代码声明，一键安装 systemd / crontab；法定休市日自动跳过</td>
         </tr>
         <tr>
-          <td>机器要求</td>
-          <td>较宽松（不明确）</td>
-          <td><strong>实测 2 核 2 GB 可跑</strong>：常驻约 325 MB，最重作业峰值约 1.1 GB</td>
+          <td>资源占用</td>
+          <td>实测 <strong>2 核 2 GB</strong> 可跑：常驻约 325 MB，最重作业峰值约 1.1 GB</td>
         </tr>
         <tr>
           <td>取数速度</td>
-          <td>串行等网络</td>
-          <td>批量作业<strong>并发取数</strong>（线程安全令牌桶，默认 12 QPS / 4 线程，可调）</td>
+          <td>批量作业<strong>并发取数</strong>（线程安全令牌桶，默认 12 QPS / 4 线程，可调回串行）</td>
         </tr>
         <tr>
-          <td>策略强度</td>
-          <td>提示词 + 少量脚本</td>
+          <td>策略</td>
           <td>16 道硬闸 + 10 维评分 + 板块共振 + <strong>期望收益</strong>口径；参数重标定有回测</td>
         </tr>
         <tr>
           <td>文档</td>
-          <td>一份 README</td>
-          <td><strong>18 份活文档</strong>（策略 / 指标 / 接口 / 数据字典 / 性能 / 运维 / 部署 / 工作流），CI 守卫不许漂</td>
+          <td>18 份活文档（策略 / 指标 / 接口 / 数据字典 / 性能 / 运维 / 部署 / 工作流），CI 守卫不许漂</td>
         </tr>
         <tr>
           <td>AI 层</td>
-          <td>强绑定 Hermes</td>
-          <td><strong>核心层零 LLM</strong>；AI 层可选，不装也能跑完整流程</td>
+          <td><strong>核心层零 LLM</strong> 可独立运行；AI 层（推送 / 对话）可选叠加</td>
+        </tr>
+        <tr>
+          <td>业绩口径</td>
+          <td>不写死胜率：由 <code>xlp stats</code> 用你自己库里的自评<strong>现算</strong>，并附幸存者偏差标注</td>
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="note accent">
+    一句话：<strong>同样的思路，PRO 版把「数据从哪来、口径怎么定、结果对不对」做成了可核对的东西。</strong>
   </div>
 
   <!-- ═══ 3. 功能 ═══ -->
@@ -584,7 +731,7 @@ xlp 核心层（写表）──┤
   <div class="price-hero">
     <div class="ph-tag">一次买断 · 永久使用</div>
     <div class="ph-price">1288 <small>元</small></div>
-    <div class="ph-sub">PRO 版源码（原版 xunlongjue 888 元，差别见「PRO 版新增」）</div>
+    <div class="ph-sub">PRO 版源码（原版 xunlongjue 888 元，差别见「PRO 版新增与升级」）</div>
     <ul class="perks">
       <li>源码交付</li>
       <li>部署教程 + 全部文档</li>
@@ -608,7 +755,7 @@ xlp 核心层（写表）──┤
     <div class="price-card">
       <div class="pc-name">原版 xunlongjue</div>
       <div class="pc-amt">888 元</div>
-      <div class="pc-desc">旧版本，仍可用；差别见「PRO 版新增」一节</div>
+      <div class="pc-desc">仍在售；与 PRO 版的差别见「PRO 版新增与升级」一节</div>
     </div>
     <div class="price-card">
       <div class="pc-name">云服务器（可选，自购）</div>
@@ -621,7 +768,7 @@ xlp 核心层（写表）──┤
     <strong>试用规则</strong>：每个用户限试用一次；试用期内推送命中不足 2 只涨停，<strong>试用期自动延长，抓到为止</strong>；试用期结束不再抵扣。
   </div>
   <div class="note accent">
-    💡 想先试再买：扫码付 <strong>88 元</strong> → 备注你的微信 / QQ → 拉你进试用群，每天在群里看推送结果。
+    💡 想先试再买：扫码付 <strong>88 元</strong> → 备注你的微信 / QQ → 我拉你进群（试用 / 购买同一个群），每天在群里看推送结果。
   </div>
 
   <div class="table-wrap" style="margin-top:18px">
@@ -646,7 +793,7 @@ xlp 核心层（写表）──┤
         <tr>
           <td>原版 xunlongjue</td>
           <td>888 元</td>
-          <td>旧版本，仍可用；差别见「PRO 版新增」一节</td>
+          <td>仍在售；与 PRO 版的差别见「PRO 版新增与升级」一节</td>
         </tr>
         <tr>
           <td>云服务器（可选，自购）</td>
@@ -685,7 +832,7 @@ xlp 核心层（写表）──┤
     <ol class="steps">
       <li><b>付款</b>：支付宝 / 微信扫码（见上方收款码），备注你的<strong>联系方式</strong>（微信 / QQ）</li>
       <li><b>加我</b>：QQ / 微信 <strong>68110923</strong>（也可以先加我聊清楚再决定）</li>
-      <li><b>进群</b>：拉你进试用群（试用）或交付群（购买），群里每天同步推送结果</li>
+      <li><b>进群</b>：拉你进群（试用 / 购买同一个群），群里每天同步推送结果</li>
       <li><b>交付</b>：付款后把源码发给你（私有仓库协作者 / 压缩包二选一）</li>
       <li><b>部署</b>：照 <code>docs/DEPLOY.md</code> 走，约 14 分钟灌完十年数据；也可以花 200 元让我远程搞定</li>
     </ol>
@@ -697,18 +844,6 @@ xlp 核心层（写表）──┤
         <img src="media/进群流程/步骤3.webp" alt="进群流程 步骤 3" decoding="async" onclick="openLightbox(this)">
         <img src="media/进群流程/步骤4.webp" alt="进群流程 步骤 4" decoding="async" onclick="openLightbox(this)">
         <img src="media/进群流程/步骤5.webp" alt="进群流程 步骤 5" decoding="async" onclick="openLightbox(this)">
-      </div>
-    </div>
-    <div class="qr-row">
-      <div class="qr-item">
-        <img src="media/联系群/试用群88入群.jpg" alt="试用群（88 元试用）" decoding="async" onclick="openLightbox(this)">
-        <div class="qr-label">试用群</div>
-        <div class="qr-hint">88 元试用 · 每天群里看推送结果</div>
-      </div>
-      <div class="qr-item">
-        <img src="media/联系群/WhatsApp群.jpg" alt="WhatsApp 群" decoding="async" onclick="openLightbox(this)">
-        <div class="qr-label">WhatsApp 群</div>
-        <div class="qr-hint">点图放大</div>
       </div>
     </div>
   </div>
@@ -763,8 +898,8 @@ xlp 核心层（写表）──┤
       <div class="a"><p>能，2C2G 就够；也可以装在自己电脑上（常驻约 325 MB）。</p></div>
     </details>
     <details id="faq-diff">
-      <summary>与我自研 / 别家有什么区别？</summary>
-      <div class="a"><p>见「PRO 版新增」：<strong>真竞价数据 + 权威涨跌停口径 + 51 条质量闸 + 一套能自证的流程</strong>。</p></div>
+      <summary>与原版 / 别家有什么区别？</summary>
+      <div class="a"><p>见「PRO 版新增与升级」：<strong>全市场真实竞价 + 权威涨跌停口径 + 51 条质量闸 + 一套能自证的流程</strong>。</p></div>
     </details>
     <details id="faq-refund">
       <summary>支持退吗？</summary>
@@ -995,6 +1130,32 @@ function loadAll(){
   })(0);
 }
 
+// ── 主题：切换按钮（🌙 / ☀️）+ localStorage 记忆 ──
+function currentTheme(){
+  return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+}
+function applyThemeUI(t){
+  var btn = document.getElementById('themeToggle');
+  if (btn){
+    // 按钮显示「点一下会切到」的目标主题
+    btn.textContent = t === 'light' ? '🌙' : '☀️';
+    var label = t === 'light' ? '切换到暗色主题' : '切换到亮色主题';
+    btn.setAttribute('aria-label', label);
+    btn.title = label;
+  }
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', t === 'light' ? '#f4f4f7' : '#0f0f13');
+}
+function setTheme(t, persist){
+  t = t === 'light' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  if (persist !== false){ try{ localStorage.setItem('xlp-theme', t); }catch(e){} }
+  applyThemeUI(t);
+}
+function toggleTheme(){
+  setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+}
+
 // ── 灯箱：点开大图，点任意处（或 Esc）关闭 ──
 function openLightbox(img){
   var lb = document.getElementById('lightbox');
@@ -1051,6 +1212,9 @@ function copyContact(){
 }
 
 document.addEventListener('DOMContentLoaded', function(){
+  applyThemeUI(currentTheme());                 // 按引导脚本已定的主题刷新按钮图标
+  var tt = document.getElementById('themeToggle');
+  if (tt) tt.addEventListener('click', toggleTheme);
   loadAll();
   var btn = document.getElementById('btn-copy');
   if (btn) btn.addEventListener('click', copyContact);
