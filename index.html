@@ -295,6 +295,8 @@
   .price-card .pc-desc{font-size:12px;color:var(--dim)}
 
   /* ── 收款码 + 公众号：三张图永远同一行等宽（3 等分 grid，小屏等比缩小不换行） ── */
+  /* 锚点直达收款码时，别被吸顶导航与常驻通知卡挡住 */
+  #qr{scroll-margin-top:calc(var(--nav-h) + 90px)}
   .qr-row{
     display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
     align-items:start;justify-items:center;margin-top:22px;
@@ -511,10 +513,9 @@
     align-items:center;gap:10px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));
     background:var(--nav-bg);backdrop-filter:blur(12px);border-top:1px solid var(--border);
   }
-  .buy-bar.show{display:flex}
   .buy-bar .bb-price{flex:1 1 auto;min-width:0;line-height:1.25}
   .buy-bar .bb-price span{display:block;font-size:17px;font-weight:900;color:var(--gold)}
-  .buy-bar .bb-price small{display:block;font-size:10.5px;color:var(--dim);
+  .buy-bar .bb-price small{display:block;font-size:10.5px;color:var(--text2);
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .buy-bar .bb-btn{
     flex:0 0 auto;min-height:44px;display:inline-flex;align-items:center;justify-content:center;
@@ -631,6 +632,7 @@
     /* 通知卡：满宽、紧凑 */
     .notif-wrap{max-width:100%;padding:0 8px}
     /* 手机版「↑ 回到顶部」按钮 */
+    .buy-bar.show{display:flex}   /* 只在这里（≤640px）允许显示 */
     .to-top{display:flex;bottom:calc(72px + env(safe-area-inset-bottom))}
     body{padding-bottom:68px}
     #toast{bottom:74px}
@@ -1524,11 +1526,15 @@ function initBuyBar(){
   if(!bar) return;
   // 价格从定价区读（首发特惠期间自动跟着变），不在 JS 里写死
   var priceEl = document.querySelector('.ph-price');
-  var bbPrice = document.getElementById('bbPrice');
-  if(priceEl && bbPrice) bbPrice.textContent = priceEl.textContent.replace(/\s+/g,' ').trim();
   var promoEl = document.querySelector('.ph-promo');
+  var bbPrice = document.getElementById('bbPrice');
   var bbNote = document.getElementById('bbNote');
-  if(promoEl && bbNote) bbNote.textContent = promoEl.textContent.replace(/\s+/g,' ').trim().slice(0,26);
+  var formal = priceEl ? priceEl.textContent.replace(/\s+/g,' ').trim() : '';
+  // 有优惠：大字显示**当前实付价**（从优惠文案里取第一个「N 元」），小字标正式价；
+  // 没优惠：大字=正式价，小字=买断说明。任何数字都不写死在 JS 里。
+  var m = promoEl ? promoEl.textContent.match(/([0-9][0-9,]*)\s*元/) : null;
+  if(bbPrice) bbPrice.textContent = m ? (m[1] + ' 元') : formal;
+  if(bbNote) bbNote.textContent = m ? ('首发特惠 · 正式价 ' + formal) : '一次买断 · 永久使用';
   var ticking = false;
   function update(){
     ticking = false;
