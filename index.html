@@ -421,7 +421,7 @@
   .notif-wrap{
     /* 通知卡放在文档流里（导航之下、正文之上）：**不再 fixed 浮层** ——
        浮层在桌面/平板上会把首屏标题整块盖住（视觉验证 2026-09-24 实测）。 */
-    position:relative;z-index:5;width:100%;max-width:960px;margin:14px auto 0;padding:0 10px;
+    position:relative;z-index:5;width:auto;max-width:960px;margin:14px auto 0;padding:0 10px;
     display:none;flex-direction:column;gap:8px;pointer-events:none;
   }
   .notif-card{
@@ -643,7 +643,8 @@
   /* ── 桌面（≥1025px）：**满宽排版**（左右各留 2% 边缘）+ 放大一档，显得大气 ── */
   @media (min-width:1025px){
     .wrap{max-width:none;margin:0 2%;padding:44px 0 88px}
-    .notif-wrap{max-width:none;margin:14px 2% 0;padding:0}
+    .notif-wrap{max-width:960px;margin:14px auto 0;padding:0}
+
     .grid{grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px}
     .price-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
     .stats{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-top:34px}
@@ -658,12 +659,19 @@
     .faq .a{font-size:14.5px}
     /* 满宽之后正文容易拉太长/左对齐留大片空：正文限一个阅读宽度并居中，卡片本身仍满宽 */
     .card>p,.card>ul,.note,.lead,.faq .a,.cl-version ul,.cl-version p,
+    .cl-version .cl-item,.cl-version .cl-sub-item,.cl-version .vtag,
     .contact .hint,.qr-hint-line,.table-wrap.cmp-wrap>p{
       max-width:88ch;margin-inline:auto;
     }
+    /* 1920 下 3 张二维码 / 4 张流程图摊得太散：整行限宽居中 */
+    .qr-row{max-width:900px;margin-inline:auto}
+    .flow-row{max-width:900px;margin-inline:auto}
+    /* 卡片体量统一：价格卡也加大内边距与金额字号 */
+    .price-card{padding:22px}
+    .price-card .pc-amt{font-size:26px}
     /* 对比表：两列拉满 1800px 太空 —— 整表限宽居中，标签列定宽、说明列限阅读宽 */
     table.cmp{max-width:1180px;margin:0 auto;table-layout:fixed}
-    .cmp td:first-child{width:210px}
+    .cmp th:first-child,.cmp td:first-child{width:210px}
     .cmp td:last-child{max-width:78ch}
     /* 二维码/流程图别跟着满宽放大：单张限宽并居中 */
     .qr-item img{max-width:220px;margin:0 auto}   /* 微信收款码源图 376px，再大就糊 */
@@ -683,8 +691,6 @@
 </head>
 <body>
 <div class="glow"></div>
-<div id="notifWrap" class="notif-wrap"></div>
-
 <nav>
   <div class="links" id="navLinks">
     <a href="https://68110923.github.io/" target="_blank" rel="noopener">🏠 首页</a>
@@ -701,6 +707,8 @@
   <a class="login" href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">登录看板</a>
   <button class="theme-toggle" type="button" id="themeToggle" aria-label="切换主题" title="切换主题">🌙</button>
 </nav>
+
+<div id="notifWrap" class="notif-wrap"></div>
 
 <div class="wrap">
 
