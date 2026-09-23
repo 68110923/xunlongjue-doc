@@ -272,6 +272,11 @@
   }
   .ph-price{font-size:clamp(40px,7vw,58px);font-weight:900;color:var(--accent);line-height:1}
   .ph-price small{font-size:18px;color:var(--dim);font-weight:600}
+  .ph-promo{
+    display:inline-block;margin:10px 0 2px;padding:5px 12px;border-radius:999px;
+    background:var(--accent2);color:var(--accent);font-size:12px;line-height:1.5;
+  }
+  .ph-promo strong{color:var(--gold)}
   .ph-sub{font-size:12.5px;color:var(--text2);margin-top:8px}
   .perks{
     list-style:none;display:flex;flex-wrap:wrap;justify-content:center;
@@ -863,6 +868,7 @@ xlp 核心层（写表）──┤
   <div class="price-hero">
     <div class="ph-tag">一次买断 · 永久使用</div>
     <div class="ph-price">1288 <small>元</small></div>
+    <div class="ph-promo">🎉 新上线特惠：<strong>10 月 8 日前下单按原版价 888 元</strong>（试用抵扣后 800）</div>
     <div class="ph-sub">PRO 版源码（原版 xunlongjue 888 元，差别见「PRO 版新增与升级」）</div>
     <ul class="perks">
       <li>源码交付</li>
@@ -882,7 +888,7 @@ xlp 核心层（写表）──┤
     <div class="price-card">
       <div class="pc-name">试用</div>
       <div class="pc-amt hot">88 元</div>
-      <div class="pc-desc">试用 5~7 个交易日（<strong>不含源码</strong>，看实际推送结果）；<strong>试用期内购买全额抵扣</strong>（1288 → 1200）</div>
+      <div class="pc-desc">试用 5~7 个交易日（<strong>不含源码</strong>，看实际推送结果）；<strong>试用期内购买全额抵扣 88 元</strong>（正式价 1288 → 1200；首发期 888 → 800）</div>
     </div>
     <div class="price-card">
       <div class="pc-name">原版 xunlongjue</div>
@@ -1008,6 +1014,14 @@ xlp 核心层（写表）──┤
     <details id="faq-diff">
       <summary>与原版 / 别家有什么区别？</summary>
       <div class="a"><p>见「PRO 版新增与升级」：<strong>全市场真实竞价 + 权威涨跌停口径 + 51 条质量闸 + 一套能自证的流程</strong>。</p></div>
+    </details>
+    <details id="faq-stability">
+      <summary>软件稳定吗？</summary>
+      <div class="a">
+        <p><strong>PRO 版是新开发的项目，正在快速迭代</strong>：核心链路（竞价采集 → 选票 → 复盘）已实盘跑通，
+        但<strong>难免有不少 bug</strong>，我们会持续修、持续更新（更新日志实时可见），遇到问题在 Revolt 群里反馈即可。</p>
+        <p>介意稳定性的话，建议先花 <strong>88 元试用</strong> 5~7 个交易日再决定。</p>
+      </div>
     </details>
     <details id="faq-refund">
       <summary>支持退吗？</summary>
