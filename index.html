@@ -768,7 +768,8 @@
     /* 卡片体量统一：价格卡也加大内边距与金额字号 */
     .price-card{padding:22px}
     .price-card .pc-amt{font-size:26px}
-    /* 对比表：两列拉满 1800px 太空 —— 整表限宽居中；左侧标签列吸边（表格横向滚动时始终可见） */
+    /* 对比表：两列拉满 1800px 太空 —— 整表限宽居中；左侧标签列吸边。
+       ⚠️ 桌面档表通常不溢出 ⇒ 吸边看不出效果（缩放 / 更窄桌面 / 表内横滚时才生效），属**防御性**保留。 */
     table.cmp{max-width:1180px;margin:0 auto;table-layout:fixed}
     .cmp th:first-child,.cmp td:first-child{
       width:210px;position:sticky;left:0;z-index:2;
@@ -795,6 +796,11 @@
        主内容用 grid 让出这一列 —— 不遮挡、不产生横向滚动。
        价格由 JS 从定价区 `.ph-price` / `.ph-promo` 读取，栏内不写死任何数字。
      ══════════════════════════════════════════════════════════════ */
+  /* 1280~1439：右栏与 hero 下单卡都收一点，给标题更多横向空间 */
+  @media (min-width:1280px) and (max-width:1439px){
+    .hero-buy{max-width:380px}
+  }
+
   @media (min-width:1280px){
     .wrap{
       display:grid;grid-template-columns:minmax(0,1fr) 300px;
@@ -831,6 +837,7 @@
       display:flex;flex-direction:column;gap:1px;margin-top:11px;padding-top:10px;
       border-top:1px solid var(--border);
     }
+    .rail-nav a.active{color:var(--accent);background:var(--accent2);border-color:var(--accent-line)}
     .rail-nav a{
       display:flex;align-items:center;min-height:30px;padding:0 8px;border-radius:7px;
       font-size:12px;color:var(--text2);border:1px solid transparent;
@@ -1341,7 +1348,6 @@ xlp 核心层（写表）──┤
       </div>
       <div class="rail-nav" role="navigation" aria-label="页面快速跳转">
         <a href="#features">🧩 功能</a>
-        <a href="#data">📊 数据能力</a>
         <a href="#pricing">💰 定价与购买</a>
         <a href="#howto">🚀 怎么买</a>
         <a href="#faq">❓ 常见问题</a>
@@ -1666,9 +1672,10 @@ function smoothBehavior(){ return reduceMotion() ? 'auto' : 'smooth'; }
 function initNavSpy(){
   var linksEl = document.getElementById('navLinks');
   if (!linksEl) return;
-  var links = [].slice.call(linksEl.querySelectorAll('a[href^="#"]'));
+  // 顶部 chip 行与右侧常驻栏共用同一套「当前章节」状态（一个 id 命中多个 <a> 也一起高亮）
+  var all = [].slice.call(document.querySelectorAll('#navLinks a[href^="#"], .rail-nav a[href^="#"]'));
   var secs = [];
-  links.forEach(function(a){
+  all.forEach(function(a){
     var el = document.getElementById(a.getAttribute('href').slice(1));
     if (el) secs.push({id: el.id, el: el, a: a});
   });
@@ -1685,7 +1692,7 @@ function initNavSpy(){
     secs.forEach(function(s){ s.a.classList.toggle('active', s.id === id); });
     for (var i = 0; i < secs.length; i++){
       if (secs[i].id === id && linksEl.scrollWidth > linksEl.clientWidth + 2){
-        var a = secs[i].a;   // 只横向滚动 chip 行，不牵动页面
+        var a = secs[i].a.closest('#navLinks') || secs[i].a;   // 只横向滚动 chip 行，不牵动页面
         linksEl.scrollTo({
           left: Math.max(0, a.offsetLeft - (linksEl.clientWidth - a.offsetWidth) / 2),
           behavior: smoothBehavior()
