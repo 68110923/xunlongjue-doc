@@ -1,0 +1,5 @@
+# 寻龙诀 PRO · 公开宣传站
+User-agent: *
+Allow: /
+
+Sitemap: https://68110923.github.io/xunlongjue-doc/sitemap.xml
