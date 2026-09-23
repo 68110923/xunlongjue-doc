@@ -184,6 +184,14 @@
 
   /* ── 布局 ── */
   .wrap{max-width:960px;margin:0 auto;padding:52px 22px 64px;position:relative;z-index:1}
+  /* 桌面档专用结构块（手机 / 平板档一律不出现，保持原版式）：
+     · .hero-buy   = Hero 右侧紧凑下单卡（≥1025px）
+     · .rail       = 右侧常驻栏（≥1280px）
+     · .sect       = 错位分节容器（≥1025px 变「大标题 + 卡片」左右两列）
+     · .pricing-split / .qrhowto = 定价区与「收款码 + 怎么买」左右结构（≥1025px） */
+  .hero-buy,.rail{display:none}
+  .pricing-ctas{display:none}
+  .pricing-split,.qrhowto{display:block}
   header{text-align:center;margin-bottom:40px}
   .dragon{font-size:42px;line-height:1;
     filter:sepia(1) saturate(2.2) hue-rotate(-4deg) brightness(1.15) drop-shadow(0 0 12px rgba(229,57,53,.4))}
@@ -641,9 +649,17 @@
     #toast{bottom:74px}
   }
 
-  /* ── 桌面（≥1025px）：**满宽排版**（左右各留 2% 边缘）+ 放大一档，显得大气 ── */
+  /* ══════════════════════════════════════════════════════════════
+     桌面（≥1025px）：**左右结构重构**（不是简单上下堆叠）
+       ① Hero       → 左：龙 + 标题 + 副标题 + 标签 ／ 右：紧凑下单卡
+       ② 功能/数据/工程 → 大标题与卡片网格左右错落（数据节左右互换）
+       ③ 定价        → 左：价格 hero + CTA ／ 右：4 张价格卡 2×2
+       ④ 收款码与「怎么买」六步 → 并排（码列 sticky，读六步时不丢付款入口）
+     容器仍满宽（左右各 2% 边缘）；≥1280px 再在右侧让出一列常驻栏（见下一档）。
+     ══════════════════════════════════════════════════════════════ */
   @media (min-width:1025px){
     .wrap{max-width:none;margin:0 2%;padding:44px 0 88px}
+    .wrap>.main{min-width:0}
     /* 电脑端：通知卡放浏览器右上侧（浮层，不推正文、也不盖中间的首屏标题） */
     .notif-wrap{
       position:fixed;top:calc(var(--nav-h) + 10px);right:16px;left:auto;transform:none;
@@ -663,10 +679,87 @@
     .lead{font-size:15px}
     .faq summary{font-size:15px}
     .faq .a{font-size:14.5px}
+
+    /* ── ① Hero 左右结构 ── */
+    header.hero{
+      display:grid;grid-template-columns:minmax(0,1.2fr) minmax(340px,440px);
+      gap:26px 42px;align-items:center;text-align:left;margin-bottom:48px;
+    }
+    header.hero .dragon{font-size:56px}
+    header.hero h1{margin:10px 0 12px}
+    header.hero .tags{justify-content:flex-start;margin-top:20px}
+    .hero-buy{
+      display:block;background:linear-gradient(150deg,var(--hero-a),var(--hero-b));
+      border:1px solid var(--accent-line);border-radius:14px;padding:22px 22px 18px;
+      box-shadow:0 10px 30px var(--shadow);
+    }
+    .hero-buy .hb-tag{
+      display:inline-block;font-size:11px;letter-spacing:.16em;color:var(--gold);
+      border:1px solid var(--gold-a);border-radius:999px;padding:3px 12px;
+    }
+    .hero-buy .hb-price{font-size:44px;font-weight:900;color:var(--accent);line-height:1.1;margin:10px 0 2px}
+    .hero-buy .hb-price small{font-size:16px;color:var(--dim);font-weight:600}
+    .hero-buy .hb-formal{font-size:12px;color:var(--dim);margin-bottom:10px}
+    .hero-buy .hb-promo{
+      display:block;background:var(--accent2);color:var(--accent);
+      border-radius:8px;padding:6px 10px;font-size:12px;line-height:1.6;
+    }
+    .hero-buy .hb-promo strong{color:var(--gold)}
+    .hero-buy .hb-perks{list-style:none;margin:12px 0 0;font-size:12.5px;color:var(--text2)}
+    .hero-buy .hb-perks li{position:relative;padding:3px 0 3px 18px}
+    .hero-buy .hb-perks li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
+    .hero-buy .hb-ctas{display:flex;gap:10px;margin-top:16px}
+    .hero-buy .hb-ctas .btn{
+      flex:1 1 0;min-height:42px;padding:9px 10px;display:flex;
+      align-items:center;justify-content:center;
+    }
+    .hero-buy .hb-copy{
+      width:100%;margin-top:10px;background:transparent;border:1px dashed var(--border);
+      border-radius:8px;padding:8px;font-size:12px;color:var(--text2);
+      cursor:pointer;font-family:inherit;
+    }
+    .hero-buy .hb-copy:hover{color:var(--accent);border-color:var(--accent-line)}
+
+    /* ── ② 错位分节：大标题独占一列、卡片网格占另一列（奇偶节左右互换） ── */
+    .sect{display:grid;align-items:start;gap:18px 34px;margin-top:64px}
+    .sect>h2{
+      margin:0;grid-area:t;font-size:24px;line-height:1.45;
+      position:sticky;top:calc(var(--nav-h) + 16px);
+    }
+    .sect-a{grid-template-columns:220px minmax(0,1fr);grid-template-areas:"t g"}
+    .sect-b{grid-template-columns:minmax(0,1fr) 220px;grid-template-areas:"g t" "n t"}
+    .sect-c{grid-template-columns:220px minmax(0,1fr);grid-template-areas:"t g"}
+    .sect>.grid{grid-area:g;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .sect>.note{grid-area:n;margin-top:0}
+
+    /* ── ③ 定价：左价格 hero + CTA ／ 右 4 张价格卡 2×2 ── */
+    .pricing-split{
+      display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);
+      gap:20px 26px;align-items:start;
+    }
+    .pricing-split>.pricing-aside>.price-hero{padding:26px 22px}
+    .pricing-ctas{display:flex;gap:10px;margin-top:14px}
+    .pricing-ctas .btn{
+      flex:1 1 0;min-height:42px;padding:9px 10px;display:flex;
+      align-items:center;justify-content:center;
+    }
+    .pricing-split>.price-grid{margin-top:0;grid-template-columns:repeat(2,minmax(0,1fr))}
+    .pricing-split .price-card{padding:18px}
+
+    /* ── ④ 收款码 + 「怎么买」六步并排（码列常驻可见） ── */
+    .qrhowto{
+      display:grid;grid-template-columns:minmax(340px,440px) minmax(0,1fr);
+      grid-template-areas:"q h";gap:18px 34px;align-items:start;margin-top:36px;
+    }
+    .qrhowto>.qr-panel{grid-area:q;position:sticky;top:calc(var(--nav-h) + 16px)}
+    .qrhowto>.howto{grid-area:h;min-width:0}
+    .qrhowto .howto>h2{margin-top:0}
+    .qrhowto .qr-row{margin-top:0}
+
     /* 满宽之后正文容易拉太长/左对齐留大片空：正文限一个阅读宽度并居中，卡片本身仍满宽 */
-    .card>p,.card>ul,.note,.lead,.faq .a,.cl-version ul,.cl-version p,
+    .card>p,.card>ul,.note,.lead,.faq .a,.faq summary,.cl-version ul,.cl-version p,
     .cl-version .cl-item,.cl-version .cl-sub-item,.cl-version .vtag,
-    .contact .hint,.qr-hint-line,.table-wrap.cmp-wrap>p{
+    .contact .hint,.qr-hint-line,.table-wrap.cmp-wrap>p,pre.flow{
       max-width:88ch;margin-inline:auto;
     }
     /* 1920 下 3 张二维码 / 4 张流程图摊得太散：整行限宽居中 */
@@ -675,14 +768,78 @@
     /* 卡片体量统一：价格卡也加大内边距与金额字号 */
     .price-card{padding:22px}
     .price-card .pc-amt{font-size:26px}
-    /* 对比表：两列拉满 1800px 太空 —— 整表限宽居中，标签列定宽、说明列限阅读宽 */
+    /* 对比表：两列拉满 1800px 太空 —— 整表限宽居中；左侧标签列吸边（表格横向滚动时始终可见） */
     table.cmp{max-width:1180px;margin:0 auto;table-layout:fixed}
-    .cmp th:first-child,.cmp td:first-child{width:210px}
+    .cmp th:first-child,.cmp td:first-child{
+      width:210px;position:sticky;left:0;z-index:2;
+      background:var(--bg2);box-shadow:1px 0 0 var(--border);
+    }
+    .cmp thead th:first-child{background:var(--th-bg);z-index:3}
     .cmp td:last-child{max-width:78ch}
+    /* ⚠️ table-layout:fixed 下 `td{max-width}` 不生效（列宽由表宽倒推）：
+       这里按「标签列 210px + 说明列 88ch」反算整表上限，保证说明列阅读宽 ≤ 88ch */
+    table.cmp{max-width:min(1180px,calc(210px + 88ch))}
     /* 二维码/流程图别跟着满宽放大：单张限宽并居中 */
     .qr-item img{max-width:220px;margin:0 auto}   /* 微信收款码源图 376px，再大就糊 */
     .flow-row img{max-width:220px;margin:0 auto}
-    .steps{max-width:1100px}
+    /* 六步流程：宽档排成两列（利用横向空间），单条仍限 88ch 阅读宽 */
+    .steps{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+      gap:6px 30px;max-width:1100px;margin-top:10px;
+    }
+    .steps li{margin:8px 0;max-width:88ch}
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     超宽桌面（≥1280px）：右侧常驻栏（sticky，全程可见）
+       主内容用 grid 让出这一列 —— 不遮挡、不产生横向滚动。
+       价格由 JS 从定价区 `.ph-price` / `.ph-promo` 读取，栏内不写死任何数字。
+     ══════════════════════════════════════════════════════════════ */
+  @media (min-width:1280px){
+    .wrap{
+      display:grid;grid-template-columns:minmax(0,1fr) 300px;
+      gap:30px 32px;align-items:start;
+    }
+    .wrap>.main{min-width:0}
+    .rail{
+      display:block;align-self:start;position:sticky;top:calc(var(--nav-h) + 16px);
+      transition:top .25s ease,margin-top .25s ease;
+    }
+    /* 通知卡是 fixed 右上、几秒后自动消失；它挂着时右栏整体下移让开，消失后自动滑回原位。
+       --notif-h 由 JS 按通知卡实际高度现算（通知条数/换行随时会变，不写死）。 */
+    html.has-notif .rail{top:calc(var(--nav-h) + 12px + var(--notif-h,0px));margin-top:var(--notif-h,0px)}
+    .rail-card{
+      background:linear-gradient(180deg,var(--card),var(--bg2));
+      border:1px solid var(--border);border-radius:var(--radius);
+      padding:16px 14px;box-shadow:0 8px 24px var(--shadow);
+    }
+    .rail-card .rl-tag{font-size:10px;letter-spacing:.14em;color:var(--gold)}
+    .rail-card .rl-price{font-size:30px;font-weight:900;color:var(--accent);line-height:1.15;margin:4px 0 2px}
+    .rail-card .rl-price small{font-size:13px;color:var(--dim);font-weight:600}
+    .rail-card .rl-formal{font-size:11px;color:var(--dim);margin-bottom:7px}
+    .rail-card .rl-promo{
+      display:block;background:var(--accent2);color:var(--accent);
+      border-radius:8px;padding:5px 8px;font-size:11px;line-height:1.5;
+    }
+    .rail-card .rl-promo strong{color:var(--gold)}
+    .rail-card .rl-ctas{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+    .rail-card .rl-ctas .btn{
+      width:100%;min-height:38px;padding:7px 10px;display:flex;
+      align-items:center;justify-content:center;
+    }
+    .rail-nav{
+      display:flex;flex-direction:column;gap:1px;margin-top:11px;padding-top:10px;
+      border-top:1px solid var(--border);
+    }
+    .rail-nav a{
+      display:flex;align-items:center;min-height:30px;padding:0 8px;border-radius:7px;
+      font-size:12px;color:var(--text2);border:1px solid transparent;
+    }
+    .rail-nav a:hover{color:var(--accent);background:var(--code-bg);text-decoration:none}
+    .rail-card .rl-login{
+      display:block;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);
+      font-size:12px;color:var(--accent);text-align:center;
+    }
   }
 
   /* ── 无障碍：系统开启「减弱动态效果」时，动画与平滑滚动全部关掉 ── */
@@ -718,18 +875,40 @@
 
 <div class="wrap">
 
-  <header>
-    <div class="dragon">🐉</div>
-    <h1>寻 龙 诀 PRO</h1>
-    <div class="sub">A 股一进二竞价打板量化系统 · 本地部署 · 核心层零 LLM 可选</div>
-    <div class="tags">
-      <span class="tag">一进二竞价</span>
-      <span class="tag">全市场真实竞价</span>
-      <span class="tag">十年全市场数据湖</span>
-      <span class="tag">每日自动复盘</span>
-      <span class="tag">网页看板 + 微信推送</span>
-      <span class="tag">核心层零 LLM</span>
+  <main class="main">
+
+  <!-- Hero：桌面档左右结构（左：龙 + 标题 + 副标题 + 标签 ／ 右：紧凑下单卡）；
+       手机与平板档下单卡隐藏，Hero 与原来完全一致（居中单列）。 -->
+  <header class="hero">
+    <div class="hero-main">
+      <div class="dragon">🐉</div>
+      <h1>寻 龙 诀 PRO</h1>
+      <div class="sub">A 股一进二竞价打板量化系统 · 本地部署 · 核心层零 LLM 可选</div>
+      <div class="tags">
+        <span class="tag">一进二竞价</span>
+        <span class="tag">全市场真实竞价</span>
+        <span class="tag">十年全市场数据湖</span>
+        <span class="tag">每日自动复盘</span>
+        <span class="tag">网页看板 + 微信推送</span>
+        <span class="tag">核心层零 LLM</span>
+      </div>
     </div>
+    <aside class="hero-buy" aria-label="快速下单">
+      <span class="hb-tag">一次买断 · 永久使用</span>
+      <div class="hb-price"><span data-slot="price">888</span><small> 元</small></div>
+      <div class="hb-formal">正式价 <span data-slot="price-formal">1288</span> 元 · 源码交付</div>
+      <div class="hb-promo" data-slot="promo">🎉 新上线特惠：<strong>10 月 8 日前下单按原版价 888 元</strong>（试用抵扣后 800）</div>
+      <ul class="hb-perks">
+        <li>私有仓库可持续 <code>git pull</code> 拿更新</li>
+        <li>十年全市场数据湖 + 18 份活文档</li>
+        <li>2 核 2 GB 就能跑，也可装自己电脑</li>
+      </ul>
+      <div class="hb-ctas">
+        <a class="btn gold" href="#qr">🛒 立即购买</a>
+        <a class="btn ghost" href="#pricing">先试用</a>
+      </div>
+      <button class="hb-copy js-copy-id" type="button">📋 复制 Revolt ID 68110923#4558</button>
+    </aside>
   </header>
 
   <!-- ═══ 1. 这是什么 ═══ -->
@@ -820,6 +999,7 @@ xlp 核心层（写表）──┤
   </div>
 
   <!-- ═══ 3. 功能 ═══ -->
+  <section class="sect sect-a">
   <h2 id="features">🧩 功能</h2>
   <div class="grid">
     <div class="card">
@@ -862,8 +1042,10 @@ xlp 核心层（写表）──┤
       <p>网页看板（只读产物、自动刷新）/ 微信推送（含 AI 分析）；<strong>任选其一或都要</strong>，互不依赖。</p>
     </div>
   </div>
+  </section>
 
-  <!-- ═══ 4. 数据能力 ═══ -->
+  <!-- ═══ 4. 数据能力（错位：卡片在左、大标题在右，与功能节左右互换） ═══ -->
+  <section class="sect sect-b">
   <h2 id="data">📊 数据能力</h2>
   <div class="grid">
     <div class="card">
@@ -895,8 +1077,10 @@ xlp 核心层（写表）──┤
     全部落在<strong>本地数据湖</strong>：<strong>17 张表</strong>按主键只追加不覆盖，每个批次带血缘（批次号 + 入库时间），
     原始层永不修改、派生层随时可重建。消费方（看板 / 脚本 / AI）<strong>只读视图 <code>v_*</code></strong>，底层换实现上层无感。
   </div>
+  </section>
 
   <!-- ═══ 5. 工程与可靠性 ═══ -->
+  <section class="sect sect-c">
   <h2 id="reliable">🛡️ 工程与可靠性</h2>
   <div class="grid">
     <div class="card">
@@ -928,9 +1112,13 @@ xlp 核心层（写表）──┤
       <p>本页<strong>不写任何业绩数字</strong>：真实战绩由 <code>xlp stats</code> 按你库里的真实自评<strong>现算</strong>，并附幸存者偏差标注。</p>
     </div>
   </div>
+  </section>
 
   <!-- ═══ 6. 定价与购买 ═══ -->
   <h2 id="pricing">💰 定价与购买</h2>
+  <!-- 桌面档：左（价格 hero + CTA）／右（4 张价格卡 2×2）；手机/平板档保持原来的上下结构 -->
+  <div class="pricing-split">
+  <div class="pricing-aside">
   <div class="price-hero">
     <div class="ph-tag">一次买断 · 永久使用</div>
     <div class="ph-price">1288 <small>元</small></div>
@@ -944,6 +1132,11 @@ xlp 核心层（写表）──┤
       <li>16 个作业一键安装</li>
     </ul>
   </div>
+  <div class="pricing-ctas">
+    <a class="btn gold" href="#qr">🛒 立即购买</a>
+    <a class="btn ghost" href="#howto">🚀 怎么买</a>
+  </div>
+  </div><!-- /pricing-aside -->
 
   <div class="price-grid">
     <div class="price-card">
@@ -971,7 +1164,11 @@ xlp 核心层（写表）──┤
   <div class="note">
     <strong>试用规则</strong>：每个用户限试用一次；试用期内推送命中不足 2 只涨停，<strong>试用期自动延长，抓到为止</strong>；试用期结束不再抵扣。
   </div>
+  </div><!-- /pricing-split -->
 
+  <!-- 收款码 + 「怎么买」六步：桌面档并排（码列常驻可见），手机/平板档仍是原来的「码在上、六步在下」 -->
+  <div class="qrhowto">
+  <div class="qr-panel">
   <div class="qr-row" id="qr">
     <div class="qr-item">
       <img src="media/收款码/微信收款码.jpg" alt="微信收款码" decoding="async" onclick="openLightbox(this)">
@@ -990,8 +1187,10 @@ xlp 核心层（写表）──┤
     </div>
   </div>
   <p class="qr-hint-line">按上方价格付款（<strong>10 月 8 日前 888 元</strong>，之后 1288 元），<strong>备注你的 Revolt 用户名</strong>；手机上可<strong>长按图片识别 / 保存</strong>。</p>
+  </div><!-- /qr-panel -->
 
   <!-- ═══ 7. 怎么买（进群流程） ═══ -->
+  <section class="howto">
   <h2 id="howto">🚀 怎么买（进群流程）</h2>
   <div class="card">
     <ol class="steps">
@@ -1013,6 +1212,8 @@ xlp 核心层（写表）──┤
       <img src="media/进群流程/步骤5.webp" alt="Revolt 注册 步骤 4" decoding="async" onclick="openLightbox(this)">
     </div>
   </div>
+  </section><!-- /howto -->
+  </div><!-- /qrhowto -->
 
   <div class="contact">
     <div class="who">咨询 · 试用 · 日常交流</div>
@@ -1022,7 +1223,7 @@ xlp 核心层（写表）──┤
       <strong>付款之后</strong>才会提供微信 / QQ，且微信 / QQ <strong>不聊股票与交易</strong>（防封号）。
     </div>
     <div class="btns">
-      <button class="btn gold" type="button" id="btn-copy">📋 复制 Revolt ID</button>
+      <button class="btn gold js-copy-id" type="button" id="btn-copy">📋 复制 Revolt ID</button>
       <a class="btn ghost" href="https://app.revolt.chat/" target="_blank" rel="noopener">打开 Revolt</a>
       <a class="btn ghost" href="#pricing">💰 回到定价</a>
     </div>
@@ -1124,6 +1325,30 @@ xlp 核心层（写表）──┤
       ⚠️ 本站与相关软件仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，<strong>不承诺任何收益</strong>；<strong>股市有风险，投资须谨慎。</strong>
     </div>
   </footer>
+
+  </main><!-- /main -->
+
+  <!-- 右侧常驻栏（仅 ≥1280px 显示；价格由 JS 从定价区读取，这里不写死任何数字） -->
+  <aside class="rail" aria-label="快速下单与页面导航">
+    <div class="rail-card">
+      <span class="rl-tag">一次买断 · 永久使用</span>
+      <div class="rl-price"><span data-slot="price">—</span><small> 元</small></div>
+      <div class="rl-formal">正式价 <span data-slot="price-formal">—</span> 元</div>
+      <div class="rl-promo" data-slot="promo">🔥 首发特惠进行中，价格见定价区</div>
+      <div class="rl-ctas">
+        <a class="btn gold" href="#pricing">💰 查看定价</a>
+        <a class="btn ghost" href="#qr">🛒 立即购买</a>
+      </div>
+      <div class="rail-nav" role="navigation" aria-label="页面快速跳转">
+        <a href="#features">🧩 功能</a>
+        <a href="#data">📊 数据能力</a>
+        <a href="#pricing">💰 定价与购买</a>
+        <a href="#howto">🚀 怎么买</a>
+        <a href="#faq">❓ 常见问题</a>
+      </div>
+      <a class="rl-login" href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">已购买？登录看板 →</a>
+    </div>
+  </aside>
 
 </div><!-- /wrap -->
 
@@ -1556,20 +1781,79 @@ function copyContact(){
   } else { fallback(); }
 }
 
+// ── 价格唯一真源：定价区的 `.ph-price`（正式价）与 `.ph-promo`（首发特惠文案）──
+// 页面上任何「当前价格」都由这里现读现算：Hero 下单卡、右侧常驻栏、手机底部购买条
+// 都不写死数字 —— 改价只改定价区那一处。
+function readPrices(){
+  var priceEl = document.querySelector('.ph-price');
+  var promoEl = document.querySelector('.ph-promo');
+  var formal = priceEl ? priceEl.textContent.replace(/\s+/g,' ').trim() : '';
+  var fm = formal.match(/([0-9][0-9,]*)/);
+  var formalNum = fm ? fm[1] : '';
+  var promoText = promoEl ? promoEl.textContent.replace(/\s+/g,' ').trim() : '';
+  // 有优惠：当前实付价 = 优惠文案里第一个「N 元」；没优惠：当前价 = 正式价
+  var m = promoEl ? promoEl.textContent.match(/([0-9][0-9,]*)\s*元/) : null;
+  return {
+    formal: formal,
+    formalNum: formalNum,
+    currentNum: m ? m[1] : formalNum,
+    hasPromo: !!(m && formalNum && m[1] !== formalNum),
+    promoHtml: promoEl ? promoEl.innerHTML : ''
+  };
+}
+
+// 把价格/优惠写进所有 [data-slot] 占位（Hero 下单卡 + 右侧常驻栏）
+function initPriceSlots(){
+  var p = readPrices();
+  function fill(sel, text){
+    [].slice.call(document.querySelectorAll(sel)).forEach(function(el){ el.textContent = text; });
+  }
+  if (p.currentNum) fill('[data-slot="price"]', p.currentNum);
+  if (p.formalNum) fill('[data-slot="price-formal"]', p.formalNum);
+  if (p.promoHtml){
+    [].slice.call(document.querySelectorAll('[data-slot="promo"]')).forEach(function(el){
+      el.innerHTML = p.promoHtml;
+    });
+  }
+  return p;
+}
+
+// ── 右侧常驻栏与右上通知卡错位：通知卡在时把右栏整体下移，通知消失后滑回 ──
+// 只读通知容器的显示状态与高度，不参与 README 解析（那套机制不动）。
+function initRailOffset(){
+  var wrap = document.getElementById('notifWrap');
+  var root = document.documentElement;
+  if (!wrap || !root) return;
+  function sync(){
+    var shown = getComputedStyle(wrap).display !== 'none' && !!wrap.querySelector('.notif-card');
+    var h = shown ? Math.round(wrap.getBoundingClientRect().height) : 0;
+    if (h > 0){
+      root.style.setProperty('--notif-h', (h + 12) + 'px');
+      root.classList.add('has-notif');
+    } else {
+      root.classList.remove('has-notif');
+      root.style.removeProperty('--notif-h');
+    }
+  }
+  if (window.MutationObserver){
+    new MutationObserver(sync).observe(wrap, {
+      childList:true, subtree:true, attributes:true, attributeFilter:['class','style']
+    });
+  }
+  window.addEventListener('resize', sync, {passive:true});
+  sync();
+}
+
 function initBuyBar(){
   var bar = document.getElementById('buyBar');
   if(!bar) return;
   // 价格从定价区读（首发特惠期间自动跟着变），不在 JS 里写死
-  var priceEl = document.querySelector('.ph-price');
-  var promoEl = document.querySelector('.ph-promo');
+  var p = readPrices();
   var bbPrice = document.getElementById('bbPrice');
   var bbNote = document.getElementById('bbNote');
-  var formal = priceEl ? priceEl.textContent.replace(/\s+/g,' ').trim() : '';
-  // 有优惠：大字显示**当前实付价**（从优惠文案里取第一个「N 元」），小字标正式价；
-  // 没优惠：大字=正式价，小字=买断说明。任何数字都不写死在 JS 里。
-  var m = promoEl ? promoEl.textContent.match(/([0-9][0-9,]*)\s*元/) : null;
-  if(bbPrice) bbPrice.textContent = m ? (m[1] + ' 元') : formal;
-  if(bbNote) bbNote.textContent = m ? ('正式价 ' + formal) : '一次买断 · 永久使用';
+  // 有优惠：大字显示**当前实付价**，小字标正式价；没优惠：大字=正式价，小字=买断说明。
+  if(bbPrice) bbPrice.textContent = p.currentNum ? (p.currentNum + ' 元') : p.formal;
+  if(bbNote) bbNote.textContent = p.hasPromo ? ('正式价 ' + p.formal) : '一次买断 · 永久使用';
   var ticking = false;
   function update(){
     ticking = false;
@@ -1584,12 +1868,16 @@ function initBuyBar(){
 }
 
 document.addEventListener('DOMContentLoaded', function(){initBuyBar();
+  initPriceSlots();                             // Hero 下单卡 + 右侧常驻栏的当前价格（不写死数字）
+  initRailOffset();                             // 通知卡挂着时右栏下移让位（只在 ≥1280 生效）
   applyThemeUI(currentTheme());                 // 按引导脚本已定的主题刷新按钮图标
   var tt = document.getElementById('themeToggle');
   if (tt) tt.addEventListener('click', toggleTheme);
   loadAll();
-  var btn = document.getElementById('btn-copy');
-  if (btn) btn.addEventListener('click', copyContact);
+  // 「复制 Revolt ID」：联系卡 + Hero 下单卡（可多个）
+  [].slice.call(document.querySelectorAll('.js-copy-id')).forEach(function(b){
+    b.addEventListener('click', copyContact);
+  });
   var lbClose = document.getElementById('lightboxClose');
   if (lbClose) lbClose.addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
   // 可点开的图片补上键盘可达性（Tab 聚焦 + Enter/Space 打开灯箱，focus-visible 有轮廓）
