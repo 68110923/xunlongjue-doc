@@ -505,6 +505,25 @@
     margin:12px auto 0;max-width:640px;font-size:11.5px;line-height:1.8;color:var(--dim);
   }
 
+  /* ── 手机端底部常驻购买条（仅 ≤640px；价格由 JS 从定价区读，永远同步） ── */
+  .buy-bar{
+    position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;
+    align-items:center;gap:10px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));
+    background:var(--nav-bg);backdrop-filter:blur(12px);border-top:1px solid var(--border);
+  }
+  .buy-bar.show{display:flex}
+  .buy-bar .bb-price{flex:1 1 auto;min-width:0;line-height:1.25}
+  .buy-bar .bb-price span{display:block;font-size:17px;font-weight:900;color:var(--gold)}
+  .buy-bar .bb-price small{display:block;font-size:10.5px;color:var(--dim);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .buy-bar .bb-btn{
+    flex:0 0 auto;min-height:44px;display:inline-flex;align-items:center;justify-content:center;
+    padding:0 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:700;
+    color:var(--text2);text-decoration:none;white-space:nowrap;
+  }
+  .buy-bar .bb-btn.gold{background:var(--gold);border-color:var(--gold);color:#1a1a23}
+  .qr-hint-line{margin-top:10px;text-align:center;font-size:12.5px;color:var(--text2);line-height:1.7}
+
   /* ── 手机版「↑ 回到顶部」（仅 ≤640px 出现，滚动过一屏才显示） ── */
   .to-top{
     position:fixed;right:14px;bottom:18px;z-index:97;width:44px;height:44px;border-radius:50%;
@@ -542,6 +561,12 @@
   }
 
   /* ── 手机（≤640px）：单列、字号收紧、两张表都卡片化、媒体行仍一行、CTA 全宽 ── */
+  /* ── iPad / 平板（641 ~ 1024px）：六步流程两列，横向空间利用起来 ── */
+  @media (min-width:641px) and (max-width:1024px){
+    .steps{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px}
+    .steps li{margin:8px 0}
+  }
+
   @media (max-width:640px){
     :root{--nav-h:58px}
     .wrap{padding:30px 14px 84px}
@@ -606,7 +631,8 @@
     /* 通知卡：满宽、紧凑 */
     .notif-wrap{max-width:100%;padding:0 8px}
     /* 手机版「↑ 回到顶部」按钮 */
-    .to-top{display:flex}
+    .to-top{display:flex;bottom:calc(72px + env(safe-area-inset-bottom))}
+    body{padding-bottom:68px}
     #toast{bottom:74px}
   }
 
@@ -905,12 +931,13 @@ xlp 核心层（写表）──┤
     <strong>试用规则</strong>：每个用户限试用一次；试用期内推送命中不足 2 只涨停，<strong>试用期自动延长，抓到为止</strong>；试用期结束不再抵扣。
   </div>
 
-  <div class="qr-row">
+  <div class="qr-row" id="qr">
     <div class="qr-item">
       <img src="media/收款码/微信收款码.jpg" alt="微信收款码" decoding="async" onclick="openLightbox(this)">
       <div class="qr-label">微信收款码</div>
       <div class="qr-hint">点图放大</div>
     </div>
+  <p class="qr-hint-line">按上方价格付款（<strong>10 月 8 日前 888 元</strong>，之后 1288 元），<strong>备注你的 Revolt 用户名</strong>；手机上可<strong>长按图片识别 / 保存</strong>。</p>
     <div class="qr-item">
       <img src="media/收款码/支付宝收款码.jpg" alt="支付宝收款码" decoding="async" onclick="openLightbox(this)">
       <div class="qr-label">支付宝收款码</div>
@@ -1013,10 +1040,6 @@ xlp 核心层（写表）──┤
         会持续修、持续更新（更新日志实时可见）。介意稳定性建议先试用再决定。</p>
       </div>
     </details>
-    <details id="faq-refund">
-      <summary>支持退吗？</summary>
-      <div class="a"><p>软件为<strong>虚拟商品、源码可复制</strong>，交付后不支持退款；建议先花 88 元试用 5~7 个交易日（试用在 Revolt 群里进行）。</p></div>
-    </details>
     <details id="faq-contact">
       <summary>怎么咨询 / 试用？为什么微信、QQ 不聊股票？</summary>
       <div class="a">
@@ -1071,6 +1094,12 @@ xlp 核心层（写表）──┤
   <button class="lb-close" type="button" id="lightboxClose" aria-label="关闭大图" title="关闭">✕</button>
   <img id="lightboxImg" src="" alt="放大查看">
 </div>
+<div class="buy-bar" id="buyBar" role="region" aria-label="快速购买">
+  <div class="bb-price"><span id="bbPrice">1288 元</span><small id="bbNote">一次买断 · 永久使用</small></div>
+  <a class="bb-btn" href="#pricing">看定价</a>
+  <a class="bb-btn gold" href="#qr">立即购买</a>
+</div>
+
 <button id="toTop" class="to-top" type="button" aria-label="回到顶部" title="回到顶部">↑</button>
 <div id="toast" role="status" aria-live="polite"></div>
 
@@ -1490,7 +1519,30 @@ function copyContact(){
   } else { fallback(); }
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+function initBuyBar(){
+  var bar = document.getElementById('buyBar');
+  if(!bar) return;
+  // 价格从定价区读（首发特惠期间自动跟着变），不在 JS 里写死
+  var priceEl = document.querySelector('.ph-price');
+  var bbPrice = document.getElementById('bbPrice');
+  if(priceEl && bbPrice) bbPrice.textContent = priceEl.textContent.replace(/\s+/g,' ').trim();
+  var promoEl = document.querySelector('.ph-promo');
+  var bbNote = document.getElementById('bbNote');
+  if(promoEl && bbNote) bbNote.textContent = promoEl.textContent.replace(/\s+/g,' ').trim().slice(0,26);
+  var ticking = false;
+  function update(){
+    ticking = false;
+    var y = window.scrollY || document.documentElement.scrollTop;
+    var nearBottom = (y + window.innerHeight) > (document.body.scrollHeight - 240);
+    bar.classList.toggle('show', y > 420 && !nearBottom);
+  }
+  window.addEventListener('scroll', function(){
+    if(!ticking){ ticking = true; requestAnimationFrame(update); }
+  }, {passive:true});
+  update();
+}
+
+document.addEventListener('DOMContentLoaded', function(){initBuyBar();
   applyThemeUI(currentTheme());                 // 按引导脚本已定的主题刷新按钮图标
   var tt = document.getElementById('themeToggle');
   if (tt) tt.addEventListener('click', toggleTheme);
