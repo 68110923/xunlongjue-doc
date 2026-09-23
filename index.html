@@ -325,6 +325,7 @@
   .steps li b{color:var(--wht)}
   /* 进群流程 4 张图：永远 4 等分一行，窄屏等比缩小不换行，点图可开灯箱
      aspect-ratio 6/13 = 素材（600×1300）真实比例，4 格等高、不产生上下留白 */
+  .flow-caption{margin:16px 0 0;font-size:12.5px;color:var(--text2);text-align:center}
   .flow-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
   .flow-row img{
     width:100%;height:auto;aspect-ratio:6/13;object-fit:contain;
@@ -418,12 +419,13 @@
 
   /* ── 顶部通知卡（紧凑：≤100% 宽、padding 10px、正文 12px、关闭 ≥32px、多张纵向堆叠） ── */
   .notif-wrap{
-    position:fixed;top:calc(var(--nav-h) + 8px);left:50%;transform:translateX(-50%);
-    z-index:98;width:100%;max-width:560px;padding:0 10px;
+    /* 通知卡放在文档流里（导航之下、正文之上）：**不再 fixed 浮层** ——
+       浮层在桌面/平板上会把首屏标题整块盖住（视觉验证 2026-09-24 实测）。 */
+    position:relative;z-index:5;width:100%;max-width:960px;margin:14px auto 0;padding:0 10px;
     display:none;flex-direction:column;gap:8px;pointer-events:none;
   }
   .notif-card{
-    pointer-events:auto;position:relative;
+    pointer-events:auto;position:relative;width:100%;
     background:linear-gradient(135deg,var(--card),var(--bg2));
     border:1px solid var(--accent-line);border-left:3px solid var(--accent);
     border-radius:var(--radius);padding:10px 36px 10px 12px;
@@ -640,11 +642,12 @@
 
   /* ── 桌面（≥1025px）：**满宽排版**（左右各留 2% 边缘）+ 放大一档，显得大气 ── */
   @media (min-width:1025px){
-    .wrap{max-width:none;margin:0 2%;padding:64px 0 88px}
-    .grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+    .wrap{max-width:none;margin:0 2%;padding:44px 0 88px}
+    .notif-wrap{max-width:none;margin:14px 2% 0;padding:0}
+    .grid{grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px}
     .price-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
     .stats{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-top:34px}
-    h1{font-size:52px}
+    h1{font-size:52px;line-height:1.25}
     .sub{font-size:16px}
     h2{font-size:23px;margin:64px 0 22px}
     .card{padding:26px}
@@ -653,10 +656,17 @@
     .lead{font-size:15px}
     .faq summary{font-size:15px}
     .faq .a{font-size:14.5px}
-    /* 满宽之后正文容易拉太长：正文段落限一个阅读宽度，卡片本身仍是满宽 */
-    .card>p,.card>ul,.note,.lead{max-width:96ch}
+    /* 满宽之后正文容易拉太长/左对齐留大片空：正文限一个阅读宽度并居中，卡片本身仍满宽 */
+    .card>p,.card>ul,.note,.lead,.faq .a,.cl-version ul,.cl-version p,
+    .contact .hint,.qr-hint-line,.table-wrap.cmp-wrap>p{
+      max-width:88ch;margin-inline:auto;
+    }
+    /* 对比表：两列拉满 1800px 太空 —— 整表限宽居中，标签列定宽、说明列限阅读宽 */
+    table.cmp{max-width:1180px;margin:0 auto;table-layout:fixed}
+    .cmp td:first-child{width:210px}
+    .cmp td:last-child{max-width:78ch}
     /* 二维码/流程图别跟着满宽放大：单张限宽并居中 */
-    .qr-item img{max-width:260px;margin:0 auto}
+    .qr-item img{max-width:220px;margin:0 auto}   /* 微信收款码源图 376px，再大就糊 */
     .flow-row img{max-width:220px;margin:0 auto}
     .steps{max-width:1100px}
   }
@@ -981,14 +991,12 @@ xlp 核心层（写表）──┤
       <li><b>交付源码</b>：给你私有仓库的 <strong>只读 PAT</strong>（仅能拉代码），自己 <code>git clone</code> / <code>git pull</code>；随后把<strong>部署文档</strong>交给 Hermes 等 AI，它就能照着把环境装好。</li>
       <li><b>进开发者交流群</b>：<strong>购买源码后</strong>拉你进「寻龙诀开发者交流群」，一起交流部署、参数与二次开发。</li>
     </ol>
-    <div class="note accent" style="margin-top:14px">
-      Revolt 注册 / 加好友流程（点图放大）：
-      <div class="flow-row">
-        <img src="media/进群流程/步骤2.webp" alt="Revolt 注册 步骤 1" decoding="async" onclick="openLightbox(this)">
-        <img src="media/进群流程/步骤3.webp" alt="Revolt 注册 步骤 2" decoding="async" onclick="openLightbox(this)">
-        <img src="media/进群流程/步骤4.webp" alt="Revolt 注册 步骤 3" decoding="async" onclick="openLightbox(this)">
-        <img src="media/进群流程/步骤5.webp" alt="Revolt 注册 步骤 4" decoding="async" onclick="openLightbox(this)">
-      </div>
+    <p class="flow-caption">Revolt 注册 / 加好友流程（点图放大）：</p>
+    <div class="flow-row">
+      <img src="media/进群流程/步骤2.webp" alt="Revolt 注册 步骤 1" decoding="async" onclick="openLightbox(this)">
+      <img src="media/进群流程/步骤3.webp" alt="Revolt 注册 步骤 2" decoding="async" onclick="openLightbox(this)">
+      <img src="media/进群流程/步骤4.webp" alt="Revolt 注册 步骤 3" decoding="async" onclick="openLightbox(this)">
+      <img src="media/进群流程/步骤5.webp" alt="Revolt 注册 步骤 4" decoding="async" onclick="openLightbox(this)">
     </div>
   </div>
 
