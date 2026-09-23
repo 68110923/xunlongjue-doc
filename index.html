@@ -798,7 +798,11 @@
      ══════════════════════════════════════════════════════════════ */
   /* 1280~1439：右栏与 hero 下单卡都收一点，给标题更多横向空间 */
   @media (min-width:1280px) and (max-width:1439px){
-    .hero-buy{max-width:380px}
+    /* 不只要窄卡片，轨道也要收 —— 否则多出的宽度只会变成卡片右侧的空白 */
+    header.hero{grid-template-columns:minmax(0,1.2fr) minmax(340px,380px)}
+    .hero-buy{max-width:380px;justify-self:end}
+    /* 1280×800 且通知卡挂着时，右栏要能整体落进首屏：这一档先不列章节锚点（顶部 chip 行已有） */
+    .rail-nav{display:none}
   }
 
   @media (min-width:1280px){
@@ -1672,12 +1676,24 @@ function smoothBehavior(){ return reduceMotion() ? 'auto' : 'smooth'; }
 function initNavSpy(){
   var linksEl = document.getElementById('navLinks');
   if (!linksEl) return;
-  // 顶部 chip 行与右侧常驻栏共用同一套「当前章节」状态（一个 id 命中多个 <a> 也一起高亮）
-  var all = [].slice.call(document.querySelectorAll('#navLinks a[href^="#"], .rail-nav a[href^="#"]'));
-  var secs = [];
-  all.forEach(function(a){
+  // ⚠️ 分两个结构，不能只用一个顺序数组：
+  //   ① `secs` = **顶部 chip 行**的锚点，按文档顺序 —— 只有它参与「当前章节」扫描与页底兜底；
+  //   ② `byId` = 章节 id → 所有锚点（chip + 右栏）—— 只用来一起加/去 `active`。
+  // 上一版把右栏锚点追加进同一个数组，导致末尾 rail 条目乱序覆盖扫描结果
+  // （最后一节/页底高亮错成「常见问题」），并且 `closest('#navLinks')` 取到的是容器 DIV、
+  // 让 chip 行自动横滚失效。
+  var chips = [].slice.call(linksEl.querySelectorAll('a[href^="#"]'));
+  var secs = [], byId = {};
+  chips.forEach(function(a){
     var el = document.getElementById(a.getAttribute('href').slice(1));
-    if (el) secs.push({id: el.id, el: el, a: a});
+    if (!el) return;
+    secs.push({id: el.id, el: el, a: a});
+    (byId[el.id] = byId[el.id] || []).push(a);
+  });
+  [].slice.call(document.querySelectorAll('.rail-nav a[href^="#"]')).forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    if (!document.getElementById(id)) return;
+    (byId[id] = byId[id] || []).push(a);
   });
   if (!secs.length) return;
 
@@ -1689,10 +1705,12 @@ function initNavSpy(){
   function setActive(id){
     if (id === activeId) return;
     activeId = id;
-    secs.forEach(function(s){ s.a.classList.toggle('active', s.id === id); });
+    Object.keys(byId).forEach(function(key){
+      byId[key].forEach(function(a){ a.classList.toggle('active', key === id); });
+    });
     for (var i = 0; i < secs.length; i++){
       if (secs[i].id === id && linksEl.scrollWidth > linksEl.clientWidth + 2){
-        var a = secs[i].a.closest('#navLinks') || secs[i].a;   // 只横向滚动 chip 行，不牵动页面
+        var a = secs[i].a;   // **chip 元素本身**（不要 closest —— 那会取到容器 DIV）
         linksEl.scrollTo({
           left: Math.max(0, a.offsetLeft - (linksEl.clientWidth - a.offsetWidth) / 2),
           behavior: smoothBehavior()
