@@ -3,140 +3,495 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>寻龙诀 · A股一进二竞价打板量化系统</title>
-<meta name="description" content="寻龙诀 —— 部署在自己电脑或服务器上的 A 股量化研究工具：十年全市场数据湖 + 竞价选股 + 每日复盘。仅供研究与学习，不构成投资建议。">
+<title>寻龙诀 PRO · A股一进二竞价打板量化系统</title>
+<meta name="description" content="寻龙诀 PRO —— 部署在自己电脑或服务器上的 A 股量化研究工具：十年全市场数据湖 + 全市场真实竞价 + 一进二选票 + 每日自动复盘。一次买断、永久使用，1288 元。仅供研究与学习，不构成任何投资建议。">
 <meta name="theme-color" content="#0f0f13">
 <style>
   :root{
-    --bg:#0f0f13; --bg2:#15151e; --card:#1a1a23; --border:#27272a;
-    --text:#e4e4e7; --text2:#a1a1aa; --dim:#71717a;
-    --accent:#818cf8; --accent2:#1e1b4a; --gold:#d4a853;
-    --radius:10px;
+    --bg:#0f0f13; --bg2:#15151e; --card:#1a1a23; --card2:#22222e; --border:#27272a;
+    --text:#e4e4e7; --text2:#a1a1aa; --dim:#71717a; --wht:#f4f4f5;
+    --accent:#818cf8; --accent2:#1e1b4a; --accent-line:rgba(129,140,248,.25);
+    --gold:#d4a853; --gold2:#8a6d30;
+    --green:#22c55e; --red:#e53935; --orange:#ff9800;
+    --radius:10px; --nav-h:50px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);line-height:1.7;
-       font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',system-ui,sans-serif;
-       -webkit-font-smoothing:antialiased}
-  .glow{position:fixed;top:-240px;left:50%;transform:translateX(-50%);
-        width:760px;height:760px;pointer-events:none;z-index:0;
-        background:radial-gradient(ellipse,rgba(129,140,248,.08) 0%,transparent 70%)}
-  nav{position:sticky;top:0;z-index:100;height:48px;display:flex;align-items:center;
-      padding:0 16px;background:rgba(15,15,19,.85);backdrop-filter:blur(12px);
-      border-bottom:1px solid var(--border)}
-  nav .links{display:flex;gap:2px;flex:1;justify-content:center;overflow-x:auto}
-  nav .links a{color:var(--dim);text-decoration:none;font-size:12px;padding:6px 12px;
-               border-radius:6px;white-space:nowrap}
-  nav .links a:hover{color:var(--accent);background:rgba(129,140,248,.08)}
-  nav .login{color:var(--accent);border:1px solid var(--border);border-radius:6px;
-             padding:5px 12px;font-size:12px;text-decoration:none;white-space:nowrap}
-  nav .login:hover{border-color:var(--accent)}
-  .wrap{max-width:880px;margin:0 auto;padding:56px 24px 72px;position:relative;z-index:1}
-  header{text-align:center;margin-bottom:44px}
-  h1{font-size:38px;letter-spacing:.16em;font-weight:600;
-     background:linear-gradient(180deg,#f4f4f5,#a1a1aa);-webkit-background-clip:text;
-     -webkit-text-fill-color:transparent;margin-bottom:10px}
-  .sub{color:var(--text2);font-size:14px}
+  body{
+    background:var(--bg);color:var(--text);line-height:1.7;
+    font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .glow{
+    position:fixed;top:-260px;left:50%;transform:translateX(-50%);
+    width:780px;height:780px;pointer-events:none;z-index:0;
+    background:radial-gradient(ellipse,rgba(129,140,248,.08) 0%,transparent 70%);
+  }
+  code{
+    background:rgba(129,140,248,.10);color:var(--accent);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:.92em;padding:1px 5px;border-radius:4px;
+  }
+  strong{color:var(--wht);font-weight:700}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* ── 顶部导航 ── */
+  nav{
+    position:sticky;top:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;
+    padding:0 10px;background:rgba(15,15,19,.88);backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+  }
+  nav .links{
+    display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  nav .links::-webkit-scrollbar{display:none}
+  nav .links a{
+    color:var(--dim);font-size:12px;padding:6px 10px;border-radius:6px;
+    white-space:nowrap;flex:0 0 auto;
+  }
+  nav .links a:hover{color:var(--accent);background:rgba(129,140,248,.08);text-decoration:none}
+  nav .login{
+    flex:0 0 auto;margin-left:8px;color:var(--accent);border:1px solid var(--border);
+    border-radius:6px;padding:5px 12px;font-size:12px;white-space:nowrap;
+  }
+  nav .login:hover{border-color:var(--accent);text-decoration:none}
+
+  /* ── 布局 ── */
+  .wrap{max-width:960px;margin:0 auto;padding:52px 22px 64px;position:relative;z-index:1}
+  header{text-align:center;margin-bottom:40px}
+  .dragon{font-size:42px;line-height:1;
+    filter:sepia(1) saturate(2.2) hue-rotate(-4deg) brightness(1.15) drop-shadow(0 0 12px rgba(229,57,53,.4))}
+  h1{
+    font-size:clamp(30px,5vw,44px);font-weight:900;letter-spacing:.14em;margin:8px 0 10px;
+    background:linear-gradient(180deg,#fdf0d5 0%,#d4a853 40%,#8a6d30 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .sub{color:var(--text2);font-size:14px;letter-spacing:.06em}
   .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
-  .tag{font-size:11px;color:var(--accent);background:var(--accent2);
-       border-radius:999px;padding:3px 11px}
-  h2{font-size:19px;margin:48px 0 18px;display:flex;align-items:center;gap:8px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:14px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-        padding:20px}
-  .card h3{font-size:15px;margin-bottom:8px;color:var(--gold)}
+  .tag{
+    font-size:11px;color:var(--accent);background:var(--accent2);
+    border:1px solid rgba(129,140,248,.16);border-radius:999px;padding:3px 12px;
+  }
+  h2{
+    font-size:20px;font-weight:800;color:var(--wht);
+    margin:56px 0 18px;display:flex;align-items:center;gap:10px;scroll-margin-top:66px;
+  }
+  h2::before{
+    content:'';width:4px;height:20px;border-radius:2px;flex:0 0 auto;
+    background:linear-gradient(180deg,var(--accent),var(--accent2));
+  }
+  .lead{font-size:13.5px;color:var(--text2);margin:-6px 0 18px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:14px}
+  .card{
+    background:linear-gradient(180deg,var(--card),var(--bg2));
+    border:1px solid var(--border);border-radius:var(--radius);padding:20px;
+  }
+  .card h3{font-size:15px;margin-bottom:8px;color:var(--gold);font-weight:700}
   .card p{font-size:13px;color:var(--text2)}
-  .card ul{margin:8px 0 0 16px;font-size:13px;color:var(--text2)}
+  .card ul{margin:8px 0 0 16px;font-size:12.5px;color:var(--text2)}
   .card li{margin:3px 0}
   .num{color:var(--accent);font-weight:600}
-  .steps{counter-reset:s;list-style:none;margin-top:8px}
-  .steps li{counter-increment:s;position:relative;padding-left:34px;margin:12px 0;
-            font-size:13px;color:var(--text2)}
-  .steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:22px;height:22px;
-                    border-radius:50%;background:var(--accent2);color:var(--accent);
-                    font-size:11px;display:flex;align-items:center;justify-content:center}
-  .steps code{background:var(--bg2);border-radius:4px;padding:1px 6px;font-size:12px;
-              color:var(--text)}
-  .note{background:var(--bg2);border-left:3px solid var(--gold);border-radius:6px;
-        padding:14px 16px;font-size:12.5px;color:var(--text2);margin-top:20px}
-  .note code{background:var(--card);border-radius:4px;padding:1px 5px;font-size:12px}
-  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--border);
-         text-align:center;font-size:11.5px;color:var(--dim)}
-  footer a{color:var(--dim);text-decoration:none;border-bottom:1px dotted var(--dim)}
-  footer a:hover{color:var(--accent)}
-  .disc{margin-top:12px;line-height:1.9}
+  .ok{color:var(--green);font-weight:600}
+  .warn{color:var(--orange);font-weight:600}
+  .note{
+    background:var(--bg2);border-left:3px solid var(--gold);border-radius:6px;
+    padding:14px 16px;font-size:12.5px;color:var(--text2);margin-top:18px;
+  }
+  .note.accent{border-left-color:var(--accent)}
+  .table-wrap{
+    overflow-x:auto;-webkit-overflow-scrolling:touch;
+    border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);
+  }
+  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:600px}
+  table.pricing{min-width:520px}
+  th,td{padding:11px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
+  thead th{
+    background:rgba(129,140,248,.06);color:var(--text2);font-size:11.5px;
+    font-weight:700;letter-spacing:.06em;white-space:nowrap;
+  }
+  tbody tr:last-child td{border-bottom:none}
+  td:first-child{color:var(--text);white-space:nowrap}
+  th.pro{color:var(--gold)}
+  .cmp td:last-child{color:var(--text2)}
+  .cmp td:nth-child(2){color:var(--dim)}
+
+  /* ── 关键数字 ── */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:20px}
+  .stat{
+    background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--border);
+    border-radius:var(--radius);padding:16px 12px;text-align:center;
+  }
+  .stat b{display:block;font-size:20px;font-weight:900;color:var(--accent);line-height:1.25}
+  .stat b.gold{color:var(--gold)}
+  .stat span{font-size:11px;color:var(--dim)}
+
+  /* ── 出口示意 ── */
+  pre.flow{
+    background:#0b0b12;border:1px solid var(--border);border-radius:var(--radius);
+    padding:16px;margin-top:18px;overflow-x:auto;color:var(--text2);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12px;line-height:1.6;
+  }
+
+  /* ── 定价 ── */
+  .price-hero{
+    background:linear-gradient(135deg,rgba(129,140,248,.09),rgba(129,140,248,.01));
+    border:1px solid var(--accent-line);border-radius:var(--radius);
+    padding:30px 24px;text-align:center;
+  }
+  .ph-tag{
+    display:inline-block;font-size:11px;letter-spacing:.18em;color:var(--gold);
+    border:1px solid rgba(212,168,83,.35);border-radius:999px;padding:3px 14px;margin-bottom:12px;
+  }
+  .ph-price{font-size:clamp(40px,7vw,58px);font-weight:900;color:var(--accent);line-height:1}
+  .ph-price small{font-size:18px;color:var(--dim);font-weight:600}
+  .ph-sub{font-size:12.5px;color:var(--text2);margin-top:8px}
+  .perks{
+    list-style:none;display:flex;flex-wrap:wrap;justify-content:center;
+    gap:6px 18px;margin-top:18px;
+  }
+  .perks li{font-size:12.5px;color:var(--text2)}
+  .perks li::before{content:'✓ ';color:var(--green);font-weight:700}
+  .price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:14px}
+  .price-card{
+    background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--border);
+    border-radius:var(--radius);padding:18px;
+  }
+  .price-card .pc-name{font-size:13px;color:var(--wht);font-weight:700}
+  .price-card .pc-amt{font-size:24px;font-weight:900;color:var(--gold);margin:6px 0 6px;line-height:1.1}
+  .price-card .pc-amt.hot{color:var(--accent)}
+  .price-card .pc-desc{font-size:12px;color:var(--dim)}
+  .qr-row{display:flex;flex-wrap:wrap;gap:22px;justify-content:center;margin-top:22px}
+  .qr-item{text-align:center;flex:0 1 180px}
+  .qr-item img{
+    width:100%;max-width:180px;aspect-ratio:1;object-fit:contain;border-radius:8px;
+    border:1px solid var(--border);background:#fff;cursor:zoom-in;
+    transition:transform .2s,box-shadow .2s;
+  }
+  .qr-item img:hover{transform:scale(1.02);box-shadow:0 6px 20px rgba(0,0,0,.45)}
+  .qr-item .qr-label{font-size:12px;color:var(--wht);font-weight:700;margin-top:6px}
+  .qr-item .qr-hint{font-size:11px;color:var(--dim)}
+
+  /* ── 步骤 ── */
+  .steps{counter-reset:s;list-style:none;margin-top:10px}
+  .steps li{
+    counter-increment:s;position:relative;padding-left:36px;margin:14px 0;
+    font-size:13px;color:var(--text2);
+  }
+  .steps li::before{
+    content:counter(s);position:absolute;left:0;top:1px;width:23px;height:23px;
+    border-radius:50%;background:var(--accent2);color:var(--accent);border:1px solid var(--accent-line);
+    font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  }
+  .steps li b{color:var(--wht)}
+  .flow-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));gap:10px;margin-top:14px}
+  .flow-row img{
+    width:100%;height:auto;max-height:320px;object-fit:contain;
+    border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,.03);
+    cursor:zoom-in;transition:transform .2s,box-shadow .2s;
+  }
+  .flow-row img:hover{transform:scale(1.02);box-shadow:0 6px 18px rgba(0,0,0,.45)}
+
+  /* ── 联系卡 ── */
+  .contact{
+    background:linear-gradient(135deg,rgba(212,168,83,.08),rgba(212,168,83,.01));
+    border:1px solid rgba(212,168,83,.28);border-radius:var(--radius);
+    padding:24px;text-align:center;margin-top:18px;
+  }
+  .contact .who{font-size:12px;color:var(--text2);letter-spacing:.08em}
+  .contact .id{
+    font-size:clamp(24px,5vw,32px);font-weight:900;color:var(--gold);letter-spacing:.08em;line-height:1.3;
+  }
+  .contact .hint{font-size:12px;color:var(--dim);margin-top:4px}
+  .contact .btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+  .btn{
+    display:inline-block;padding:9px 24px;border-radius:24px;font-size:13px;font-weight:700;
+    letter-spacing:.08em;cursor:pointer;border:1px solid transparent;
+  }
+  .btn.gold{background:linear-gradient(135deg,#d4a853,#8a6d30);color:#050508}
+  .btn.ghost{background:var(--bg2);color:var(--accent);border-color:var(--accent)}
+  .btn:hover{opacity:.88;text-decoration:none}
+
+  /* ── FAQ ── */
+  .faq{margin-top:8px}
+  .faq details{
+    background:linear-gradient(180deg,var(--card),var(--bg2));
+    border:1px solid var(--border);border-radius:8px;
+    padding:14px 18px;margin-bottom:8px;scroll-margin-top:66px;
+  }
+  .faq details[open]{border-color:var(--accent-line)}
+  .faq summary{
+    font-size:14px;color:var(--wht);font-weight:700;cursor:pointer;user-select:none;
+    list-style:none;display:flex;align-items:center;gap:8px;
+  }
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{
+    content:'▶';font-size:9px;color:var(--dim);flex:0 0 auto;transition:transform .25s;
+  }
+  .faq details[open]>summary::before{transform:rotate(90deg)}
+  .faq .a{font-size:12.5px;color:var(--text2);margin-top:10px;padding-left:17px}
+  .faq .a p{margin:0 0 6px}
+  .faq .a p:last-child{margin-bottom:0}
+
+  /* ── 更新日志 ── */
+  .cl-details{
+    background:linear-gradient(180deg,var(--card),var(--bg2));
+    border:1px solid var(--border);border-radius:var(--radius);
+    padding:16px 20px;margin-top:52px;scroll-margin-top:66px;
+  }
+  .cl-details[open]{border-color:var(--accent-line)}
+  .cl-details>summary{
+    font-size:14px;color:var(--wht);font-weight:700;cursor:pointer;user-select:none;
+    list-style:none;text-align:center;letter-spacing:.2em;
+  }
+  .cl-details>summary::-webkit-details-marker{display:none}
+  .cl-wrap{margin-top:16px;position:relative;z-index:1}
+  .center-dim{text-align:center;color:var(--dim);font-size:12px;padding:10px 0}
+  .cl-version{
+    background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+    padding:16px 18px;margin-bottom:10px;
+  }
+  .cl-version:last-child{margin-bottom:0}
+  .cl-version .vtag{
+    display:block;font-size:14px;font-weight:900;color:var(--accent);
+    letter-spacing:.04em;margin-bottom:10px;
+  }
+  .cl-version .vtag .vdate{font-size:12px;color:var(--dim);font-weight:400;margin-left:8px}
+  .cl-item{font-size:12.5px;color:var(--text);line-height:1.7;padding:3px 0 3px 16px;position:relative}
+  .cl-item::before{content:'▸';position:absolute;left:0;color:var(--accent);font-size:10px}
+  .cl-sub-item{font-size:11.5px;color:var(--dim);line-height:1.6;padding:1px 0 1px 30px;position:relative}
+  .cl-sub-item::before{content:'·';position:absolute;left:20px;color:var(--dim)}
+  .cl-item strong,.cl-sub-item strong{color:var(--wht)}
+
+  /* ── 通知条 ── */
+  .notif-wrap{
+    position:fixed;top:56px;left:50%;transform:translateX(-50%);
+    z-index:98;width:100%;max-width:560px;padding:0 12px;
+    display:none;flex-direction:column;gap:8px;pointer-events:none;
+  }
+  .notif-card{
+    pointer-events:auto;position:relative;
+    background:linear-gradient(135deg,var(--card),var(--bg2));
+    border:1px solid var(--accent-line);border-left:3px solid var(--accent);
+    border-radius:var(--radius);padding:13px 40px 13px 16px;
+    box-shadow:0 6px 24px rgba(0,0,0,.45);animation:notifSlide .4s ease-out;
+  }
+  @keyframes notifSlide{
+    from{opacity:0;transform:translateY(-18px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .notif-card .n-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+  .notif-card .n-badge{font-size:10.5px;color:var(--accent);letter-spacing:.1em;font-weight:700}
+  .notif-card .n-range{
+    font-size:10px;color:var(--dim);background:rgba(129,140,248,.08);
+    border-radius:999px;padding:1px 8px;
+  }
+  .notif-card .n-title{font-size:13px;font-weight:700;color:var(--wht);margin-bottom:4px}
+  .notif-card .n-body{font-size:11.5px;color:var(--text2);line-height:1.6}
+  .notif-card .n-body .n-p{margin:2px 0}
+  .notif-card .n-body .n-li{position:relative;padding-left:12px;margin:2px 0}
+  .notif-card .n-body .n-li::before{content:'·';position:absolute;left:2px;color:var(--accent)}
+  .notif-card .n-close{
+    position:absolute;top:7px;right:9px;background:none;border:none;color:var(--dim);
+    font-size:15px;line-height:1;cursor:pointer;padding:3px;
+  }
+  .notif-card .n-close:hover{color:var(--accent)}
+
+  /* ── 灯箱 ── */
+  .lightbox{
+    display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.9);
+    align-items:center;justify-content:center;padding:20px;cursor:zoom-out;
+  }
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:94vw;max-height:92vh;border-radius:8px;cursor:zoom-out}
+
+  /* ── 页脚 ── */
+  footer{
+    margin-top:60px;padding-top:22px;border-top:1px solid var(--border);
+    text-align:center;font-size:11.5px;color:var(--dim);position:relative;z-index:1;
+  }
+  footer .f-links a{color:var(--text2);border-bottom:1px dotted var(--border)}
+  footer .f-links a:hover{color:var(--accent);text-decoration:none}
+  footer .disc{margin-top:14px;line-height:1.9}
+  footer .foot-sub{margin-top:12px;font-size:11px}
+
+  /* ── Toast ── */
+  #toast{
+    position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(12px);
+    background:var(--gold);color:#050508;font-size:13px;font-weight:700;
+    padding:11px 22px;border-radius:8px;z-index:10000;opacity:0;
+    transition:opacity .3s,transform .3s;pointer-events:none;max-width:88vw;text-align:center;
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:600px){
+    .wrap{padding:36px 14px 48px}
+    h2{font-size:17.5px;margin-top:44px}
+    .card{padding:16px}
+    .qr-row{gap:10px}
+    .qr-item{flex:1 1 44%}
+    .contact{padding:20px 14px}
+    nav .links a{font-size:11px;padding:6px 8px}
+    .stats{grid-template-columns:1fr 1fr}
+  }
 </style>
 </head>
 <body>
 <div class="glow"></div>
+<div id="notifWrap" class="notif-wrap"></div>
 
 <nav>
   <div class="links">
-    <a href="#what">这是什么</a>
-    <a href="#features">功能</a>
-    <a href="#data">数据能力</a>
-    <a href="#reliable">工程与可靠性</a>
-    <a href="#how">怎么用</a>
-    <a href="#req">系统要求</a>
-    <a href="#legal">风险与许可</a>
+    <a href="#what">🎯 这是什么</a>
+    <a href="#compare">🆚 PRO 版新增</a>
+    <a href="#features">🧩 功能</a>
+    <a href="#data">📊 数据能力</a>
+    <a href="#reliable">🛡️ 工程与可靠性</a>
+    <a href="#pricing">💰 定价与购买</a>
+    <a href="#howto">🚀 怎么买</a>
+    <a href="#faq">❓ 常见问题</a>
+    <a href="#legal">⚖️ 风险与许可</a>
   </div>
-  <a class="login" href="https://xunlongjue.68110923.xyz/">登录看板</a>
+  <a class="login" href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">登录看板</a>
 </nav>
 
 <div class="wrap">
+
   <header>
-    <h1>寻 龙 诀</h1>
-    <div class="sub">A 股主板 · 一进二竞价打板量化系统</div>
+    <div class="dragon">🐉</div>
+    <h1>寻 龙 诀 PRO</h1>
+    <div class="sub">A 股一进二竞价打板量化系统 · 一次买断 · 永久使用</div>
     <div class="tags">
-      <span class="tag">一进二</span>
-      <span class="tag">竞价选股</span>
-      <span class="tag">全市场扫描</span>
-      <span class="tag">技术面筛选</span>
-      <span class="tag">每日复盘</span>
-      <span class="tag">数据看板</span>
+      <span class="tag">一进二竞价</span>
+      <span class="tag">全市场真实竞价</span>
+      <span class="tag">十年全市场数据湖</span>
+      <span class="tag">51 条质量断言</span>
+      <span class="tag">每日自动复盘</span>
+      <span class="tag">网页看板 + 微信推送</span>
+      <span class="tag">核心层零 LLM</span>
     </div>
   </header>
 
+  <!-- ═══ 1. 这是什么 ═══ -->
   <h2 id="what">🎯 这是什么</h2>
   <div class="card">
     <p>
-      一套<strong>部署在自己电脑或服务器上</strong>的 A 股量化研究工具。
-      它在本地维护一份覆盖<strong>十年全市场</strong>的数据湖，
-      每个交易日自动完成：盘前竞价采集 → 一进二选票 → 盘中强多扫描 →
-      盘后复盘与明日观察，全部结果结构化落表。
+      一套<strong>部署在自己电脑或服务器上</strong>的 A 股量化研究工具。它在本地维护一份覆盖<strong>十年全市场</strong>的数据湖，
+      每个交易日自动完成：盘前竞价采集 → 一进二选票 → 盘中强多扫描 → 盘后复盘与明日观察，全部结果结构化落表。
     </p>
     <p style="margin-top:10px">
       结果有两个出口：<strong>网页看板</strong>随时查看，或<strong>推送到微信</strong>（含 AI 分析）。
-      两者都从同一份数据取数、<strong>互不依赖</strong>；核心层<strong>不依赖 AI</strong>，
-      没有 AI 也照常运行。
+      两者都从同一份数据取数、<strong>互不依赖</strong>；核心层<strong>不依赖 AI</strong>，没有 AI 也照常运行。
     </p>
     <p style="margin-top:10px">
       不连接券商账户、不代下单、不经手资金 —— 它只做「整理数据 + 给出研究结论」。
     </p>
+    <pre class="flow">                    ┌─→ 网页看板（只读表，零 LLM）
+xlp 核心层（写表）──┤
+                    └─→ 微信推送 / 对话（AI 增强层，可选）</pre>
   </div>
 
+  <div class="stats">
+    <div class="stat"><b class="gold">2016 → 今</b><span>十年全市场日线</span></div>
+    <div class="stat"><b>17 张表</b><span>本地数据湖 · 只追加不覆盖</span></div>
+    <div class="stat"><b>51 条质量断言</b><span>+ 3 条复权不变量，每交易日跑</span></div>
+    <div class="stat"><b>16 个作业</b><span>一键装 systemd / crontab</span></div>
+    <div class="stat"><b>2 核 2 GB</b><span>实测可跑，峰值约 1.1 GB</span></div>
+  </div>
+
+  <!-- ═══ 2. PRO 版新增（对比原版） ═══ -->
+  <h2 id="compare">🆚 PRO 版新增（对比原版）</h2>
+  <p class="lead">同样的思路，换成了<strong>真数据、真口径、真体检</strong>。贵 400 元买的是「数字能不能信」。</p>
+  <div class="table-wrap">
+    <table class="cmp">
+      <thead>
+        <tr><th>维度</th><th>原版 xunlongjue（888 元）</th><th class="pro">PRO 版（1288 元）</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>数据源</td>
+          <td>自建 SQLite 库 + 第三方接口拼数据</td>
+          <td><strong>同花顺 Fuyao API</strong>，31 个端点全部实测（批量上限 / 延迟 / 字段可得性写进文档）</td>
+        </tr>
+        <tr>
+          <td>竞价数据</td>
+          <td>池内票竞价，且 <strong>88.9% 的行用全天成交量冒充竞价量</strong></td>
+          <td><strong>全市场每日每票一行</strong>的<strong>真实</strong>竞价：未匹配量、竞价换手率、竞价量比、占昨日量比</td>
+        </tr>
+        <tr>
+          <td>涨跌停判定</td>
+          <td>靠名字猜板块 / ST 幅度</td>
+          <td><strong>权威涨停比例 + 涨停价</strong>随行落库（<code>limit_ratio</code> / <code>limit_up_price</code>），「一字」判定不再猜</td>
+        </tr>
+        <tr>
+          <td>数据组织</td>
+          <td>一张大表 + 手写 SQL</td>
+          <td><strong>本地数据湖</strong>：17 张表按主键只追加不覆盖、批次血缘、<code>v_*</code> 只读视图契约</td>
+        </tr>
+        <tr>
+          <td>质量保障</td>
+          <td>无自动化体检</td>
+          <td><strong>51 条质量断言 + 3 条复权不变量</strong>，每个交易日自动跑；复权口径三种锚定全部校验</td>
+        </tr>
+        <tr>
+          <td>调度</td>
+          <td>手写 crontab，休市日照跑</td>
+          <td><strong>16 个作业单一真源</strong>，一键装 systemd / crontab；<strong>法定休市日自动跳过</strong>并自证</td>
+        </tr>
+        <tr>
+          <td>机器要求</td>
+          <td>较宽松（不明确）</td>
+          <td><strong>实测 2 核 2 GB 可跑</strong>：常驻约 325 MB，最重作业峰值约 1.1 GB</td>
+        </tr>
+        <tr>
+          <td>取数速度</td>
+          <td>串行等网络</td>
+          <td>批量作业<strong>并发取数</strong>（线程安全令牌桶，默认 12 QPS / 4 线程，可调）</td>
+        </tr>
+        <tr>
+          <td>策略强度</td>
+          <td>提示词 + 少量脚本</td>
+          <td>16 道硬闸 + 10 维评分 + 板块共振 + <strong>期望收益</strong>口径；参数重标定有回测</td>
+        </tr>
+        <tr>
+          <td>文档</td>
+          <td>一份 README</td>
+          <td><strong>18 份活文档</strong>（策略 / 指标 / 接口 / 数据字典 / 性能 / 运维 / 部署 / 工作流），CI 守卫不许漂</td>
+        </tr>
+        <tr>
+          <td>AI 层</td>
+          <td>强绑定 Hermes</td>
+          <td><strong>核心层零 LLM</strong>；AI 层可选，不装也能跑完整流程</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══ 3. 功能 ═══ -->
   <h2 id="features">🧩 功能</h2>
   <div class="grid">
     <div class="card">
       <h3>一进二寻龙</h3>
-      <p>全市场首板扫描，十余道硬闸 + 多维评分，每天 9:25 竞价定盘后给出候选。</p>
+      <p>全市场首板扫描，十余道硬闸 + 多维评分，每天 <span class="num">9:25 竞价定盘后</span>给出候选（≤3 只）。
+      每只票附「买点类型 + 触发条件 + 放弃条件」。</p>
       <ul>
-        <li>封板时间、封板资金、连板数、板块共振</li>
+        <li>判据含封板时间、封板资金、连板数、板块共振</li>
         <li>竞价涨幅、竞价额、<strong>竞价未匹配量</strong>、竞价量比</li>
-        <li>每只票附「买点类型 + 触发条件 + 放弃条件」</li>
       </ul>
     </div>
     <div class="card">
       <h3>全市场选好票</h3>
-      <p>按技术面多维打分筛选强多票，盘中可多次重算，并留存在榜/掉出轨迹。</p>
+      <p>按技术面多维打分筛选强多票（均线 / KDJ / MACD / 布林带），盘中每 30 分钟重算。</p>
       <ul>
-        <li>均线 / KDJ / MACD / 布林带多维打分</li>
-        <li>入选时间、掉出时间、掉出原因可追溯</li>
+        <li>留存在榜与掉出轨迹</li>
+        <li>入选时间、掉出时间、掉出原因</li>
       </ul>
     </div>
     <div class="card">
       <h3>每日自动复盘</h3>
-      <p>收盘后自动汇总当日结果：<strong>✅ 命中 / ⚠️ 遗漏 / 🔴 盲区</strong>，
+      <p>收盘后汇总当日结果：<strong>✅ 命中 / ⚠️ 遗漏 / 🔴 盲区</strong>，
       另附一份「不该漏」清单 —— 漏在哪里、为什么漏，写清楚。</p>
     </div>
     <div class="card">
@@ -146,139 +501,563 @@
     </div>
     <div class="card">
       <h3>个股 / 大盘预测</h3>
-      <p>对话式查询：发代码即回方向参考与关键指标；也能看当日涨跌家数、情绪档位与大盘系数。</p>
+      <p>发代码即回方向参考与关键指标；也能看当日涨跌家数、情绪档位与大盘系数。</p>
     </div>
     <div class="card">
       <h3>深度分析</h3>
       <p>拉取长周期价量序列做结构化解析（形态、量能、指标分位），辅助判断主力行为痕迹。</p>
     </div>
+    <div class="card">
+      <h3>两个出口</h3>
+      <p>网页看板（只读产物、自动刷新）/ 微信推送（含 AI 分析）；<strong>任选其一或都要</strong>，互不依赖。</p>
+    </div>
   </div>
 
+  <!-- ═══ 4. 数据能力 ═══ -->
   <h2 id="data">📊 数据能力</h2>
   <div class="grid">
     <div class="card">
       <h3>十年全市场日线</h3>
-      <p><span class="num">2016 → 今</span>，全市场五千余只标的，未复权原始数据
-      + 完整复权因子事件流（含配股）。</p>
+      <p><span class="num">2016 → 今</span>，全市场五千余只标的，未复权原始数据 + 完整复权因子事件流（含配股）</p>
     </div>
     <div class="card">
       <h3>真实竞价明细</h3>
-      <p>竞价成交量额、<span class="num">未匹配量</span>、竞价换手率、竞价量比、占昨日成交量比；
-      <span class="num">2026-09 起全市场每日每票一行</span>（不再只有池内票）。</p>
+      <p>竞价成交量额、<strong>未匹配量</strong>、竞价换手率、竞价量比、占昨日成交量比；<span class="num">全市场每日每票一行</span></p>
     </div>
     <div class="card">
       <h3>涨停与梯队</h3>
-      <p>涨停池、炸板池、跌停池、<span class="num">连板梯队矩阵</span>，
-      含权威连板数与涨停原因。</p>
+      <p>涨停池、炸板池、跌停池、<strong>连板梯队矩阵</strong>，含权威连板数与涨停原因</p>
     </div>
     <div class="card">
       <h3>资金与热度</h3>
-      <p>龙虎榜（机构 / 游资净买卖）、热股榜与排名趋势、个股异动原因。</p>
+      <p>龙虎榜（机构 / 游资净买卖）、热股榜与排名趋势、个股异动原因</p>
     </div>
     <div class="card">
       <h3>板块体系</h3>
-      <p>同花顺行业与概念指数成分股，可做行业级与概念级共振分析。</p>
+      <p>同花顺行业与概念指数成分股，可做行业级与概念级共振分析</p>
     </div>
     <div class="card">
       <h3>指数与估值</h3>
-      <p>宽基 / 行业 / 概念指数日线与指标（523 个），
-      以及市盈率 / 市净率 / 市销率快照。</p>
+      <p>宽基 / 行业 / 概念指数日线与指标（523 个），以及市盈率 / 市净率 / 市销率快照</p>
     </div>
   </div>
   <div class="note">
-    全部落在<strong>本地数据湖</strong>：<span class="num">17 张表</span>按主键只追加不覆盖，
-    每个批次带血缘（批次号 + 入库时间），原始层永不修改、派生层随时可重建。
-    消费方（看板 / 脚本 / AI）<strong>只读视图 <code>v_*</code></strong>，底层换实现上层无感。
+    全部落在<strong>本地数据湖</strong>：<strong>17 张表</strong>按主键只追加不覆盖，每个批次带血缘（批次号 + 入库时间），
+    原始层永不修改、派生层随时可重建。消费方（看板 / 脚本 / AI）<strong>只读视图 <code>v_*</code></strong>，底层换实现上层无感。
   </div>
 
+  <!-- ═══ 5. 工程与可靠性 ═══ -->
   <h2 id="reliable">🛡️ 工程与可靠性</h2>
   <div class="grid">
     <div class="card">
       <h3>一条命令跑完盘后</h3>
-      <p><code>xlp daily</code>：增量入库 → 复权口径 → 物化指标 → 池与指数 → 质量闸，
-      失败即退出码非零。</p>
+      <p><code>xlp daily</code>：增量入库 → 复权口径 → 物化指标 → 池与指数 → 质量闸，失败即退出码非零。</p>
     </div>
     <div class="card">
       <h3>可验证，不靠感觉</h3>
-      <p><span class="num">51 条质量断言</span> + 3 条复权不变量（前复权末根=真实价、
-      后复权首根=真实价、因子恒为正），每个交易日自动跑。</p>
+      <p><span class="num">51 条质量断言</span> + 3 条复权不变量（前复权末根=真实价、后复权首根=真实价、因子恒为正），每个交易日自动跑。</p>
     </div>
     <div class="card">
       <h3>小机器跑得动</h3>
-      <p>实测 <span class="num">2 核 2 GB</span>：常驻约 325 MB，最重作业峰值约 1.1 GB；
-      全市场竞价 56 个请求并发后约 5 秒。</p>
+      <p>实测 <span class="num">2 核 2 GB</span>：常驻约 325 MB，最重作业峰值约 1.1 GB；全市场竞价 56 个请求并发后约 5 秒。</p>
     </div>
     <div class="card">
       <h3>数据可追可回滚</h3>
-      <p>同一主键重复写入会<strong>报错</strong>而不是静默覆盖；
-      修复后按分区压实去重，读取永远取最新版本。</p>
+      <p>同一主键重复写入会<strong>报错</strong>而不是静默覆盖；修复后按分区压实去重，读取永远取最新版本。</p>
     </div>
     <div class="card">
       <h3>备份与演练</h3>
-      <p>只备份<strong>不可再生</strong>的原始层与状态库（约 193 MB / 2.3 秒），
-      逐文件校验和，恢复前可先做一次不落地的演练。</p>
+      <p>只备份<strong>不可再生</strong>的原始层与状态库（约 193 MB / 2.3 秒），逐文件校验和，恢复前可先做一次不落地的演练。</p>
     </div>
     <div class="card">
       <h3>定时任务单一真源</h3>
-      <p><span class="num">16 个作业</span>的命令与计划由代码声明，一键安装 systemd / crontab，
-      改调度不用手抄。</p>
+      <p><span class="num">16 个作业</span>的命令与计划由代码声明，一键安装 systemd / crontab；法定休市日自动跳过，漏更新日历会<strong>拒绝执行</strong>而不是白跑。</p>
+    </div>
+    <div class="card">
+      <h3>业绩自己算</h3>
+      <p>本页<strong>不写任何业绩数字</strong>：真实战绩由 <code>xlp stats</code> 按你库里的真实自评<strong>现算</strong>，并附幸存者偏差标注。</p>
     </div>
   </div>
 
-  <h2 id="how">🚀 怎么用</h2>
-  <div class="card">
-    <ol class="steps">
-      <li>在一台 <strong>2 核 2 GB</strong> 的 Linux（或自己的电脑）上部署 —— 一条安装命令搞定依赖</li>
-      <li>首次回填十年历史数据：<code>xlp backfill --years 10</code>（约 10~20 分钟）</li>
-      <li>装定时任务：<code>xlp cron install --system</code> —— 16 个作业自动运行</li>
-      <li>每个交易日到点出结果：竞价与选票 09:25、盘中扫描每 30 分钟、复盘 16:08、明日观察 16:14</li>
-    </ol>
-    <div class="note">
-      <strong>两种使用方式</strong><br>
-      · <strong>源码版</strong>：部署到自己的环境，功能完整，可自行接入 AI 与扩展；<br>
-      · <strong>看板版</strong>：无需部署，登录网页查看结果。
-    </div>
-  </div>
-
-  <h2 id="req">⚙️ 系统要求</h2>
-  <div class="card">
-    <ul>
-      <li><strong>2 核 2 GB</strong> / Ubuntu 22.04+ / 磁盘 ≥ 10 GB（湖约 0.7 GB + 缓存与备份）</li>
-      <li>系统时区 <strong>Asia/Shanghai</strong>（时区不对，定时任务会整体偏移且不报错）</li>
-      <li>数据源 API Key：<strong>自备、自付</strong>（数据来自同花顺金融数据 API）</li>
-      <li>AI 增强层（微信推送 / 对话）<strong>可选</strong>，需要自行准备模型 API Key；
-          不装也完全可用</li>
+  <!-- ═══ 6. 定价与购买 ═══ -->
+  <h2 id="pricing">💰 定价与购买</h2>
+  <div class="price-hero">
+    <div class="ph-tag">一次买断 · 永久使用</div>
+    <div class="ph-price">1288 <small>元</small></div>
+    <div class="ph-sub">PRO 版源码（原版 xunlongjue 888 元，差别见「PRO 版新增」）</div>
+    <ul class="perks">
+      <li>源码交付</li>
+      <li>部署教程 + 全部文档</li>
+      <li>十年全市场数据湖</li>
+      <li>私有仓库可持续 <code>git pull</code> 拿更新</li>
+      <li>16 个作业一键安装</li>
     </ul>
   </div>
 
+  <div class="price-grid">
+    <div class="price-card">
+      <div class="pc-name">协助部署（可选）</div>
+      <div class="pc-amt">200 元</div>
+      <div class="pc-desc">一对一远程，约 2 小时；不想折腾服务器就选它</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-name">试用</div>
+      <div class="pc-amt hot">88 元</div>
+      <div class="pc-desc">试用 5~7 个交易日（<strong>不含源码</strong>，看实际推送结果）；<strong>试用期内购买全额抵扣</strong>（1288 → 1200）</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-name">原版 xunlongjue</div>
+      <div class="pc-amt">888 元</div>
+      <div class="pc-desc">旧版本，仍可用；差别见「PRO 版新增」一节</div>
+    </div>
+    <div class="price-card">
+      <div class="pc-name">云服务器（可选，自购）</div>
+      <div class="pc-amt">38~99 元/年</div>
+      <div class="pc-desc">约 <strong>2 核 2 GB</strong> 即可；装自己电脑上也行</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>试用规则</strong>：每个用户限试用一次；试用期内推送命中不足 2 只涨停，<strong>试用期自动延长，抓到为止</strong>；试用期结束不再抵扣。
+  </div>
+  <div class="note accent">
+    💡 想先试再买：扫码付 <strong>88 元</strong> → 备注你的微信 / QQ → 拉你进试用群，每天在群里看推送结果。
+  </div>
+
+  <div class="table-wrap" style="margin-top:18px">
+    <table class="pricing">
+      <thead><tr><th>项目</th><th>价格</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>PRO 版源码</strong></td>
+          <td><strong>1288 元</strong></td>
+          <td>交付源码 + 部署教程 + 全部文档；<strong>一次买断、永久使用</strong>；走私有仓库的可持续 <code>git pull</code> 拿更新</td>
+        </tr>
+        <tr>
+          <td>协助部署（可选）</td>
+          <td>200 元</td>
+          <td>一对一远程，约 2 小时；不想折腾服务器就选它</td>
+        </tr>
+        <tr>
+          <td><strong>试用</strong></td>
+          <td><strong>88 元</strong></td>
+          <td>试用 5~7 个交易日（<strong>不含源码</strong>，看实际推送结果）；<strong>试用期内购买全额抵扣</strong>（1288 → 1200）</td>
+        </tr>
+        <tr>
+          <td>原版 xunlongjue</td>
+          <td>888 元</td>
+          <td>旧版本，仍可用；差别见「PRO 版新增」一节</td>
+        </tr>
+        <tr>
+          <td>云服务器（可选，自购）</td>
+          <td>约 38~99 元/年</td>
+          <td><strong>2 核 2 GB</strong> 即可；装自己电脑上也行</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="qr-row">
+    <div class="qr-item">
+      <img src="media/收款码/微信收款码.jpg" alt="微信收款码" decoding="async" onclick="openLightbox(this)">
+      <div class="qr-label">微信收款码</div>
+      <div class="qr-hint">点图放大</div>
+    </div>
+    <div class="qr-item">
+      <img src="media/收款码/支付宝收款码.jpg" alt="支付宝收款码" decoding="async" onclick="openLightbox(this)">
+      <div class="qr-label">支付宝收款码</div>
+      <div class="qr-hint">点图放大</div>
+    </div>
+    <div class="qr-item">
+      <img src="media/公众号/公众号二维码.jpg" alt="公众号二维码" decoding="async" onclick="openLightbox(this)">
+      <div class="qr-label">公众号</div>
+      <div class="qr-hint">点图放大</div>
+    </div>
+  </div>
+  <div class="note" style="text-align:center">
+    扫码付款时备注你的<strong>微信 / QQ</strong>，付完加我 <strong>68110923</strong>，我拉你进群并发部署教程。
+    已购买用户可登录 <a href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">网页看板</a> 查看推送记录。
+  </div>
+
+  <!-- ═══ 7. 怎么买（进群流程） ═══ -->
+  <h2 id="howto">🚀 怎么买（进群流程）</h2>
+  <div class="card">
+    <ol class="steps">
+      <li><b>付款</b>：支付宝 / 微信扫码（见上方收款码），备注你的<strong>联系方式</strong>（微信 / QQ）</li>
+      <li><b>加我</b>：QQ / 微信 <strong>68110923</strong>（也可以先加我聊清楚再决定）</li>
+      <li><b>进群</b>：拉你进试用群（试用）或交付群（购买），群里每天同步推送结果</li>
+      <li><b>交付</b>：付款后把源码发给你（私有仓库协作者 / 压缩包二选一）</li>
+      <li><b>部署</b>：照 <code>docs/DEPLOY.md</code> 走，约 14 分钟灌完十年数据；也可以花 200 元让我远程搞定</li>
+    </ol>
+    <div class="note accent" style="margin-top:14px">
+      进群流程（点图放大）：
+      <div class="flow-row">
+        <img src="media/进群流程/步骤1.webp" alt="进群流程 步骤 1" decoding="async" onclick="openLightbox(this)">
+        <img src="media/进群流程/步骤2.webp" alt="进群流程 步骤 2" decoding="async" onclick="openLightbox(this)">
+        <img src="media/进群流程/步骤3.webp" alt="进群流程 步骤 3" decoding="async" onclick="openLightbox(this)">
+        <img src="media/进群流程/步骤4.webp" alt="进群流程 步骤 4" decoding="async" onclick="openLightbox(this)">
+        <img src="media/进群流程/步骤5.webp" alt="进群流程 步骤 5" decoding="async" onclick="openLightbox(this)">
+      </div>
+    </div>
+    <div class="qr-row">
+      <div class="qr-item">
+        <img src="media/联系群/试用群88入群.jpg" alt="试用群（88 元试用）" decoding="async" onclick="openLightbox(this)">
+        <div class="qr-label">试用群</div>
+        <div class="qr-hint">88 元试用 · 每天群里看推送结果</div>
+      </div>
+      <div class="qr-item">
+        <img src="media/联系群/WhatsApp群.jpg" alt="WhatsApp 群" decoding="async" onclick="openLightbox(this)">
+        <div class="qr-label">WhatsApp 群</div>
+        <div class="qr-hint">点图放大</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact">
+    <div class="who">加我 · QQ / 微信同号</div>
+    <div class="id">68110923</div>
+    <div class="hint">先聊清楚再决定也行；付款后备注号码，我拉你进群并发部署教程</div>
+    <div class="btns">
+      <button class="btn gold" type="button" id="btn-copy">📋 复制联系方式</button>
+      <a class="btn ghost" href="#pricing">💰 回到定价</a>
+    </div>
+  </div>
+
+  <!-- ═══ 8. 常见问题 ═══ -->
+  <h2 id="faq">❓ 常见问题</h2>
+  <div class="faq">
+    <details id="faq-order">
+      <summary>会自动下单吗？</summary>
+      <div class="a"><p><strong>不会</strong>。不连接券商账户、不代下单、不经手资金，只做数据整理与研究结论输出。</p></div>
+    </details>
+    <details id="faq-config">
+      <summary>需要什么配置？</summary>
+      <div class="a">
+        <p><strong>2 核 2 GB / 磁盘 ≥ 10 GB</strong>，Ubuntu 22.04+（或自己的电脑）；实测最重作业峰值约 1.1 GB。</p>
+        <p>⚠️ <strong>系统时区必须是 <code>Asia/Shanghai</code></strong> —— 数据口径恒为上海时间，但定时任务按本机时区解释计划，
+        时区不对会整体偏 8 小时且不报错（<code>xlp doctor</code> 会检查）。</p>
+      </div>
+    </details>
+    <details id="faq-key">
+      <summary>数据源 Key 谁付？</summary>
+      <div class="a"><p><strong>自备自付</strong>（同花顺 Fuyao API）。软件是一次性买断，数据源调用成本由使用者承担。</p></div>
+    </details>
+    <details id="faq-nocode">
+      <summary>需要会编程吗？</summary>
+      <div class="a"><p>不需要。装好后每天自动跑，结果在网页看板或微信里看；会命令行更好排障。</p></div>
+    </details>
+    <details id="faq-delivery">
+      <summary>交付什么形式？</summary>
+      <div class="a"><p>源码（私有仓库协作者 / 压缩包）+ 部署教程 + 全部文档；数据首次运行时自己拉（约 14 分钟）。</p></div>
+    </details>
+    <details id="faq-time">
+      <summary>多久出结果？</summary>
+      <div class="a"><p>竞价与选票 <strong>09:25:30 前</strong>；看天 09:27；盘中强多票每 30 分钟；复盘 16:08；明日观察 16:14。</p></div>
+    </details>
+    <details id="faq-decay">
+      <summary>策略会不会失效？</summary>
+      <div class="a"><p>市场会变，参数需要定期重标定；仓库带了重标定与自评脚本（<code>xlp stats</code> 现算真实战绩）。</p></div>
+    </details>
+    <details id="faq-server">
+      <summary>能装云服务器吗？</summary>
+      <div class="a"><p>能，2C2G 就够；也可以装在自己电脑上（常驻约 325 MB）。</p></div>
+    </details>
+    <details id="faq-diff">
+      <summary>与我自研 / 别家有什么区别？</summary>
+      <div class="a"><p>见「PRO 版新增」：<strong>真竞价数据 + 权威涨跌停口径 + 51 条质量闸 + 一套能自证的流程</strong>。</p></div>
+    </details>
+    <details id="faq-refund">
+      <summary>支持退吗？</summary>
+      <div class="a"><p>软件为<strong>虚拟商品、源码可复制</strong>，交付后不支持退款；建议先花 88 元试用 5~7 个交易日。</p></div>
+    </details>
+  </div>
+
+  <!-- ═══ 9. 风险与许可 ═══ -->
   <h2 id="legal">⚖️ 风险与许可</h2>
   <div class="card">
     <ul>
-      <li>仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，<strong>不承诺任何收益</strong>；
-          数据可能延迟、缺失或出错，据此操作风险自担。</li>
+      <li>仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，<strong>不承诺任何收益</strong>；数据可能延迟、缺失或出错，据此操作风险自担。</li>
+      <li>本页<strong>不展示任何业绩数字</strong>：那是营销话术的重灾区；真实战绩请用 <code>xlp stats</code> 在你自己的库上现算（自带幸存者偏差标注）。</li>
       <li>不连接券商账户、不代下单、不经手资金；所有输出仅为研究结论。</li>
       <li>软件为<strong>专有许可</strong>：可自用、可修改、可集成进自己的产品（含对外提供服务）；
-          <strong>禁止转售或再分发源码本身</strong>；无担保，责任上限为已付价款。</li>
+        <strong>禁止转售或再分发源码本身</strong>；无担保，责任上限为已付价款。</li>
     </ul>
     <div class="note">
-      完整条款见页脚：用户协议 · 隐私政策 · 风险揭示书；源码仓库内另有 <code>LICENSE</code>
-      与 <code>DISCLAIMER.md</code>。
+      完整条款见页脚：<strong>用户协议 · 隐私政策 · 风险揭示书</strong>；源码仓库内另有 <code>LICENSE</code> 与 <code>DISCLAIMER.md</code>。
     </div>
   </div>
 
+  <!-- ═══ 更新日志（从 README.md 动态解析，页面不放静态 h2） ═══ -->
+  <div id="changelog-anchor"></div>
+  <details class="cl-details">
+    <summary>📝 更新日志</summary>
+    <div id="changelog" class="cl-wrap">
+      <p class="center-dim">⏳ 加载中…</p>
+    </div>
+  </details>
+
   <footer>
-    <div>
+    <div class="f-links">
       <a href="legal/terms.html">用户协议</a> ·
       <a href="legal/privacy.html">隐私政策</a> ·
       <a href="legal/risk.html">风险揭示书</a> ·
-      <a href="https://xunlongjue.68110923.xyz/">登录看板</a>
+      <a href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">登录看板</a>
     </div>
     <div class="disc">
-      ⚠️ 本站与相关软件仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，
-      不承诺任何收益。所有数据与结果仅供参考，据此操作风险自担。<br>
-      股市有风险，投资须谨慎。
+      ⚠️ 本站与相关软件仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，<strong>不承诺任何收益</strong>。
+      所有数据与结果仅供参考，据此操作风险自担。<br>
+      软件为专有许可，<strong>禁止转售或再分发源码本身</strong>；无担保，责任上限为已付价款。<br>
+      <strong>股市有风险，投资须谨慎。</strong>
     </div>
+    <div class="foot-sub">🐉 寻龙诀 PRO · A 股一进二竞价打板量化系统 · 一次买断、永久使用</div>
   </footer>
+
+</div><!-- /wrap -->
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="放大查看">
 </div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// 通知与更新日志的唯一真源：仓库根目录 README.md（本地预览时依次向上找，最后走公开 raw 兜底）
+var RAW_URL = 'https://raw.githubusercontent.com/68110923/xunlongjue-doc/main/README.md';
+var SOURCES = ['README.md', '../../README.md', RAW_URL];
+
+// ── Markdown 行内渲染（先转义，再套格式，避免 README 里的裸标签被当 HTML 执行） ──
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function mdToHtml(t){
+  return escHtml(t)
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`([^`]+?)`/g,'<code>$1</code>')
+    .replace(/\[([^\]]+?)\]\((https?:[^)]+?)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+}
+
+// ── 取 README 里某个 `## <mark>` 章节的正文行 ──
+function sectionLines(md, mark){
+  var lines = md.split('\n'), out = [], on = false, re = new RegExp('^##\\s*' + mark);
+  for (var i = 0; i < lines.length; i++){
+    var l = lines[i];
+    if (!on && re.test(l)){ on = true; continue; }
+    if (on && /^##\s/.test(l) && !/^###\s/.test(l)) break;
+    if (on) out.push(l);
+  }
+  return out;
+}
+
+// ── 更新日志：`### V… (YYYY-MM-DD)` + `- 条目` + 缩进 `  * 子条目` ──
+function parseChangelog(md, el){
+  var lines = sectionLines(md, '📝');
+  var versions = [], cur = null, item = null;
+
+  for (var i = 0; i < lines.length; i++){
+    var l = lines[i], s = l.trim();
+    if (!s || s === '---' || /^>/.test(s)) continue;          // 跳过空行/分隔线/引用说明
+
+    var mv = l.match(/^###\s+(.+?)(?:\s+\((\d{4}-\d{2}-\d{2})\))?\s*$/);
+    if (mv){ cur = {title: mv[1].trim(), date: mv[2] || '', items: []}; versions.push(cur); item = null; continue; }
+    if (!cur) continue;
+
+    if (/^\s{2,}\*\s+/.test(l)){                               // 子条目（缩进 + `*`）
+      if (!item){ item = {text: '', subs: []}; cur.items.push(item); }
+      item.subs.push(l.replace(/^\s*\*\s+/, ''));
+      continue;
+    }
+    if (/^[-*]\s+/.test(l)){                                   // 条目
+      item = {text: l.replace(/^[-*]\s+/, ''), subs: []};
+      cur.items.push(item);
+      continue;
+    }
+    if (item) item.text += ' ' + s;                            // 续行：并回上一条
+    else { item = {text: s, subs: []}; cur.items.push(item); }
+  }
+
+  if (!versions.length){ el.innerHTML = '<p class="center-dim">暂无更新日志</p>'; return; }
+  var html = '';
+  versions.forEach(function(v){
+    html += '<div class="cl-version"><span class="vtag">' + mdToHtml(v.title) +
+            (v.date ? '<span class="vdate">' + v.date + '</span>' : '') + '</span>';
+    v.items.forEach(function(it){
+      if (it.text) html += '<div class="cl-item">' + mdToHtml(it.text) + '</div>';
+      it.subs.forEach(function(sub){ html += '<div class="cl-sub-item">' + mdToHtml(sub) + '</div>'; });
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+// ── 通知：`### 标题 \`YYYYMMDD-YYYYMMDD\`` + 正文；日期区间用于展示与过期控制 ──
+function parseNotifications(md, el){
+  function todayNum(){
+    var d = new Date();
+    return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+  }
+  function inWindow(start, end){
+    var t = todayNum();
+    if (start && t < start) return false;
+    if (end && t > end) return false;
+    return true;
+  }
+  function fmtRange(r){
+    var a = r.split('-');
+    if (a.length !== 2 || a[0].length !== 8 || a[1].length !== 8) return r;
+    function f(s){ return s.slice(0,4) + '-' + s.slice(4,6) + '-' + s.slice(6,8); }
+    return f(a[0]) + ' ~ ' + f(a[1]);
+  }
+
+  var lines = sectionLines(md, '📢');
+  var notifs = [], cur = null;
+  // 正文按行整理：`- ` 开头是一条，其余行并回上一条（README 里条目会换行续写）
+  function flush(){
+    if (!cur) return;
+    var items = [];
+    cur.body.forEach(function(raw){
+      var s = raw.trim();
+      if (!s) return;
+      var m = s.match(/^[-*]\s+(.*)$/);
+      if (m) items.push({text: m[1], bullet: true});
+      else if (items.length) items[items.length - 1].text += ' ' + s;
+      else items.push({text: s, bullet: false});
+    });
+    var r = cur.range.split('-');
+    if (items.length && inWindow(r[0] ? parseInt(r[0], 10) : 0, r[1] ? parseInt(r[1], 10) : 0)){
+      notifs.push({title: cur.title, range: cur.range, items: items});
+    }
+  }
+  for (var i = 0; i < lines.length; i++){
+    var l = lines[i];
+    var m = l.match(/^###\s+(.+?)\s*`([^`]+)`\s*$/);
+    if (m){ flush(); cur = {title: m[1].trim(), range: m[2].trim(), body: []}; continue; }
+    if (/^###/.test(l) || /^##/.test(l)) continue;
+    if (!cur) continue;
+    if (/^---\s*$/.test(l.trim())) continue;
+    cur.body.push(l);
+  }
+  flush();
+
+  if (!notifs.length){ el.style.display = 'none'; return; }
+
+  function hide(card){
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(-10px)';
+    card.style.transition = '.3s';
+    setTimeout(function(){
+      if (card.parentElement) card.remove();
+      if (!el.children.length) el.style.display = 'none';
+    }, 320);
+  }
+
+  el.style.display = 'flex';
+  notifs.forEach(function(n){
+    var body = n.items.map(function(it){
+      return '<div class="n-' + (it.bullet ? 'li' : 'p') + '">' + mdToHtml(it.text) + '</div>';
+    }).join('');
+    var card = document.createElement('div');
+    card.className = 'notif-card';
+    card.innerHTML =
+      '<button class="n-close" type="button" aria-label="关闭通知">✕</button>' +
+      '<div class="n-head"><span class="n-badge">📢 通知</span>' +
+        (n.range ? '<span class="n-range">' + fmtRange(n.range) + '</span>' : '') + '</div>' +
+      '<div class="n-title">' + mdToHtml(n.title) + '</div>' +
+      '<div class="n-body">' + body + '</div>';
+    el.appendChild(card);
+    setTimeout(function(){ hide(card); }, 9000);   // 几秒后自动淡出
+  });
+  el.addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('.n-close') : null;
+    if (btn && btn.parentElement) hide(btn.parentElement);
+  });
+}
+
+// ── 加载 README → 解析通知 + 更新日志 ──
+function loadAll(){
+  var clEl = document.getElementById('changelog');
+  var nfEl = document.getElementById('notifWrap');
+  function apply(md){
+    if (clEl) parseChangelog(md, clEl);
+    if (nfEl) parseNotifications(md, nfEl);
+  }
+  (function tryAt(i){
+    if (i >= SOURCES.length){
+      if (clEl) clEl.innerHTML = '<p class="center-dim">⚠️ 暂时读不到 README.md（离线时更新日志不可用）</p>';
+      return;
+    }
+    fetch(SOURCES[i], {cache: 'no-store'})
+      .then(function(r){ if (!r.ok) throw new Error('http ' + r.status); return r.text(); })
+      .then(function(t){
+        // 认准真源：必须同时含通知与更新日志两节，否则换下一个来源
+        if (!/^##\s*📢/m.test(t) || !/^##\s*📝/m.test(t)) throw new Error('not the readme');
+        apply(t);
+      })
+      .catch(function(){ tryAt(i + 1); });
+  })(0);
+}
+
+// ── 灯箱：点开大图，点任意处（或 Esc）关闭 ──
+function openLightbox(img){
+  var lb = document.getElementById('lightbox');
+  var big = document.getElementById('lightboxImg');
+  if (!lb || !big || !img) return;
+  big.src = img.src;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  var lb = document.getElementById('lightbox');
+  if (!lb) return;
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── FAQ 锚点直达：hash 指向折叠 details 时自动展开 ──
+function expandForHash(){
+  if (!location.hash) return;
+  var el = document.getElementById(location.hash.slice(1));
+  if (el && el.tagName === 'DETAILS'){
+    el.open = true;
+    var p = el.parentElement;
+    while (p && p.tagName === 'DETAILS'){ p.open = true; p = p.parentElement; }
+    var top = el.closest ? el.closest('details') : null;
+    if (top) top.open = true;
+  }
+}
+
+// ── 复制联系方式 ──
+function toast(msg){
+  var t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function(){ t.classList.remove('show'); }, 2000);
+}
+function copyContact(){
+  var txt = '68110923';
+  function done(){ toast('✅ 已复制：' + txt + '（QQ / 微信同号）'); }
+  function fallback(){
+    var ta = document.createElement('textarea');
+    ta.value = txt;
+    ta.style.cssText = 'position:fixed;top:-100px;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { toast('请手动复制：' + txt); }
+    ta.remove();
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(done, fallback);
+  } else { fallback(); }
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  loadAll();
+  var btn = document.getElementById('btn-copy');
+  if (btn) btn.addEventListener('click', copyContact);
+  expandForHash();
+});
+window.addEventListener('hashchange', expandForHash);
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeLightbox(); });
+</script>
 </body>
 </html>
