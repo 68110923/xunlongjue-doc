@@ -541,15 +541,17 @@
     }
     table.cmp{min-width:0;width:100%}
     .cmp thead{display:none}
-    .cmp,.cmp tbody,.cmp tr,.cmp td,
+    /* 对比表 → 卡片式：表头隐藏，一行一块（能力名 + 说明），与价格卡/FAQ 用同一套卡片语言 */
+    .cmp,.cmp tbody,.cmp tr,.cmp td{display:block;width:100%}
     .cmp tr{
       background:linear-gradient(180deg,var(--card),var(--bg2));
       border:1px solid var(--border);border-radius:var(--radius);
-      padding:12px 14px;margin-bottom:8px;
+      padding:14px 16px;margin-bottom:8px;
     }
     .cmp td{border-bottom:none;padding:0;white-space:normal}
+    /* 第一列 = 卡片标题：与 .pc-name / .faq summary 同字号、同颜色（金色只留给价格与强调） */
     .cmp td:first-child{
-      font-size:13px;font-weight:700;color:var(--gold);margin-bottom:4px;white-space:normal;
+      font-size:13px;font-weight:700;color:var(--wht);margin-bottom:6px;white-space:normal;
     }
     .cmp td:last-child{font-size:12.5px;color:var(--text2);line-height:1.7}
     th,td{padding:9px 11px}
