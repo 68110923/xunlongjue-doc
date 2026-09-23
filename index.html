@@ -22,7 +22,7 @@
 })();
 </script>
 <style>
-  :root{--radius:10px;--nav-h:50px;color-scheme:light dark}
+  :root{--radius:10px;--nav-h:52px;--pad:16px;color-scheme:light dark}
 
   /* ══ 主题色值 · 分组 ①：暗色（data-theme="dark"，同时是 JS 未执行时的兜底）══ */
   html[data-theme="dark"],html:not([data-theme]){
@@ -82,19 +82,27 @@
   }
 
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  /* 锚点跳转统一让开吸顶导航：目标元素上 scroll-margin-top = 导航高度 + 8px */
+  html{
+    scroll-behavior:smooth;
+    -webkit-text-size-adjust:100%;text-size-adjust:100%;
+  }
   /* 整页禁止横向滚动：overflow-x:clip 不产生滚动容器，sticky 导航不受影响 */
   html,body{overflow-x:hidden;overflow-x:clip;max-width:100%}
   body{
-    background:var(--bg);color:var(--text);line-height:1.7;
+    background:var(--bg);color:var(--text);font-size:14px;line-height:1.75;
     font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',system-ui,sans-serif;
-    -webkit-font-smoothing:antialiased;
+    -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
     transition:background .2s,color .2s;
   }
   img{max-width:100%}
+  /* 键盘可见焦点：Tab / 键盘操作有清晰轮廓，鼠标点击不留轮廓 */
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+  :focus:not(:focus-visible){outline:none}
   .glow{
     position:fixed;top:-260px;left:50%;transform:translateX(-50%);
-    width:780px;height:780px;pointer-events:none;z-index:0;
+    /* 宽度永不超过视口，避免固定装饰让人误以为可以横向滑动 */
+    width:min(780px,100vw);height:780px;pointer-events:none;z-index:0;
     background:radial-gradient(ellipse,var(--glow) 0%,transparent 70%);
   }
   code{
@@ -106,33 +114,46 @@
   a{color:var(--accent);text-decoration:none}
   a:hover{text-decoration:underline}
 
-  /* ── 顶部导航 ── */
+  /* ── 顶部导航（吸顶；链接为可横向滑动的 chip 行，tap 目标 ≥40px） ── */
   nav{
     position:sticky;top:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;
     padding:0 10px;background:var(--nav-bg);backdrop-filter:blur(12px);
     -webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
   }
   nav .links{
-    display:flex;gap:2px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;
-    -webkit-overflow-scrolling:touch;
+    display:flex;gap:4px;flex:1;min-width:0;overflow-x:auto;overflow-y:hidden;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    scroll-snap-type:x proximity;overscroll-behavior-x:contain;
   }
   nav .links::-webkit-scrollbar{display:none}
+  /* 能横向滑动时右缘淡出，提示「还有 chip」 */
+  nav .links.scrollable{
+    -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 20px),transparent 100%);
+    mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 20px),transparent 100%);
+  }
   nav .links a{
-    color:var(--dim);font-size:12px;padding:6px 10px;border-radius:6px;
-    white-space:nowrap;flex:0 0 auto;
+    display:flex;align-items:center;min-height:40px;
+    color:var(--dim);font-size:12px;padding:0 11px;border-radius:8px;
+    white-space:nowrap;flex:0 0 auto;scroll-snap-align:center;
+    border:1px solid transparent;
   }
   nav .links a:hover{color:var(--accent);background:var(--code-bg);text-decoration:none}
+  /* 当前章节高亮（IntersectionObserver + rAF 计算，见页内脚本） */
+  nav .links a.active{
+    color:var(--accent);background:var(--code-bg);border-color:var(--accent-line);font-weight:700;
+  }
   nav .login{
     flex:0 0 auto;margin-left:8px;color:var(--accent);border:1px solid var(--border);
-    border-radius:6px;padding:5px 12px;font-size:12px;white-space:nowrap;
+    border-radius:8px;padding:0 12px;min-height:40px;display:flex;align-items:center;
+    font-size:12px;white-space:nowrap;
   }
   nav .login:hover{border-color:var(--accent);text-decoration:none}
-  /* 右上角主题切换（🌙 / ☀️） */
+  /* 右上角主题切换（🌙 / ☀️）：≥40×40 的 tap 目标 */
   nav .theme-toggle{
-    flex:0 0 auto;margin-left:8px;width:30px;height:28px;display:flex;align-items:center;
-    justify-content:center;font-size:14px;line-height:1;cursor:pointer;
+    flex:0 0 auto;margin-left:8px;width:40px;height:40px;display:flex;align-items:center;
+    justify-content:center;font-size:16px;line-height:1;cursor:pointer;
     background:transparent;color:var(--text2);
-    border:1px solid var(--border);border-radius:6px;
+    border:1px solid var(--border);border-radius:8px;
   }
   nav .theme-toggle:hover{border-color:var(--accent);color:var(--accent)}
 
@@ -154,7 +175,8 @@
   }
   h2{
     font-size:20px;font-weight:800;color:var(--wht);
-    margin:56px 0 18px;display:flex;align-items:center;gap:10px;scroll-margin-top:66px;
+    margin:56px 0 18px;display:flex;align-items:center;gap:10px;
+    scroll-margin-top:calc(var(--nav-h) + 8px);
   }
   h2::before{
     content:'';width:4px;height:20px;border-radius:2px;flex:0 0 auto;
@@ -271,9 +293,9 @@
     font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;
   }
   .steps li b{color:var(--wht)}
-  /* 进群流程 5 张图：永远 5 等分一行，窄屏等比缩小不换行，点图可开灯箱
-     aspect-ratio 6/13 = 素材（600×1300）真实比例，5 格等高、不产生上下留白 */
-  .flow-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+  /* 进群流程 4 张图：永远 4 等分一行，窄屏等比缩小不换行，点图可开灯箱
+     aspect-ratio 6/13 = 素材（600×1300）真实比例，4 格等高、不产生上下留白 */
+  .flow-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
   .flow-row img{
     width:100%;height:auto;aspect-ratio:6/13;object-fit:contain;
     border-radius:6px;border:1px solid var(--border);background:var(--img-bg);
@@ -301,24 +323,29 @@
   .btn.ghost{background:var(--bg2);color:var(--accent);border-color:var(--accent)}
   .btn:hover{opacity:.88;text-decoration:none}
 
-  /* ── FAQ ── */
+  /* ── FAQ（手机优先：summary ≥44px、图标更大、答案 14px/1.75） ── */
   .faq{margin-top:8px}
   .faq details{
     background:linear-gradient(180deg,var(--card),var(--bg2));
     border:1px solid var(--border);border-radius:8px;
-    padding:14px 18px;margin-bottom:8px;scroll-margin-top:66px;
+    padding:4px 16px 14px;margin-bottom:8px;
+    scroll-margin-top:calc(var(--nav-h) + 8px);
   }
   .faq details[open]{border-color:var(--accent-line)}
   .faq summary{
     font-size:14px;color:var(--wht);font-weight:700;cursor:pointer;user-select:none;
-    list-style:none;display:flex;align-items:center;gap:8px;
+    list-style:none;display:flex;align-items:center;gap:10px;min-height:44px;
   }
   .faq summary::-webkit-details-marker{display:none}
   .faq summary::before{
-    content:'▶';font-size:9px;color:var(--dim);flex:0 0 auto;transition:transform .25s;
+    content:'▶';font-size:11px;color:var(--accent);flex:0 0 auto;transition:transform .2s;
   }
   .faq details[open]>summary::before{transform:rotate(90deg)}
-  .faq .a{font-size:12.5px;color:var(--text2);margin-top:10px;padding-left:17px;overflow-wrap:break-word}
+  .faq .a{
+    font-size:14px;color:var(--text2);line-height:1.75;margin-top:2px;
+    padding-left:21px;overflow-wrap:break-word;animation:faqIn .18s ease-out;
+  }
+  @keyframes faqIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
   .faq .a p{margin:0 0 6px}
   .faq .a p:last-child{margin-bottom:0}
 
@@ -326,7 +353,7 @@
   .cl-details{
     background:linear-gradient(180deg,var(--card),var(--bg2));
     border:1px solid var(--border);border-radius:var(--radius);
-    padding:16px 20px;margin-top:52px;scroll-margin-top:66px;
+    padding:16px 20px;margin-top:52px;scroll-margin-top:calc(var(--nav-h) + 8px);
   }
   .cl-details[open]{border-color:var(--accent-line)}
   .cl-details>summary{
@@ -352,57 +379,109 @@
   .cl-sub-item::before{content:'·';position:absolute;left:20px;color:var(--dim)}
   .cl-item strong,.cl-sub-item strong{color:var(--wht)}
 
-  /* ── 通知条 ── */
+  /* ── 顶部通知卡（紧凑：≤100% 宽、padding 10px、正文 12px、关闭 ≥32px、多张纵向堆叠） ── */
   .notif-wrap{
-    position:fixed;top:56px;left:50%;transform:translateX(-50%);
-    z-index:98;width:100%;max-width:560px;padding:0 12px;
+    position:fixed;top:calc(var(--nav-h) + 8px);left:50%;transform:translateX(-50%);
+    z-index:98;width:100%;max-width:560px;padding:0 10px;
     display:none;flex-direction:column;gap:8px;pointer-events:none;
   }
   .notif-card{
     pointer-events:auto;position:relative;
     background:linear-gradient(135deg,var(--card),var(--bg2));
     border:1px solid var(--accent-line);border-left:3px solid var(--accent);
-    border-radius:var(--radius);padding:13px 40px 13px 16px;
-    box-shadow:0 6px 24px var(--shadow);animation:notifSlide .4s ease-out;
+    border-radius:var(--radius);padding:10px 36px 10px 12px;
+    box-shadow:0 6px 24px var(--shadow);animation:notifSlide .35s ease-out;
   }
   @keyframes notifSlide{
-    from{opacity:0;transform:translateY(-18px)}
+    from{opacity:0;transform:translateY(-14px)}
     to{opacity:1;transform:translateY(0)}
   }
-  .notif-card .n-head{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+  .notif-card .n-head{display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap}
   .notif-card .n-badge{font-size:10.5px;color:var(--accent);letter-spacing:.1em;font-weight:700}
   .notif-card .n-range{
     font-size:10px;color:var(--dim);background:var(--code-bg);
     border-radius:999px;padding:1px 8px;
   }
-  .notif-card .n-title{font-size:13px;font-weight:700;color:var(--wht);margin-bottom:4px}
-  .notif-card .n-body{font-size:11.5px;color:var(--text2);line-height:1.6}
+  .notif-card .n-title{font-size:12.5px;font-weight:700;color:var(--wht);margin-bottom:3px}
+  .notif-card .n-body{font-size:12px;color:var(--text2);line-height:1.6}
   .notif-card .n-body .n-p{margin:2px 0}
   .notif-card .n-body .n-li{position:relative;padding-left:12px;margin:2px 0}
   .notif-card .n-body .n-li::before{content:'·';position:absolute;left:2px;color:var(--accent)}
   .notif-card .n-close{
-    position:absolute;top:7px;right:9px;background:none;border:none;color:var(--dim);
-    font-size:15px;line-height:1;cursor:pointer;padding:3px;
+    position:absolute;top:5px;right:5px;width:32px;height:32px;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    background:none;border:none;color:var(--dim);
+    font-size:15px;line-height:1;cursor:pointer;
   }
-  .notif-card .n-close:hover{color:var(--accent)}
+  .notif-card .n-close:hover{color:var(--accent);background:var(--code-bg)}
+  /* 折叠头：桌面/平板整块不可点（正文常显）；手机档（.compact）整行可点，≥44px */
+  .notif-card .n-arrow{display:none;margin-left:auto;color:var(--dim);font-size:12px;transition:transform .2s}
+  .notif-wrap:not(.compact) .notif-card .n-toggle{pointer-events:none}
+  .notif-wrap.compact .notif-card{padding:0 34px 0 12px}
+  .notif-wrap.compact .notif-card .n-toggle{
+    min-height:44px;display:flex;flex-direction:column;justify-content:center;cursor:pointer;
+  }
+  .notif-wrap.compact .notif-card .n-head{margin-bottom:0}
+  .notif-wrap.compact .notif-card .n-arrow{display:inline-block}
+  .notif-wrap.compact .notif-card .n-body{display:none;padding:2px 0 10px}
+  .notif-wrap.compact .notif-card.expanded .n-head{margin-bottom:4px}
+  .notif-wrap.compact .notif-card.expanded .n-body{display:block}
+  .notif-wrap.compact .notif-card.expanded .n-arrow{transform:rotate(180deg)}
+  /* 「还有 N 条」：手机档只留 2 条，其余折叠在这行后面（点一下全部展开） */
+  .notif-wrap .n-more{
+    pointer-events:auto;cursor:pointer;text-align:center;font-size:11.5px;color:var(--text2);
+    background:var(--bg2);border:1px dashed var(--border);border-radius:var(--radius);
+    padding:8px 10px;min-height:36px;
+  }
+  .notif-wrap .n-more:hover{color:var(--accent);border-color:var(--accent-line)}
 
-  /* ── 灯箱 ── */
+  /* ── 灯箱（图片 contain 完整可见；右上角 44px 关闭按钮；打开时锁 body 滚动） ── */
   .lightbox{
-    display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.9);
-    align-items:center;justify-content:center;padding:20px;cursor:zoom-out;
+    display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);
+    align-items:center;justify-content:center;padding:60px 12px 24px;cursor:zoom-out;
   }
   .lightbox.open{display:flex}
-  .lightbox img{max-width:94vw;max-height:92vh;border-radius:8px;cursor:zoom-out}
+  .lightbox img{
+    max-width:96vw;max-height:calc(100vh - 96px);width:auto;height:auto;
+    object-fit:contain;border-radius:8px;cursor:zoom-out;background:rgba(255,255,255,.04);
+  }
+  .lightbox .lb-close{
+    position:fixed;top:12px;right:12px;width:44px;height:44px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:22px;line-height:1;cursor:pointer;
+    background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  }
+  .lightbox .lb-close:hover{background:rgba(255,255,255,.3)}
+  body.lb-lock{overflow:hidden}
 
-  /* ── 页脚 ── */
+  /* ── 页脚（只留：法务链接 + 一行极简风险提示 + 品牌行；详细口径只在「风险与许可」节） ── */
   footer{
-    margin-top:60px;padding-top:22px;border-top:1px solid var(--border);
+    margin-top:56px;padding-top:20px;border-top:1px solid var(--border);
     text-align:center;font-size:11.5px;color:var(--dim);position:relative;z-index:1;
   }
-  footer .f-links a{color:var(--text2);border-bottom:1px dotted var(--border)}
+  footer .f-links{
+    display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+    gap:2px 6px;font-size:12px;
+  }
+  footer .f-links a{color:var(--text2);border-bottom:1px dotted var(--border);padding:8px 4px}
   footer .f-links a:hover{color:var(--accent);text-decoration:none}
-  footer .disc{margin-top:14px;line-height:1.9}
-  footer .foot-sub{margin-top:12px;font-size:11px}
+  footer .disc{
+    margin:12px auto 0;max-width:640px;font-size:11.5px;line-height:1.8;color:var(--dim);
+  }
+  footer .foot-brand{margin-top:10px;font-size:11.5px;color:var(--text2)}
+
+  /* ── 手机版「↑ 回到顶部」（仅 ≤640px 出现，滚动过一屏才显示） ── */
+  .to-top{
+    position:fixed;right:14px;bottom:18px;z-index:97;width:44px;height:44px;border-radius:50%;
+    display:none;align-items:center;justify-content:center;
+    font-size:20px;font-weight:700;line-height:1;cursor:pointer;
+    background:var(--card2);color:var(--accent);border:1px solid var(--accent-line);
+    box-shadow:0 4px 16px var(--shadow);
+    opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;
+  }
+  .to-top.show{opacity:1;visibility:visible}
+  .to-top:active{transform:scale(.94)}
 
   /* ── Toast ── */
   #toast{
@@ -428,51 +507,77 @@
     .flow-row{gap:12px;margin-top:16px}
   }
 
-  /* ── 手机（≤640px）：单列、字号收紧、对比表卡片化、媒体行 3/5 等分仍一行 ── */
+  /* ── 手机（≤640px）：单列、字号收紧、两张表都卡片化、媒体行仍一行、CTA 全宽 ── */
   @media (max-width:640px){
-    .wrap{padding:34px 14px 48px}
-    h1{letter-spacing:.08em}
-    h2{font-size:17.5px;margin-top:42px}
+    :root{--nav-h:58px}
+    .wrap{padding:30px 14px 84px}
+    .glow{top:-200px;height:520px}
+    h1{font-size:29px;letter-spacing:.03em;margin:6px 0 8px}
+    h2{font-size:17.5px;margin-top:32px;margin-bottom:14px}
     .lead{font-size:12.5px}
-    .card{padding:16px}
+    .card{padding:14px}
+    .card p{font-size:13.5px}
+    .note{padding:12px 14px}
     .grid{grid-template-columns:1fr}
     .price-grid{grid-template-columns:1fr}
-    .price-hero{padding:24px 14px}
+    .price-hero{padding:22px 14px}
     .stats{grid-template-columns:1fr 1fr;gap:8px}
     .stat b{font-size:18px}
     .contact{padding:20px 14px}
-    .steps li{font-size:12.5px}
+    /* Revolt ID 一行放不下就收字号：防止被卡片裁掉（宁可小一点，也不能横向溢出） */
+    .contact .id{font-size:20px;letter-spacing:.02em;overflow-wrap:anywhere}
+    .steps li{font-size:13px;padding-left:32px}
     /* 出口示意图：字号再收一点，超出时只在代码块内滚动 */
     pre.flow{font-size:10.5px;padding:12px}
-    /* 对比表 → 卡片式：每行一个能力块，标题在上、说明在下 */
-    .table-wrap.cmp-wrap{border:none;background:transparent;overflow:visible;border-radius:0}
-    table.cmp{min-width:0;width:100%}
-    .cmp thead{display:none}
-    .cmp,.cmp tbody,.cmp tr,.cmp td{display:block;width:100%}
-    .cmp tr{
+    /* 对比表 + 定价表 → 卡片式：表头隐藏，每行一块（项目名 + 价格 + 说明），不靠横向滚动 */
+    .table-wrap.cmp-wrap,.table-wrap.pricing-wrap{
+      border:none;background:transparent;overflow:visible;border-radius:0;
+    }
+    table.cmp,table.pricing{min-width:0;width:100%}
+    .cmp thead,.pricing thead{display:none}
+    .cmp,.cmp tbody,.cmp tr,.cmp td,
+    .pricing,.pricing tbody,.pricing tr,.pricing td{display:block;width:100%}
+    .cmp tr,.pricing tr{
       background:linear-gradient(180deg,var(--card),var(--bg2));
       border:1px solid var(--border);border-radius:var(--radius);
       padding:12px 14px;margin-bottom:8px;
     }
-    .cmp td{border-bottom:none;padding:0;white-space:normal}
+    .cmp td,.pricing td{border-bottom:none;padding:0;white-space:normal}
     .cmp td:first-child{
       font-size:13px;font-weight:700;color:var(--gold);margin-bottom:4px;white-space:normal;
     }
-    .cmp td:last-child{font-size:12.5px;color:var(--text2);line-height:1.65}
-    /* 定价表：容器内横向滚动，不撑破页面 */
-    table.pricing{min-width:480px}
+    .cmp td:last-child{font-size:12.5px;color:var(--text2);line-height:1.7}
+    .pricing td:nth-child(1){font-size:13px;font-weight:700;color:var(--wht)}
+    .pricing td:nth-child(2){
+      font-size:17px;font-weight:900;color:var(--gold);margin:2px 0 4px;line-height:1.3;
+    }
+    .pricing td:nth-child(3){font-size:12.5px;color:var(--text2);line-height:1.7}
     th,td{padding:9px 11px}
-    /* 收款码 + 公众号：仍是 3 等分一行，只缩小间距与圆角 */
-    .qr-row{gap:8px;margin-top:18px}
+    /* 收款码 + 公众号：3 等分一行，间距 6~8px、圆角统一 */
+    .qr-row{gap:7px;margin-top:16px}
+    .qr-item img{border-radius:10px}
     .qr-item .qr-label{font-size:10.5px;margin-top:5px}
     .qr-item .qr-hint{font-size:10px}
-    /* 进群流程：仍是 5 等分一行，等比缩小 */
-    .flow-row{gap:5px;margin-top:12px}
+    /* 进群流程：4 等分一行，间距 6~8px、圆角统一 */
+    .flow-row{gap:7px;margin-top:12px}
+    .flow-row img{border-radius:10px}
+    /* 吸顶导航：chip 行可滑动不换行，tap 目标 ≥44px，首页/登录看板都点得到 */
     nav{padding:0 8px}
-    nav .links a{font-size:11px;padding:6px 8px}
-    nav .login{padding:5px 8px;margin-left:6px}
-    nav .theme-toggle{margin-left:6px}
-    .notif-wrap{top:52px}
+    nav .links{gap:4px}
+    nav .links a{font-size:12px;padding:0 12px;min-height:44px}
+    nav .login{padding:0 10px;margin-left:6px;min-height:44px}
+    nav .theme-toggle{width:44px;height:44px;margin-left:6px;font-size:17px}
+    /* 按钮 / CTA：全宽、≥44px、纵向堆叠、间距 ≥10px */
+    .btn{
+      display:flex;align-items:center;justify-content:center;
+      width:100%;min-height:44px;padding:10px 18px;
+    }
+    .contact .btns{flex-direction:column;align-items:stretch;gap:10px}
+    /* 通知卡：满宽、紧凑 */
+    .notif-wrap{max-width:100%;padding:0 8px}
+    /* 手机版「↑ 回到顶部」按钮 */
+    .to-top{display:flex}
+    #toast{bottom:74px}
   }
 
   /* ── 桌面（≥1025px）：880~1000px 容器 + 多列 grid ── */
@@ -482,6 +587,15 @@
     .price-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
     .stats{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
   }
+
+  /* ── 无障碍：系统开启「减弱动态效果」时，动画与平滑滚动全部关掉 ── */
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{
+      animation-duration:.001ms !important;animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;scroll-behavior:auto !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -489,7 +603,7 @@
 <div id="notifWrap" class="notif-wrap"></div>
 
 <nav>
-  <div class="links">
+  <div class="links" id="navLinks">
     <a href="https://68110923.github.io/" target="_blank" rel="noopener">🏠 首页</a>
     <a href="#what">🎯 这是什么</a>
     <a href="#compare">🆚 PRO 版新增与升级</a>
@@ -772,7 +886,7 @@ xlp 核心层（写表）──┤
     💡 想先试再买：扫码付 <strong>88 元</strong> → 备注你的微信 / QQ → 我拉你进群（试用 / 购买同一个群），每天在群里看推送结果。
   </div>
 
-  <div class="table-wrap" style="margin-top:18px">
+  <div class="table-wrap pricing-wrap" style="margin-top:18px">
     <table class="pricing">
       <thead><tr><th>项目</th><th>价格</th><th>说明</th></tr></thead>
       <tbody>
@@ -957,20 +1071,20 @@ xlp 核心层（写表）──┤
       <a href="legal/risk.html">风险揭示书</a> ·
       <a href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">登录看板</a>
     </div>
+    <!-- 页脚只留一行极简风险提示；详细许可与责任口径统一放在「⚖️ 风险与许可」一节 -->
     <div class="disc">
-      ⚠️ 本站与相关软件仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，<strong>不承诺任何收益</strong>。
-      所有数据与结果仅供参考，据此操作风险自担。<br>
-      软件为专有许可，<strong>禁止转售或再分发源码本身</strong>；无担保，责任上限为已付价款。<br>
-      <strong>股市有风险，投资须谨慎。</strong>
+      ⚠️ 本站与相关软件仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，<strong>不承诺任何收益</strong>；<strong>股市有风险，投资须谨慎。</strong>
     </div>
-    <div class="foot-sub">🐉 寻龙诀 PRO · A 股一进二竞价打板量化系统 · 一次买断、永久使用</div>
+    <div class="foot-brand">🐉 寻龙诀 PRO · A 股一进二竞价打板量化系统 · 一次买断、永久使用</div>
   </footer>
 
 </div><!-- /wrap -->
 
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="图片放大查看" onclick="closeLightbox()">
+  <button class="lb-close" type="button" id="lightboxClose" aria-label="关闭大图" title="关闭">✕</button>
   <img id="lightboxImg" src="" alt="放大查看">
 </div>
+<button id="toTop" class="to-top" type="button" aria-label="回到顶部" title="回到顶部">↑</button>
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -1093,13 +1207,23 @@ function parseNotifications(md, el){
 
   if (!notifs.length){ el.style.display = 'none'; return; }
 
+  var mq = window.matchMedia ? window.matchMedia('(max-width: 640px)') : null;
+  var MAX_COMPACT = 2;   // 手机档最多同时显示 2 条，其余折叠成「还有 N 条」
+  var showAll = false;
+
   function hide(card){
     card.style.opacity = '0';
     card.style.transform = 'translateY(-10px)';
     card.style.transition = '.3s';
     setTimeout(function(){
       if (card.parentElement) card.remove();
-      if (!el.children.length) el.style.display = 'none';
+      if (!el.querySelector('.notif-card')){
+        var m = el.querySelector('.n-more');
+        if (m) m.remove();
+        el.style.display = 'none';
+      } else {
+        applyCompact();
+      }
     }, 320);
   }
 
@@ -1112,17 +1236,79 @@ function parseNotifications(md, el){
     card.className = 'notif-card';
     card.innerHTML =
       '<button class="n-close" type="button" aria-label="关闭通知">✕</button>' +
-      '<div class="n-head"><span class="n-badge">📢 通知</span>' +
-        (n.range ? '<span class="n-range">' + fmtRange(n.range) + '</span>' : '') + '</div>' +
-      '<div class="n-title">' + mdToHtml(n.title) + '</div>' +
+      '<div class="n-toggle">' +
+        '<div class="n-head"><span class="n-badge">📢 通知</span>' +
+          (n.range ? '<span class="n-range">' + fmtRange(n.range) + '</span>' : '') +
+          '<span class="n-arrow" aria-hidden="true">▾</span></div>' +
+        '<div class="n-title">' + mdToHtml(n.title) + '</div>' +
+      '</div>' +
       '<div class="n-body">' + body + '</div>';
     el.appendChild(card);
-    setTimeout(function(){ hide(card); }, 9000);   // 几秒后自动淡出
+    card._fade = setTimeout(function(){ hide(card); }, 9000);   // 几秒后自动淡出
   });
+
+  var more = null;
+  if (notifs.length > MAX_COMPACT){
+    more = document.createElement('div');
+    more.className = 'n-more';
+    el.appendChild(more);
+    more.addEventListener('click', function(){ showAll = true; applyCompact(); });
+  }
+
+  // 手机档：折叠成一行（≥44px，整行可点展开）；桌面/平板：正文常显
+  function applyCompact(){
+    var compact = !!(mq && mq.matches);
+    el.classList.toggle('compact', compact);
+    var cards = [].slice.call(el.querySelectorAll('.notif-card'));
+    var cap = (compact && !showAll) ? MAX_COMPACT : cards.length;
+    cards.forEach(function(c, i){
+      var tg = c.querySelector('.n-toggle');
+      c.style.display = (i < cap) ? '' : 'none';
+      if (!compact) c.classList.add('expanded');
+      if (!tg) return;
+      if (compact){
+        tg.setAttribute('role', 'button');
+        tg.tabIndex = 0;
+        tg.setAttribute('aria-expanded', c.classList.contains('expanded') ? 'true' : 'false');
+      } else {
+        tg.removeAttribute('role');
+        tg.removeAttribute('tabindex');
+        tg.removeAttribute('aria-expanded');
+      }
+    });
+    if (more){
+      var hidden = cards.length - cap;
+      more.textContent = '还有 ' + hidden + ' 条通知（点开看）';
+      more.style.display = hidden > 0 ? '' : 'none';
+    }
+  }
+
   el.addEventListener('click', function(e){
-    var btn = e.target.closest ? e.target.closest('.n-close') : null;
-    if (btn && btn.parentElement) hide(btn.parentElement);
+    var t = e.target;
+    var close = t.closest ? t.closest('.n-close') : null;
+    if (close && close.parentElement){ hide(close.parentElement); return; }
+    var tg = t.closest ? t.closest('.n-toggle') : null;
+    if (tg && el.classList.contains('compact')){
+      var card = tg.parentElement;
+      card.classList.toggle('expanded');
+      var open = card.classList.contains('expanded');
+      tg.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open && card._fade){   // 展开后重新计时，给足阅读时间
+        clearTimeout(card._fade);
+        card._fade = setTimeout(function(){ hide(card); }, 9000);
+      }
+    }
   });
+  el.addEventListener('keydown', function(e){
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    var tg = e.target.closest ? e.target.closest('.n-toggle') : null;
+    if (tg && el.classList.contains('compact')){ e.preventDefault(); tg.click(); }
+  });
+  applyCompact();
+  if (mq){
+    if (mq.addEventListener) mq.addEventListener('change', applyCompact);
+    else if (mq.addListener) mq.addListener(applyCompact);
+  }
 }
 
 // ── 加载 README → 解析通知 + 更新日志 ──
@@ -1175,20 +1361,107 @@ function toggleTheme(){
   setTheme(currentTheme() === 'light' ? 'dark' : 'light');
 }
 
-// ── 灯箱：点开大图，点任意处（或 Esc）关闭 ──
+// ── 灯箱：点开大图（object-fit:contain 完整显示），点任意处 / 右上角按钮 / Esc 关闭 ──
 function openLightbox(img){
   var lb = document.getElementById('lightbox');
   var big = document.getElementById('lightboxImg');
   if (!lb || !big || !img) return;
   big.src = img.src;
+  big.alt = img.alt || '放大查看';
   lb.classList.add('open');
-  document.body.style.overflow = 'hidden';
+  document.body.classList.add('lb-lock');   // 打开时锁 body 滚动
 }
 function closeLightbox(){
   var lb = document.getElementById('lightbox');
   if (!lb) return;
   lb.classList.remove('open');
-  document.body.style.overflow = '';
+  document.body.classList.remove('lb-lock');
+}
+
+// ── 尊重系统「减弱动态效果」：动画/平滑滚动降级为瞬时 ──
+function reduceMotion(){
+  return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+}
+function smoothBehavior(){ return reduceMotion() ? 'auto' : 'smooth'; }
+
+// ── 吸顶导航：当前章节高亮（IntersectionObserver 触发 + rAF 合并计算，避免逐帧布局） ──
+function initNavSpy(){
+  var linksEl = document.getElementById('navLinks');
+  if (!linksEl) return;
+  var links = [].slice.call(linksEl.querySelectorAll('a[href^="#"]'));
+  var secs = [];
+  links.forEach(function(a){
+    var el = document.getElementById(a.getAttribute('href').slice(1));
+    if (el) secs.push({id: el.id, el: el, a: a});
+  });
+  if (!secs.length) return;
+
+  var activeId = '';
+  function navH(){
+    var n = document.querySelector('nav');
+    return n ? n.getBoundingClientRect().height : 52;
+  }
+  function setActive(id){
+    if (id === activeId) return;
+    activeId = id;
+    secs.forEach(function(s){ s.a.classList.toggle('active', s.id === id); });
+    for (var i = 0; i < secs.length; i++){
+      if (secs[i].id === id && linksEl.scrollWidth > linksEl.clientWidth + 2){
+        var a = secs[i].a;   // 只横向滚动 chip 行，不牵动页面
+        linksEl.scrollTo({
+          left: Math.max(0, a.offsetLeft - (linksEl.clientWidth - a.offsetWidth) / 2),
+          behavior: smoothBehavior()
+        });
+        break;
+      }
+    }
+  }
+  function update(){
+    linksEl.classList.toggle('scrollable', linksEl.scrollWidth > linksEl.clientWidth + 2);
+    var y = navH() + 12, best = '';
+    for (var i = 0; i < secs.length; i++){
+      if (secs[i].el.getBoundingClientRect().top - y <= 1) best = secs[i].id; else break;
+    }
+    var doc = document.documentElement;
+    if (window.innerHeight + window.scrollY >= doc.scrollHeight - 4) best = secs[secs.length - 1].id;
+    setActive(best);
+  }
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ ticking = false; update(); });
+  }
+
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(onScroll, {
+      rootMargin: '-' + Math.round(navH() + 8) + 'px 0px -55% 0px', threshold: [0, 1]
+    });
+    secs.forEach(function(s){ io.observe(s.el); });
+  }
+  window.addEventListener('scroll', onScroll, {passive: true});
+  window.addEventListener('resize', onScroll, {passive: true});
+  update();
+}
+
+// ── 手机版「↑ 回到顶部」：滚动过一屏才出现（桌面档 CSS display:none，不显示） ──
+function initToTop(){
+  var btn = document.getElementById('toTop');
+  if (!btn) return;
+  var ticking = false;
+  function update(){
+    if (window.scrollY > window.innerHeight) btn.classList.add('show');
+    else btn.classList.remove('show');
+  }
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ ticking = false; update(); });
+  }
+  window.addEventListener('scroll', onScroll, {passive: true});
+  window.addEventListener('resize', onScroll, {passive: true});
+  btn.addEventListener('click', function(){ window.scrollTo({top: 0, behavior: smoothBehavior()}); });
+  update();
 }
 
 // ── FAQ 锚点直达：hash 指向折叠 details 时自动展开 ──
@@ -1237,6 +1510,18 @@ document.addEventListener('DOMContentLoaded', function(){
   loadAll();
   var btn = document.getElementById('btn-copy');
   if (btn) btn.addEventListener('click', copyContact);
+  var lbClose = document.getElementById('lightboxClose');
+  if (lbClose) lbClose.addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
+  // 可点开的图片补上键盘可达性（Tab 聚焦 + Enter/Space 打开灯箱，focus-visible 有轮廓）
+  [].slice.call(document.querySelectorAll('img[onclick]')).forEach(function(im){
+    im.tabIndex = 0;
+    im.setAttribute('role', 'button');
+    im.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openLightbox(im); }
+    });
+  });
+  initNavSpy();
+  initToTop();
   expandForHash();
 });
 window.addEventListener('hashchange', expandForHash);
