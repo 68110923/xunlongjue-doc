@@ -939,7 +939,6 @@ xlp 核心层（写表）──┤
       <div class="qr-label">微信收款码</div>
       <div class="qr-hint">点图放大</div>
     </div>
-  <p class="qr-hint-line">按上方价格付款（<strong>10 月 8 日前 888 元</strong>，之后 1288 元），<strong>备注你的 Revolt 用户名</strong>；手机上可<strong>长按图片识别 / 保存</strong>。</p>
     <div class="qr-item">
       <img src="media/收款码/支付宝收款码.jpg" alt="支付宝收款码" decoding="async" onclick="openLightbox(this)">
       <div class="qr-label">支付宝收款码</div>
@@ -951,6 +950,7 @@ xlp 核心层（写表）──┤
       <div class="qr-hint">点图放大</div>
     </div>
   </div>
+  <p class="qr-hint-line">按上方价格付款（<strong>10 月 8 日前 888 元</strong>，之后 1288 元），<strong>备注你的 Revolt 用户名</strong>；手机上可<strong>长按图片识别 / 保存</strong>。</p>
 
   <!-- ═══ 7. 怎么买（进群流程） ═══ -->
   <h2 id="howto">🚀 怎么买（进群流程）</h2>
@@ -1534,7 +1534,7 @@ function initBuyBar(){
   // 没优惠：大字=正式价，小字=买断说明。任何数字都不写死在 JS 里。
   var m = promoEl ? promoEl.textContent.match(/([0-9][0-9,]*)\s*元/) : null;
   if(bbPrice) bbPrice.textContent = m ? (m[1] + ' 元') : formal;
-  if(bbNote) bbNote.textContent = m ? ('首发特惠 · 正式价 ' + formal) : '一次买断 · 永久使用';
+  if(bbNote) bbNote.textContent = m ? ('正式价 ' + formal) : '一次买断 · 永久使用';
   var ticking = false;
   function update(){
     ticking = false;
