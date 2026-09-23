@@ -801,8 +801,10 @@
     /* 不只要窄卡片，轨道也要收 —— 否则多出的宽度只会变成卡片右侧的空白 */
     header.hero{grid-template-columns:minmax(0,1.2fr) minmax(340px,380px)}
     .hero-buy{max-width:380px;justify-self:end}
-    /* 1280×800 且通知卡挂着时，右栏要能整体落进首屏：这一档先不列章节锚点（顶部 chip 行已有） */
-    .rail-nav{display:none}
+    /* 1280×800 且通知卡挂着时，右栏要能整体落进首屏：这一档先不列章节锚点（顶部 chip 行已有）。
+       ⚠️ 选择器要写成 `.rail-card .rail-nav`（0,2,0）—— 后面 `min-width:1280` 块里的
+       `.rail-nav{display:flex}`（0,1,0）同特异性且更靠后，会把这个 display:none 覆盖掉。 */
+    .rail-card .rail-nav{display:none}
   }
 
   @media (min-width:1280px){
