@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>寻龙诀 · A股一进二竞价打板量化系统</title>
-<meta name="description" content="寻龙诀 —— 覆盖全市场的数据整理与量化研究工具。全市场首板扫描、竞价评分、技术面筛选、每日复盘。">
+<meta name="description" content="寻龙诀 —— 部署在自己电脑或服务器上的 A 股量化研究工具：十年全市场数据湖 + 竞价选股 + 每日复盘。仅供研究与学习，不构成投资建议。">
+<meta name="theme-color" content="#0f0f13">
 <style>
   :root{
     --bg:#0f0f13; --bg2:#15151e; --card:#1a1a23; --border:#27272a;
@@ -54,8 +55,11 @@
   .steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:22px;height:22px;
                     border-radius:50%;background:var(--accent2);color:var(--accent);
                     font-size:11px;display:flex;align-items:center;justify-content:center}
+  .steps code{background:var(--bg2);border-radius:4px;padding:1px 6px;font-size:12px;
+              color:var(--text)}
   .note{background:var(--bg2);border-left:3px solid var(--gold);border-radius:6px;
         padding:14px 16px;font-size:12.5px;color:var(--text2);margin-top:20px}
+  .note code{background:var(--card);border-radius:4px;padding:1px 5px;font-size:12px}
   footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--border);
          text-align:center;font-size:11.5px;color:var(--dim)}
   footer a{color:var(--dim);text-decoration:none;border-bottom:1px dotted var(--dim)}
@@ -71,7 +75,10 @@
     <a href="#what">这是什么</a>
     <a href="#features">功能</a>
     <a href="#data">数据能力</a>
+    <a href="#reliable">工程与可靠性</a>
     <a href="#how">怎么用</a>
+    <a href="#req">系统要求</a>
+    <a href="#legal">风险与许可</a>
   </div>
   <a class="login" href="https://xunlongjue.68110923.xyz/">登录看板</a>
 </nav>
@@ -86,6 +93,7 @@
       <span class="tag">全市场扫描</span>
       <span class="tag">技术面筛选</span>
       <span class="tag">每日复盘</span>
+      <span class="tag">数据看板</span>
     </div>
   </header>
 
@@ -94,11 +102,16 @@
     <p>
       一套<strong>部署在自己电脑或服务器上</strong>的 A 股量化研究工具。
       它在本地维护一份覆盖<strong>十年全市场</strong>的数据湖，
-      每天自动完成首板扫描、竞价评分、技术面筛选与收盘复盘，并把结果结构化落表。
+      每个交易日自动完成：盘前竞价采集 → 一进二选票 → 盘中强多扫描 →
+      盘后复盘与明日观察，全部结果结构化落表。
     </p>
     <p style="margin-top:10px">
-      结果自动<strong>推送到微信</strong>（含 AI 分析），也可在本地查询与导出。
-      核心层<strong>不依赖 AI</strong>，没有 AI 也能照常运行。
+      结果有两个出口：<strong>网页看板</strong>随时查看，或<strong>推送到微信</strong>（含 AI 分析）。
+      两者都从同一份数据取数、<strong>互不依赖</strong>；核心层<strong>不依赖 AI</strong>，
+      没有 AI 也照常运行。
+    </p>
+    <p style="margin-top:10px">
+      不连接券商账户、不代下单、不经手资金 —— 它只做「整理数据 + 给出研究结论」。
     </p>
   </div>
 
@@ -106,10 +119,10 @@
   <div class="grid">
     <div class="card">
       <h3>一进二寻龙</h3>
-      <p>全市场首板扫描，多道硬逻辑 + 多维评分，每天 9:25 竞价结束后给出候选。</p>
+      <p>全市场首板扫描，十余道硬闸 + 多维评分，每天 9:25 竞价定盘后给出候选。</p>
       <ul>
-        <li>封板时间、封板资金、连板数</li>
-        <li>竞价涨幅、竞价额、<strong>竞价未匹配量</strong></li>
+        <li>封板时间、封板资金、连板数、板块共振</li>
+        <li>竞价涨幅、竞价额、<strong>竞价未匹配量</strong>、竞价量比</li>
         <li>每只票附「买点类型 + 触发条件 + 放弃条件」</li>
       </ul>
     </div>
@@ -123,19 +136,21 @@
     </div>
     <div class="card">
       <h3>每日自动复盘</h3>
-      <p>收盘后自动汇总当日结果，推了什么、表现如何，一目了然。</p>
-    </div>
-    <div class="card">
-      <h3>个股 / 大盘预测</h3>
-      <p>对话式查询：发代码即回方向参考与关键指标。</p>
-    </div>
-    <div class="card">
-      <h3>深度分析</h3>
-      <p>拉取长周期价量序列做结构化解析，辅助判断主力行为痕迹。</p>
+      <p>收盘后自动汇总当日结果：<strong>✅ 命中 / ⚠️ 遗漏 / 🔴 盲区</strong>，
+      另附一份「不该漏」清单 —— 漏在哪里、为什么漏，写清楚。</p>
     </div>
     <div class="card">
       <h3>明日观察</h3>
-      <p>盘后结合涨停梯队、板块合力与封板质量，梳理次日关注方向。</p>
+      <p>盘后结合涨停梯队、板块合力、封板质量与竞价抢筹，梳理次日关注方向，
+      并对「虚高开盘」一票否决。</p>
+    </div>
+    <div class="card">
+      <h3>个股 / 大盘预测</h3>
+      <p>对话式查询：发代码即回方向参考与关键指标；也能看当日涨跌家数、情绪档位与大盘系数。</p>
+    </div>
+    <div class="card">
+      <h3>深度分析</h3>
+      <p>拉取长周期价量序列做结构化解析（形态、量能、指标分位），辅助判断主力行为痕迹。</p>
     </div>
   </div>
 
@@ -143,40 +158,111 @@
   <div class="grid">
     <div class="card">
       <h3>十年全市场日线</h3>
-      <p><span class="num">2016 → 今</span>，全市场五千余只标的，未复权原始数据 + 完整复权因子事件流（含配股）。</p>
+      <p><span class="num">2016 → 今</span>，全市场五千余只标的，未复权原始数据
+      + 完整复权因子事件流（含配股）。</p>
     </div>
     <div class="card">
       <h3>真实竞价明细</h3>
-      <p>竞价成交量额、<span class="num">未匹配量</span>、竞价换手率、竞价量比、占昨日成交量比。</p>
+      <p>竞价成交量额、<span class="num">未匹配量</span>、竞价换手率、竞价量比、占昨日成交量比；
+      <span class="num">2026-09 起全市场每日每票一行</span>（不再只有池内票）。</p>
     </div>
     <div class="card">
       <h3>涨停与梯队</h3>
-      <p>涨停池、炸板池、跌停池、<span class="num">连板梯队矩阵</span>，含权威连板数与涨停原因。</p>
+      <p>涨停池、炸板池、跌停池、<span class="num">连板梯队矩阵</span>，
+      含权威连板数与涨停原因。</p>
     </div>
     <div class="card">
       <h3>资金与热度</h3>
-      <p>龙虎榜（机构/游资净买卖）、热股榜与排名趋势、个股异动原因。</p>
+      <p>龙虎榜（机构 / 游资净买卖）、热股榜与排名趋势、个股异动原因。</p>
     </div>
     <div class="card">
       <h3>板块体系</h3>
       <p>同花顺行业与概念指数成分股，可做行业级与概念级共振分析。</p>
     </div>
     <div class="card">
-      <h3>估值与财务</h3>
-      <p>市盈率 / 市净率 / 市销率快照，以及成长、盈利、偿债、营运、现金流五类指标。</p>
+      <h3>指数与估值</h3>
+      <p>宽基 / 行业 / 概念指数日线与指标（523 个），
+      以及市盈率 / 市净率 / 市销率快照。</p>
+    </div>
+  </div>
+  <div class="note">
+    全部落在<strong>本地数据湖</strong>：<span class="num">17 张表</span>按主键只追加不覆盖，
+    每个批次带血缘（批次号 + 入库时间），原始层永不修改、派生层随时可重建。
+    消费方（看板 / 脚本 / AI）<strong>只读视图 <code>v_*</code></strong>，底层换实现上层无感。
+  </div>
+
+  <h2 id="reliable">🛡️ 工程与可靠性</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>一条命令跑完盘后</h3>
+      <p><code>xlp daily</code>：增量入库 → 复权口径 → 物化指标 → 池与指数 → 质量闸，
+      失败即退出码非零。</p>
+    </div>
+    <div class="card">
+      <h3>可验证，不靠感觉</h3>
+      <p><span class="num">51 条质量断言</span> + 3 条复权不变量（前复权末根=真实价、
+      后复权首根=真实价、因子恒为正），每个交易日自动跑。</p>
+    </div>
+    <div class="card">
+      <h3>小机器跑得动</h3>
+      <p>实测 <span class="num">2 核 2 GB</span>：常驻约 325 MB，最重作业峰值约 1.1 GB；
+      全市场竞价 56 个请求并发后约 5 秒。</p>
+    </div>
+    <div class="card">
+      <h3>数据可追可回滚</h3>
+      <p>同一主键重复写入会<strong>报错</strong>而不是静默覆盖；
+      修复后按分区压实去重，读取永远取最新版本。</p>
+    </div>
+    <div class="card">
+      <h3>备份与演练</h3>
+      <p>只备份<strong>不可再生</strong>的原始层与状态库（约 193 MB / 2.3 秒），
+      逐文件校验和，恢复前可先做一次不落地的演练。</p>
+    </div>
+    <div class="card">
+      <h3>定时任务单一真源</h3>
+      <p><span class="num">16 个作业</span>的命令与计划由代码声明，一键安装 systemd / crontab，
+      改调度不用手抄。</p>
     </div>
   </div>
 
   <h2 id="how">🚀 怎么用</h2>
   <div class="card">
     <ol class="steps">
-      <li>在自有电脑或服务器上部署（附部署教程，也可协助远程部署）</li>
-      <li>自动回填十年历史数据（首次约数分钟）</li>
-      <li>按需绑定推送渠道，结果自动送达</li>
-      <li>每个交易日自动运行，结果到点可见</li>
+      <li>在一台 <strong>2 核 2 GB</strong> 的 Linux（或自己的电脑）上部署 —— 一条安装命令搞定依赖</li>
+      <li>首次回填十年历史数据：<code>xlp backfill --years 10</code>（约 10~20 分钟）</li>
+      <li>装定时任务：<code>xlp cron install --system</code> —— 16 个作业自动运行</li>
+      <li>每个交易日到点出结果：竞价与选票 09:25、盘中扫描每 30 分钟、复盘 16:08、明日观察 16:14</li>
     </ol>
     <div class="note">
-      <strong>源码版</strong>：部署到自己的电脑或服务器，功能完整，可自行接入 AI 与扩展。
+      <strong>两种使用方式</strong><br>
+      · <strong>源码版</strong>：部署到自己的环境，功能完整，可自行接入 AI 与扩展；<br>
+      · <strong>看板版</strong>：无需部署，登录网页查看结果。
+    </div>
+  </div>
+
+  <h2 id="req">⚙️ 系统要求</h2>
+  <div class="card">
+    <ul>
+      <li><strong>2 核 2 GB</strong> / Ubuntu 22.04+ / 磁盘 ≥ 10 GB（湖约 0.7 GB + 缓存与备份）</li>
+      <li>系统时区 <strong>Asia/Shanghai</strong>（时区不对，定时任务会整体偏移且不报错）</li>
+      <li>数据源 API Key：<strong>自备、自付</strong>（数据来自同花顺金融数据 API）</li>
+      <li>AI 增强层（微信推送 / 对话）<strong>可选</strong>，需要自行准备模型 API Key；
+          不装也完全可用</li>
+    </ul>
+  </div>
+
+  <h2 id="legal">⚖️ 风险与许可</h2>
+  <div class="card">
+    <ul>
+      <li>仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，<strong>不承诺任何收益</strong>；
+          数据可能延迟、缺失或出错，据此操作风险自担。</li>
+      <li>不连接券商账户、不代下单、不经手资金；所有输出仅为研究结论。</li>
+      <li>软件为<strong>专有许可</strong>：可自用、可修改、可集成进自己的产品（含对外提供服务）；
+          <strong>禁止转售或再分发源码本身</strong>；无担保，责任上限为已付价款。</li>
+    </ul>
+    <div class="note">
+      完整条款见页脚：用户协议 · 隐私政策 · 风险揭示书；源码仓库内另有 <code>LICENSE</code>
+      与 <code>DISCLAIMER.md</code>。
     </div>
   </div>
 
