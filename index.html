@@ -638,12 +638,27 @@
     #toast{bottom:74px}
   }
 
-  /* ── 桌面（≥1025px）：880~1000px 容器 + 多列 grid ── */
+  /* ── 桌面（≥1025px）：**满宽排版**（左右各留 2% 边缘）+ 放大一档，显得大气 ── */
   @media (min-width:1025px){
-    .wrap{max-width:960px}
-    .grid{grid-template-columns:repeat(auto-fit,minmax(252px,1fr))}
-    .price-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
-    .stats{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+    .wrap{max-width:none;margin:0 2%;padding:64px 0 88px}
+    .grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+    .price-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .stats{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-top:34px}
+    h1{font-size:52px}
+    .sub{font-size:16px}
+    h2{font-size:23px;margin:64px 0 22px}
+    .card{padding:26px}
+    .card h3{font-size:16px}
+    .card p,.card li{font-size:13.5px}
+    .lead{font-size:15px}
+    .faq summary{font-size:15px}
+    .faq .a{font-size:14.5px}
+    /* 满宽之后正文容易拉太长：正文段落限一个阅读宽度，卡片本身仍是满宽 */
+    .card>p,.card>ul,.note,.lead{max-width:96ch}
+    /* 二维码/流程图别跟着满宽放大：单张限宽并居中 */
+    .qr-item img{max-width:260px;margin:0 auto}
+    .flow-row img{max-width:220px;margin:0 auto}
+    .steps{max-width:1100px}
   }
 
   /* ── 无障碍：系统开启「减弱动态效果」时，动画与平滑滚动全部关掉 ── */
@@ -963,7 +978,7 @@ xlp 核心层（写表）──┤
       <li><b>先付款</b>：微信 / 支付宝扫码（见上方收款码），备注你的 <strong>Revolt 用户名</strong>（或任意联系方式）。</li>
       <li><b>付款后加微信 / QQ</b>：不公开（防骚扰）；微信 / QQ <strong>不聊股票、交易、理财</strong>
         （易封号），这类问题请到 Revolt 问。</li>
-      <li><b>交付源码</b>：私有仓库协作者 / 压缩包二选一，附部署教程与全部文档。</li>
+      <li><b>交付源码</b>：给你私有仓库的 <strong>只读 PAT</strong>（仅能拉代码），自己 <code>git clone</code> / <code>git pull</code>；随后把<strong>部署文档</strong>交给 Hermes 等 AI，它就能照着把环境装好。</li>
       <li><b>进开发者交流群</b>：<strong>购买源码后</strong>拉你进「寻龙诀开发者交流群」，一起交流部署、参数与二次开发。</li>
     </ol>
     <div class="note accent" style="margin-top:14px">
@@ -1016,7 +1031,7 @@ xlp 核心层（写表）──┤
     </details>
     <details id="faq-delivery">
       <summary>交付什么形式？</summary>
-      <div class="a"><p>源码（私有仓库协作者 / 压缩包）+ 部署教程 + 全部文档；数据首次运行时自己拉（约 14 分钟）。</p></div>
+      <div class="a"><p>私有仓库<strong>只读 PAT</strong>（自己拉代码）+ 部署教程 + 全部文档；把部署文档交给 Hermes 等 AI 即可代你装好。数据首次运行时自己拉（约 14 分钟）。</p></div>
     </details>
     <details id="faq-time">
       <summary>多久出结果？</summary>
