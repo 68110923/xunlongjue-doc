@@ -393,7 +393,7 @@
   .cl-details{
     background:linear-gradient(180deg,var(--card),var(--bg2));
     border:1px solid var(--border);border-radius:var(--radius);
-    padding:16px 20px;margin-top:52px;scroll-margin-top:calc(var(--nav-h) + 8px);
+    padding:16px 20px;margin-top:30px;scroll-margin-top:calc(var(--nav-h) + 8px);
   }
   .cl-details[open]{border-color:var(--accent-line)}
   .cl-details>summary{
@@ -505,7 +505,7 @@
 
   /* ── 页脚（只留：法务链接 + 一行极简风险提示 + 品牌行；详细口径只在「风险与许可」节） ── */
   footer{
-    margin-top:56px;padding-top:20px;border-top:1px solid var(--border);
+    margin-top:0;padding-top:20px;border-top:1px solid var(--border);
     text-align:center;font-size:11.5px;color:var(--dim);position:relative;z-index:1;
   }
   footer .f-links{
@@ -563,7 +563,7 @@
 
   /* ── iPad / 平板（641px ~ 1024px）：两列 grid、媒体行仍一行、留白加大 ── */
   @media (min-width:641px) and (max-width:1024px){
-    .wrap{max-width:900px;padding:46px 30px 60px}
+    .wrap{max-width:900px;padding:46px 30px 24px}
     .grid{grid-template-columns:repeat(2,1fr);gap:16px}
     .price-grid{grid-template-columns:repeat(2,1fr);gap:16px}
     .stats{grid-template-columns:repeat(3,1fr)}
@@ -581,7 +581,7 @@
 
   @media (max-width:640px){
     :root{--nav-h:58px}
-    .wrap{padding:30px 14px 84px}
+    .wrap{padding:30px 14px 10px}
     .glow{top:-200px;height:520px}
     h1{font-size:29px;letter-spacing:.03em;margin:6px 0 8px}
     h2{font-size:17.5px;margin-top:32px;margin-bottom:14px}
@@ -645,7 +645,9 @@
     /* 手机版「↑ 回到顶部」按钮 */
     .buy-bar.show{display:flex}   /* 只在这里（≤640px）允许显示 */
     .to-top{display:flex;bottom:calc(72px + env(safe-area-inset-bottom))}
-    body{padding-bottom:68px}
+    /* 底部不再预留大块空白：常驻购买条在距页底 240px 内会自动隐藏（见 initBuyBar），
+       所以页尾正文不会被它盖住，无需 body 预留 padding */
+    body{padding-bottom:0}
     #toast{bottom:74px}
   }
 
