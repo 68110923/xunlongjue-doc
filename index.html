@@ -315,10 +315,10 @@
     font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;
   }
   .steps li b{color:var(--wht)}
-  /* 进群流程 4 张图：永远 4 等分一行，窄屏等比缩小不换行，点图可开灯箱
-     aspect-ratio 6/13 = 素材（600×1300）真实比例，4 格等高、不产生上下留白 */
+  /* 进群流程 5 张图：永远 5 等分一行，窄屏等比缩小不换行，点图可开灯箱
+     aspect-ratio 6/13 = 素材（600×1300）真实比例，5 格等高、不产生上下留白 */
   .flow-caption{margin:16px 0 0;font-size:12.5px;color:var(--text2);text-align:center}
-  .flow-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+  .flow-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
   .flow-row img{
     width:100%;height:auto;aspect-ratio:6/13;object-fit:contain;
     border-radius:6px;border:1px solid var(--border);background:var(--img-bg);
@@ -608,7 +608,7 @@
     .qr-item img{border-radius:10px}
     .qr-item .qr-label{font-size:10.5px;margin-top:5px}
     .qr-item .qr-hint{font-size:10px}
-    /* 进群流程：4 等分一行，间距 6~8px、圆角统一 */
+    /* 进群流程：5 等分一行，间距 6~8px、圆角统一 */
     .flow-row{gap:7px;margin-top:12px}
     .flow-row img{border-radius:10px}
     /* 吸顶导航：chip 行可滑动不换行，tap 目标 ≥44px，首页/登录看板都点得到 */
@@ -747,7 +747,7 @@
     .contact .hint,.qr-hint-line,.table-wrap.cmp-wrap>p,pre.flow{
       max-width:88ch;margin-inline:auto;
     }
-    /* 1920 下 3 张二维码 / 4 张流程图摊得太散：整行限宽居中 */
+    /* 1920 下 3 张二维码 / 5 张流程图摊得太散：整行限宽居中 */
     .qr-row{max-width:900px;margin-inline:auto}
     .flow-row{max-width:900px;margin-inline:auto}
     /* 卡片体量统一：价格卡也加大内边距与金额字号 */
@@ -1201,10 +1201,11 @@ xlp 核心层（写表）──┤
     </ol>
     <p class="flow-caption">Revolt 注册 / 加好友流程（点图放大）：</p>
     <div class="flow-row">
-      <img src="media/进群流程/步骤2.webp" alt="Revolt 注册 步骤 1" decoding="async" onclick="openLightbox(this)">
-      <img src="media/进群流程/步骤3.webp" alt="Revolt 注册 步骤 2" decoding="async" onclick="openLightbox(this)">
-      <img src="media/进群流程/步骤4.webp" alt="Revolt 注册 步骤 3" decoding="async" onclick="openLightbox(this)">
-      <img src="media/进群流程/步骤5.webp" alt="Revolt 注册 步骤 4" decoding="async" onclick="openLightbox(this)">
+      <img src="media/进群流程/步骤1.webp" alt="Revolt 加好友 步骤 1：复制我的 ID" decoding="async" onclick="openLightbox(this)">
+      <img src="media/进群流程/步骤2.webp" alt="Revolt 加好友 步骤 2：注册 Revolt" decoding="async" onclick="openLightbox(this)">
+      <img src="media/进群流程/步骤3.webp" alt="Revolt 加好友 步骤 3：邮箱认证" decoding="async" onclick="openLightbox(this)">
+      <img src="media/进群流程/步骤4.webp" alt="Revolt 加好友 步骤 4：搜索 ID 发消息" decoding="async" onclick="openLightbox(this)">
+      <img src="media/进群流程/步骤5.webp" alt="Revolt 加好友 步骤 5：固定标签页" decoding="async" onclick="openLightbox(this)">
     </div>
   </div>
   </section><!-- /howto -->
