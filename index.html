@@ -47,7 +47,42 @@
 })();
 </script>
 <style>
-  :root{--radius:10px;--nav-h:52px;--pad:16px;color-scheme:light dark}
+  :root{--radius:12px;--nav-h:52px;--pad:16px;color-scheme:light dark}
+
+  /* ══ 设计令牌 · 字号阶梯 / 间距节奏 / 圆角阴影（2026-09-24 版式重构）══════════
+     为什么要令牌：原来字号有 10/10.5/11/11.5/12/12.5/13/13.5/14 九档混用、间距写死在
+     每条规则里，三端（手机 / iPad / 电脑）只能靠断点各自打补丁 —— iPad 横屏
+     （1025~1279）更是直接落进了桌面档，左右两列被挤扁。
+     这里把刻度收敛成一套，并用 clamp() 做流体插值：**三端由同一组令牌推导**，
+     断点只负责「结构变了」（几列、什么顺序），不再负责「字号该多大」。
+     ⚠️ 不要在这里定义 --nav-h（手机档要把它改成 58px，定义在这里会盖掉它）。 */
+  :root{
+    /* 字号：手机端就是可读下限，宽屏自动长到上限 */
+    --t-xs:12.5px;                                   /* 角标 / 极次要 */
+    --t-sm:clamp(13.5px,.16vw + 12.9px,14.5px);      /* 辅助 / 列表 / 表格 */
+    --t-base:clamp(15.5px,.22vw + 14.6px,16.5px);    /* 正文（原 13~14px，偏小） */
+    --t-lead:clamp(16px,.42vw + 14.4px,18.5px);      /* 导语 */
+    --t-h3:clamp(16.5px,.3vw + 15.3px,18.5px);       /* 卡片标题 */
+    --t-h2:clamp(20px,.9vw + 16.5px,29px);           /* 章节标题 */
+    --t-h1:clamp(31px,2.1vw + 22.8px,54px);          /* 品牌主标 */
+    --t-price:clamp(40px,2.4vw + 30.6px,60px);       /* 大价格 */
+    --t-stat:clamp(21px,.75vw + 18.1px,27px);        /* 关键数字 */
+    /* 行高（中文比拉丁更需要行距：正文 1.8、标题 1.3） */
+    --lh-body:1.8;
+    --lh-tight:1.3;
+    /* 阅读宽：**用 em 不用 ch** —— ch 是「0」的宽度（≈0.5em），88ch ≈ 44 个汉字/行，
+       远超中文的舒适区（25~40 字）。中文里 1em ≈ 1 个汉字，34em ≈ 34 字/行。 */
+    --measure:34em;
+    /* 章节节奏：两个章节之间的留白，以及标题到内容的距离 */
+    --sect:clamp(52px,5.2vw,112px);
+    --sect-head:clamp(14px,1vw,20px);
+    /* 圆角：原来 6/8/10/14/24/999 六种混用，收敛成四级 + 胶囊 */
+    --r-xs:6px;--r-sm:8px;--r-md:12px;--r-lg:16px;--r-pill:999px;
+    /* 阴影：三级，同一色相与扩散，避免「随处长阴影」 */
+    --sh-1:0 1px 2px var(--shadow);
+    --sh-2:0 10px 28px -10px var(--shadow);
+    --sh-3:0 24px 60px -20px var(--shadow);
+  }
 
   /* ══ 主题色值 · 分组 ①：暗色（data-theme="dark"，只在用户手动切到暗色时生效）══ */
   html[data-theme="dark"]{
@@ -65,6 +100,11 @@
     --img-bg:rgba(255,255,255,.03);
     --shadow:rgba(0,0,0,.45);
     --nav-bg:rgba(15,15,19,.88); --glow:rgba(129,140,248,.08);
+    /* 暗色下「大黑影」几乎看不见 —— 卡片层次改用「更明确的白描边 + 顶边内高光」 */
+    --border:rgba(255,255,255,.09);
+    --sh-1:inset 0 1px 0 rgba(255,255,255,.05);
+    --sh-2:0 2px 6px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);
+    --sh-3:0 12px 34px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08);
     color-scheme:dark;
   }
   /* ══ 主题色值 · 分组 ②：亮色（data-theme="light"；正文 #333，金色强调压深保证可读）
@@ -84,12 +124,20 @@
     --img-bg:rgba(0,0,0,.03);
     --shadow:rgba(20,20,30,.18);
     --nav-bg:rgba(255,255,255,.9); --glow:rgba(67,56,202,.06);
+    /* 亮色：**多层柔和阴影**（单层大黑影是典型的廉价阴影） */
+    --sh-1:0 1px 2px rgba(16,17,20,.05);
+    --sh-2:0 2px 4px -1px rgba(16,17,20,.06),0 8px 20px -6px rgba(16,17,20,.10);
+    --sh-3:0 4px 8px -2px rgba(16,17,20,.08),0 18px 44px -14px rgba(16,17,20,.18);
     color-scheme:light;
   }
   /* 说明：这里**不再**按系统 prefers-color-scheme 兜底 —— 默认就是上面那组亮色。
      系统偏深色的访客首次进来同样是白底，想换深色点右上角开关（选择会记在 localStorage）。 */
 
   *{margin:0;padding:0;box-sizing:border-box}
+  /* 数字等宽 + 等高：价格 / 统计 / 表格里的数字对齐，数值变化时不会左右抖 */
+  .ph-price,.stat b,.price-card .pc-amt,.rail-card .rl-price,.contact .id,table{
+    font-variant-numeric:tabular-nums lining-nums;
+  }
   /* 锚点跳转统一让开吸顶导航：目标元素上 scroll-margin-top = 导航高度 + 8px */
   html{
     scroll-behavior:smooth;
@@ -98,8 +146,11 @@
   /* 整页禁止横向滚动：overflow-x:clip 不产生滚动容器，sticky 导航不受影响 */
   html,body{overflow-x:hidden;overflow-x:clip;max-width:100%}
   body{
-    background:var(--bg);color:var(--text);font-size:14px;line-height:1.75;
-    font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',system-ui,sans-serif;
+    background:var(--bg);color:var(--text);font-size:var(--t-base);line-height:var(--lh-body);
+    /* 字体栈**西文优先**：原来把 'PingFang SC' 排在第一位，于是所有英文与数字
+       （1288 / 09:26 / 2 核 2 GB / git pull）都用中文字体里那套平庸的西文字形。
+       先给系统 UI 英文字体、再落到中文字体：西文用 SF / Segoe UI，汉字仍走 PingFang / 雅黑。 */
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',system-ui,sans-serif;
     -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
     transition:background .2s,color .2s;
   }
@@ -108,9 +159,9 @@
   :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
   :focus:not(:focus-visible){outline:none}
   .glow{
-    position:fixed;top:-260px;left:50%;transform:translateX(-50%);
+    position:fixed;top:-300px;left:50%;transform:translateX(-50%);
     /* 宽度永不超过视口，避免固定装饰让人误以为可以横向滑动 */
-    width:min(780px,100vw);height:780px;pointer-events:none;z-index:0;
+    width:min(980px,100vw);height:900px;pointer-events:none;z-index:0;
     background:radial-gradient(ellipse,var(--glow) 0%,transparent 70%);
   }
   code{
@@ -119,8 +170,9 @@
     font-size:.92em;padding:1px 5px;border-radius:4px;overflow-wrap:break-word;
   }
   strong{color:var(--wht);font-weight:700}
-  a{color:var(--accent);text-decoration:none}
+  a{color:var(--accent);text-decoration:none;transition:color .18s ease}
   a:hover{text-decoration:underline}
+  ::selection{background:var(--accent2);color:var(--accent)}
 
   /* ── 顶部导航（吸顶；链接为可横向滑动的 chip 行，tap 目标 ≥40px） ── */
   nav{
@@ -175,45 +227,82 @@
   .hero-buy,.rail{display:none}
   .pricing-ctas{display:none}
   .pricing-split,.qrhowto{display:block}
-  header{text-align:center;margin-bottom:40px}
-  .dragon{font-size:42px;line-height:1;
+  header{text-align:center;margin-bottom:clamp(36px,3.4vw,56px)}
+  .dragon{font-size:clamp(40px,2.6vw + 30px,54px);line-height:1;
     filter:sepia(1) saturate(2.2) hue-rotate(-4deg) brightness(1.15) drop-shadow(0 0 12px rgba(229,57,53,.4))}
   h1{
-    font-size:clamp(30px,5vw,44px);font-weight:900;letter-spacing:.14em;margin:8px 0 10px;
+    /* 中文字重**不做 900**：微软雅黑只有 Regular/Bold 两档，800/900 会走「合成伪粗体」，
+       字面发糊（数字与拉丁文有真 900，所以价格那几处仍留 900）。 */
+    font-size:var(--t-h1);font-weight:800;letter-spacing:.1em;line-height:1.15;
+    margin:10px 0 12px;text-wrap:balance;
     background:linear-gradient(180deg,var(--h1a) 0%,var(--h1b) 40%,var(--h1c) 100%);
     -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   }
-  .sub{color:var(--text2);font-size:14px;letter-spacing:.06em}
-  .tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+  /* 副标题：拆成语义分段、**段内不折行**，换行只发生在「·」处 ——
+     否则中文会断在词中间（实测「十年全市／场数据湖」）。分隔点由 CSS 生成，
+     这样行尾不会留下一个孤零零的「·」。 */
+  .sub{
+    color:var(--text2);font-size:var(--t-lead);letter-spacing:.02em;line-height:1.65;
+    display:flex;flex-wrap:wrap;justify-content:center;
+  }
+  .sub span{white-space:nowrap}
+  .sub span+span::before{content:'·';margin:0 10px;color:var(--dim)}
+  .tags{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:22px}
   .tag{
-    font-size:11px;color:var(--accent);background:var(--tag-bg);
-    border:1px solid var(--tag-line);border-radius:999px;padding:3px 12px;
+    font-size:var(--t-xs);color:var(--accent);background:var(--tag-bg);
+    border:1px solid var(--tag-line);border-radius:var(--r-pill);padding:5px 13px;
+    line-height:1.5;
   }
   h2{
-    font-size:20px;font-weight:800;color:var(--wht);
-    margin:56px 0 18px;display:flex;align-items:center;gap:10px;
+    font-size:var(--t-h2);font-weight:800;color:var(--wht);line-height:var(--lh-tight);
+    letter-spacing:.01em;text-wrap:balance;
+    margin:var(--sect) 0 var(--sect-head);display:flex;align-items:center;gap:12px;
     scroll-margin-top:calc(var(--nav-h) + 8px);
   }
+  /* 章节标题左侧金色短棒 + 右侧渐隐细线（纯装饰、无文字 —— h2 的文字必须与 README 逐字一致） */
   h2::before{
-    content:'';width:4px;height:20px;border-radius:2px;flex:0 0 auto;
-    background:linear-gradient(180deg,var(--accent),var(--accent2));
+    content:'';width:5px;height:.95em;border-radius:var(--r-pill);flex:0 0 auto;
+    background:linear-gradient(180deg,var(--gold),var(--gold2));
   }
-  .lead{font-size:13.5px;color:var(--text2);margin:-6px 0 18px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:14px}
+  h2::after{
+    content:'';flex:1 1 auto;max-width:190px;height:1px;min-width:16px;
+    background:linear-gradient(90deg,var(--border),transparent);
+  }
+  .lead{font-size:var(--t-lead);color:var(--text2);line-height:1.7;margin:-2px 0 var(--sect-head)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:clamp(14px,1.1vw,20px)}
   .card{
     background:linear-gradient(180deg,var(--card),var(--bg2));
-    border:1px solid var(--border);border-radius:var(--radius);padding:20px;
+    border:1px solid var(--border);border-radius:var(--radius);
+    padding:clamp(18px,1.5vw,26px);box-shadow:var(--sh-1);
+    transition:box-shadow .25s ease,border-color .25s ease;
   }
-  .card h3{font-size:15px;margin-bottom:8px;color:var(--gold);font-weight:700}
-  .card p{font-size:13px;color:var(--text2)}
-  .card ul{margin:8px 0 0 16px;font-size:12.5px;color:var(--text2)}
-  .card li{margin:3px 0}
+  @media (hover:hover){.card:hover{box-shadow:var(--sh-2);border-color:var(--accent-line)}}
+  .card h3{
+    font-size:var(--t-h3);margin-bottom:10px;color:var(--wht);font-weight:700;
+    letter-spacing:.01em;display:flex;align-items:baseline;gap:9px;
+  }
+  .card h3::before{
+    content:'';width:6px;height:6px;border-radius:var(--r-pill);background:var(--gold);
+    flex:0 0 auto;transform:translateY(-1px);
+  }
+  .card p{font-size:var(--t-base);color:var(--text2);text-wrap:pretty}
+  /* 卡片内正文限一个**中文阅读宽**（34em ≈ 34 个汉字/行；中文里 1em ≈ 1 个汉字，
+     用 ch 会算成 44+ 字/行）并**靠卡片内边距左对齐** —— 居中的窄列在宽卡片里会
+     浮在中间（实测 1440 下卡片 1050px、正文 561px，左右各空 245px，像没做完）。 */
+  .card>p,.card>ul,pre.flow{max-width:var(--measure)}
+  .card ul{margin:10px 0 0;padding:0;list-style:none;font-size:var(--t-sm);color:var(--text2)}
+  .card li{position:relative;padding-left:15px;margin:5px 0}
+  .card li::before{
+    content:'';position:absolute;left:2px;top:.68em;width:5px;height:5px;
+    border-radius:50%;background:var(--accent-line);
+  }
   .num{color:var(--accent);font-weight:600}
   .ok{color:var(--green);font-weight:600}
   .warn{color:var(--orange);font-weight:600}
   .note{
-    background:var(--bg2);border-left:3px solid var(--gold);border-radius:6px;
-    padding:14px 16px;font-size:12.5px;color:var(--text2);margin-top:18px;
+    background:var(--bg2);border-left:3px solid var(--gold);border-radius:var(--r-md);
+    padding:clamp(14px,1.3vw,20px) clamp(16px,1.5vw,22px);
+    font-size:var(--t-sm);color:var(--text2);line-height:1.75;margin-top:var(--sect-head);
   }
   .note.accent{border-left-color:var(--accent)}
 
@@ -222,12 +311,12 @@
     max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;
     border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);
   }
-  table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:600px}
+  table{border-collapse:collapse;width:100%;font-size:var(--t-sm);min-width:600px}
   table.cmp{min-width:0}          /* 对比表只有两列，不需要最小宽度 */
-  th,td{padding:11px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
+  th,td{padding:clamp(11px,.9vw,15px) clamp(13px,1.1vw,18px);text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
   thead th{
-    background:var(--th-bg);color:var(--text2);font-size:11.5px;
-    font-weight:700;letter-spacing:.06em;white-space:nowrap;
+    background:var(--th-bg);color:var(--text2);font-size:var(--t-xs);
+    font-weight:700;letter-spacing:.08em;white-space:nowrap;
   }
   tbody tr:last-child td{border-bottom:none}
   td:first-child{color:var(--text);white-space:nowrap}
@@ -235,56 +324,58 @@
   .cmp td:last-child{color:var(--text2)}
 
   /* ── 关键数字 ── */
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:20px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:clamp(10px,.9vw,16px);margin-top:24px}
   .stat{
     background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--border);
-    border-radius:var(--radius);padding:16px 12px;text-align:center;
+    border-radius:var(--radius);padding:clamp(16px,1.3vw,22px) 12px;text-align:center;
+    box-shadow:var(--sh-1);
   }
-  .stat b{display:block;font-size:20px;font-weight:900;color:var(--accent);line-height:1.25}
+  .stat b{display:block;font-size:var(--t-stat);font-weight:800;color:var(--accent);line-height:1.25}
   .stat b.gold{color:var(--gold)}
-  .stat span{font-size:11px;color:var(--dim)}
+  .stat span{display:block;margin-top:5px;font-size:var(--t-xs);color:var(--dim);line-height:1.5}
 
   /* ── 出口示意 ── */
   pre.flow{
     background:var(--flow-bg);border:1px solid var(--border);border-radius:var(--radius);
-    padding:16px;margin-top:18px;overflow-x:auto;color:var(--text2);
+    padding:clamp(14px,1.3vw,20px);margin-top:var(--sect-head);overflow-x:auto;color:var(--text2);
     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:12px;line-height:1.6;
+    font-size:var(--t-sm);line-height:1.7;
   }
 
   /* ── 定价 ── */
   .price-hero{
     background:linear-gradient(135deg,var(--hero-a),var(--hero-b));
-    border:1px solid var(--accent-line);border-radius:var(--radius);
-    padding:30px 24px;text-align:center;
+    border:1px solid var(--accent-line);border-radius:var(--r-lg);
+    padding:clamp(26px,2.3vw,40px) clamp(20px,2vw,34px);text-align:center;
+    box-shadow:var(--sh-2);
   }
   .ph-tag{
-    display:inline-block;font-size:11px;letter-spacing:.18em;color:var(--gold);
-    border:1px solid var(--gold-a);border-radius:999px;padding:3px 14px;margin-bottom:12px;
+    display:inline-block;font-size:var(--t-xs);letter-spacing:.18em;color:var(--gold);
+    border:1px solid var(--gold-a);border-radius:var(--r-pill);padding:4px 15px;margin-bottom:14px;
   }
-  .ph-price{font-size:clamp(40px,7vw,58px);font-weight:900;color:var(--accent);line-height:1}
-  .ph-price small{font-size:18px;color:var(--dim);font-weight:600}
+  .ph-price{font-size:var(--t-price);font-weight:900;color:var(--accent);line-height:1;letter-spacing:-.02em}
+  .ph-price small{font-size:clamp(16px,1.1vw,20px);color:var(--dim);font-weight:600}
   .ph-promo{
-    display:inline-block;margin:10px 0 2px;padding:5px 12px;border-radius:999px;
-    background:var(--accent2);color:var(--accent);font-size:12px;line-height:1.5;
+    display:inline-block;margin:12px 0 4px;padding:7px 14px;border-radius:var(--r-pill);
+    background:var(--accent2);color:var(--accent);font-size:var(--t-sm);line-height:1.6;
   }
   .ph-promo strong{color:var(--gold)}
-  .ph-sub{font-size:12.5px;color:var(--text2);margin-top:8px}
+  .ph-sub{font-size:var(--t-sm);color:var(--text2);margin-top:10px}
   .perks{
     list-style:none;display:flex;flex-wrap:wrap;justify-content:center;
-    gap:6px 18px;margin-top:18px;
+    gap:9px 22px;margin-top:20px;
   }
-  .perks li{font-size:12.5px;color:var(--text2)}
+  .perks li{font-size:var(--t-sm);color:var(--text2)}
   .perks li::before{content:'✓ ';color:var(--green);font-weight:700}
-  .price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:14px}
+  .price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:clamp(12px,1vw,18px);margin-top:var(--sect-head)}
   .price-card{
     background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--border);
-    border-radius:var(--radius);padding:18px;
+    border-radius:var(--radius);padding:clamp(18px,1.5vw,24px);box-shadow:var(--sh-1);
   }
-  .price-card .pc-name{font-size:13px;color:var(--wht);font-weight:700}
-  .price-card .pc-amt{font-size:24px;font-weight:900;color:var(--gold);margin:6px 0 6px;line-height:1.1}
+  .price-card .pc-name{font-size:var(--t-sm);color:var(--wht);font-weight:800;letter-spacing:.01em}
+  .price-card .pc-amt{font-size:var(--t-stat);font-weight:900;color:var(--gold);margin:8px 0;line-height:1.1}
   .price-card .pc-amt.hot{color:var(--accent)}
-  .price-card .pc-desc{font-size:12px;color:var(--dim)}
+  .price-card .pc-desc{font-size:var(--t-xs);color:var(--dim);line-height:1.65}
 
   /* ── 收款码 + 公众号：三张图永远同一行等宽（3 等分 grid，小屏等比缩小不换行） ── */
   /* 锚点直达收款码时，别被吸顶导航与常驻通知卡挡住 */
@@ -296,67 +387,73 @@
   .qr-item{text-align:center;min-width:0;width:100%}
   .qr-item img{
     width:100%;max-width:180px;margin:0 auto;aspect-ratio:1;object-fit:contain;
-    border-radius:8px;border:1px solid var(--border);background:#fff;cursor:zoom-in;
+    border-radius:var(--r-sm);border:1px solid var(--border);background:#fff;cursor:zoom-in;
     display:block;transition:transform .2s,box-shadow .2s;
   }
-  .qr-item img:hover{transform:scale(1.02);box-shadow:0 6px 20px var(--shadow)}
-  .qr-item .qr-label{font-size:12px;color:var(--wht);font-weight:700;margin-top:6px}
-  .qr-item .qr-hint{font-size:11px;color:var(--dim)}
+  /* 悬停放大只在「真有指针」的设备上生效 —— 见文件末尾的 @media (hover:hover) */
+  .qr-item .qr-label{font-size:var(--t-sm);color:var(--wht);font-weight:700;margin-top:9px}
+  .qr-item .qr-hint{display:block;margin-top:2px;font-size:var(--t-xs);color:var(--dim)}
 
   /* ── 步骤 ── */
-  .steps{counter-reset:s;list-style:none;margin-top:10px}
+  .steps{counter-reset:s;list-style:none;margin-top:14px}
   .steps li{
-    counter-increment:s;position:relative;padding-left:36px;margin:14px 0;
-    font-size:13px;color:var(--text2);
+    counter-increment:s;position:relative;padding-left:38px;margin:16px 0;
+    font-size:var(--t-base);color:var(--text2);line-height:1.75;
   }
   .steps li::before{
-    content:counter(s);position:absolute;left:0;top:1px;width:23px;height:23px;
+    content:counter(s);position:absolute;left:0;top:2px;width:25px;height:25px;
     border-radius:50%;background:var(--accent2);color:var(--accent);border:1px solid var(--accent-line);
-    font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;
   }
   .steps li b{color:var(--wht)}
   /* 进群流程 5 张图：永远 5 等分一行，窄屏等比缩小不换行，点图可开灯箱
      aspect-ratio 6/13 = 素材（600×1300）真实比例，5 格等高、不产生上下留白 */
-  .flow-caption{margin:16px 0 0;font-size:12.5px;color:var(--text2);text-align:center}
-  .flow-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+  .flow-caption{margin:20px 0 0;font-size:var(--t-sm);color:var(--text2);text-align:center}
+  .flow-row{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,.9vw,14px);margin-top:16px}
   .flow-row img{
     width:100%;height:auto;aspect-ratio:6/13;object-fit:contain;
-    border-radius:6px;border:1px solid var(--border);background:var(--img-bg);
+    border-radius:var(--r-xs);border:1px solid var(--border);background:var(--img-bg);
     cursor:zoom-in;display:block;transition:transform .2s,box-shadow .2s;
   }
-  .flow-row img:hover{transform:scale(1.02);box-shadow:0 6px 18px var(--shadow)}
+  /* 悬停放大只在「真有指针」的设备上生效 —— 见文件末尾的 @media (hover:hover) */
 
   /* ── 联系卡 ── */
   .contact{
     background:linear-gradient(135deg,var(--gold-a),var(--gold-b));
-    border:1px solid var(--gold-a);border-radius:var(--radius);
-    padding:24px;text-align:center;margin-top:18px;
+    border:1px solid var(--gold-a);border-radius:var(--r-lg);
+    padding:clamp(22px,2vw,34px);text-align:center;margin-top:var(--sect-head);
+    box-shadow:var(--sh-1);
   }
-  .contact .who{font-size:12px;color:var(--text2);letter-spacing:.08em}
+  .contact .who{font-size:var(--t-xs);color:var(--text2);letter-spacing:.1em}
   .contact .id{
-    font-size:clamp(24px,5vw,32px);font-weight:900;color:var(--gold);letter-spacing:.08em;line-height:1.3;
+    font-size:clamp(24px,1.8vw + 17px,34px);font-weight:900;color:var(--gold);
+    letter-spacing:.06em;line-height:1.3;
   }
-  .contact .hint{font-size:12px;color:var(--dim);margin-top:4px}
-  .contact .btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+  .contact .hint{font-size:var(--t-sm);color:var(--dim);margin-top:6px;line-height:1.75}
+  .contact .btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:18px}
   .btn{
-    display:inline-block;padding:9px 24px;border-radius:24px;font-size:13px;font-weight:700;
-    letter-spacing:.08em;cursor:pointer;border:1px solid transparent;
+    display:inline-block;padding:12px 26px;border-radius:var(--r-pill);
+    font-size:clamp(14px,.25vw + 13px,15.5px);font-weight:700;
+    letter-spacing:.04em;cursor:pointer;border:1px solid transparent;
+    transition:transform .18s ease,box-shadow .18s ease,opacity .18s ease;
   }
-  .btn.gold{background:linear-gradient(135deg,#d4a853,#8a6d30);color:#050508}
+  .btn.gold{background:linear-gradient(135deg,#d4a853,#8a6d30);color:#050508;box-shadow:var(--sh-1)}
   .btn.ghost{background:var(--bg2);color:var(--accent);border-color:var(--accent)}
-  .btn:hover{opacity:.88;text-decoration:none}
+  .btn:hover{opacity:.92;text-decoration:none;box-shadow:var(--sh-2)}
+  .btn:active{transform:translateY(1px)}
 
   /* ── FAQ（手机优先：summary ≥44px、图标更大、答案 14px/1.75） ── */
   .faq{margin-top:8px}
   .faq details{
     background:linear-gradient(180deg,var(--card),var(--bg2));
-    border:1px solid var(--border);border-radius:8px;
-    padding:4px 16px 14px;margin-bottom:8px;
+    border:1px solid var(--border);border-radius:var(--r-md);
+    padding:2px 18px 16px;margin-bottom:10px;
     scroll-margin-top:calc(var(--nav-h) + 8px);
+    transition:border-color .2s ease;
   }
   .faq details[open]{border-color:var(--accent-line)}
   .faq summary{
-    font-size:14px;color:var(--wht);font-weight:700;cursor:pointer;user-select:none;
+    font-size:var(--t-base);color:var(--wht);font-weight:700;cursor:pointer;user-select:none;
     list-style:none;display:flex;align-items:center;gap:10px;min-height:44px;
   }
   .faq summary::-webkit-details-marker{display:none}
@@ -365,22 +462,23 @@
   }
   .faq details[open]>summary::before{transform:rotate(90deg)}
   .faq .a{
-    font-size:14px;color:var(--text2);line-height:1.75;margin-top:2px;
+    font-size:var(--t-base);color:var(--text2);line-height:1.8;margin-top:4px;
     padding-left:21px;overflow-wrap:break-word;animation:faqIn .18s ease-out;
   }
   @keyframes faqIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
-  .faq .a p{margin:0 0 6px}
+  .faq .a p{margin:0 0 8px}
   .faq .a p:last-child{margin-bottom:0}
 
   /* ── 更新日志 ── */
   .cl-details{
     background:linear-gradient(180deg,var(--card),var(--bg2));
     border:1px solid var(--border);border-radius:var(--radius);
-    padding:16px 20px;margin-top:30px;scroll-margin-top:calc(var(--nav-h) + 8px);
+    padding:clamp(16px,1.4vw,22px) clamp(18px,1.6vw,26px);
+    margin-top:var(--sect);scroll-margin-top:calc(var(--nav-h) + 8px);
   }
   .cl-details[open]{border-color:var(--accent-line)}
   .cl-details>summary{
-    font-size:14px;color:var(--wht);font-weight:700;cursor:pointer;user-select:none;
+    font-size:var(--t-base);color:var(--wht);font-weight:700;cursor:pointer;user-select:none;
     list-style:none;display:flex;align-items:center;justify-content:center;gap:10px;
     min-height:44px;text-align:center;letter-spacing:.2em;
   }
@@ -391,21 +489,21 @@
     flex:0 0 auto;transition:transform .2s;
   }
   .cl-details[open]>summary::after{transform:rotate(90deg)}
-  .cl-wrap{margin-top:16px;position:relative;z-index:1}
-  .center-dim{text-align:center;color:var(--dim);font-size:12px;padding:10px 0}
+  .cl-wrap{margin-top:20px;position:relative;z-index:1}
+  .center-dim{text-align:center;color:var(--dim);font-size:var(--t-sm);padding:10px 0}
   .cl-version{
     background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
-    padding:16px 18px;margin-bottom:10px;
+    padding:clamp(16px,1.4vw,22px) clamp(16px,1.5vw,24px);margin-bottom:12px;
   }
   .cl-version:last-child{margin-bottom:0}
   .cl-version .vtag{
-    display:block;font-size:14px;font-weight:900;color:var(--accent);
-    letter-spacing:.04em;margin-bottom:10px;
+    display:block;font-size:var(--t-h3);font-weight:900;color:var(--accent);
+    letter-spacing:.04em;margin-bottom:12px;
   }
-  .cl-version .vtag .vdate{font-size:12px;color:var(--dim);font-weight:400;margin-left:8px}
-  .cl-item{font-size:12.5px;color:var(--text);line-height:1.7;padding:3px 0 3px 16px;position:relative;overflow-wrap:break-word}
+  .cl-version .vtag .vdate{font-size:var(--t-xs);color:var(--dim);font-weight:400;margin-left:8px}
+  .cl-item{font-size:var(--t-sm);color:var(--text);line-height:1.78;padding:4px 0 4px 16px;position:relative;overflow-wrap:break-word}
   .cl-item::before{content:'▸';position:absolute;left:0;color:var(--accent);font-size:10px}
-  .cl-sub-item{font-size:11.5px;color:var(--dim);line-height:1.6;padding:1px 0 1px 30px;position:relative}
+  .cl-sub-item{font-size:var(--t-xs);color:var(--dim);line-height:1.65;padding:2px 0 2px 30px;position:relative}
   .cl-sub-item::before{content:'·';position:absolute;left:20px;color:var(--dim)}
   .cl-item strong,.cl-sub-item strong{color:var(--wht)}
 
@@ -428,13 +526,13 @@
     to{opacity:1;transform:translateY(0)}
   }
   .notif-card .n-head{display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap}
-  .notif-card .n-badge{font-size:10.5px;color:var(--accent);letter-spacing:.1em;font-weight:700}
+  .notif-card .n-badge{font-size:11.5px;color:var(--accent);letter-spacing:.1em;font-weight:700}
   .notif-card .n-range{
-    font-size:10px;color:var(--dim);background:var(--code-bg);
-    border-radius:999px;padding:1px 8px;
+    font-size:11px;color:var(--dim);background:var(--code-bg);
+    border-radius:var(--r-pill);padding:1px 8px;
   }
-  .notif-card .n-title{font-size:12.5px;font-weight:700;color:var(--wht);margin-bottom:3px}
-  .notif-card .n-body{font-size:12px;color:var(--text2);line-height:1.6}
+  .notif-card .n-title{font-size:13.5px;font-weight:700;color:var(--wht);margin-bottom:4px}
+  .notif-card .n-body{font-size:13.5px;color:var(--text2);line-height:1.65}
   .notif-card .n-body .n-p{margin:2px 0}
   .notif-card .n-body .n-li{position:relative;padding-left:12px;margin:2px 0}
   .notif-card .n-body .n-li::before{content:'·';position:absolute;left:2px;color:var(--accent)}
@@ -488,17 +586,17 @@
 
   /* ── 页脚（只留：法务链接 + 一行极简风险提示 + 品牌行；详细口径只在「风险与许可」节） ── */
   footer{
-    margin-top:0;padding-top:20px;border-top:1px solid var(--border);
-    text-align:center;font-size:11.5px;color:var(--dim);position:relative;z-index:1;
+    margin-top:0;padding-top:30px;border-top:1px solid var(--border);
+    text-align:center;font-size:var(--t-xs);color:var(--dim);position:relative;z-index:1;
   }
   footer .f-links{
     display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
-    gap:2px 6px;font-size:12px;
+    gap:2px 6px;font-size:var(--t-sm);
   }
-  footer .f-links a{color:var(--text2);border-bottom:1px dotted var(--border);padding:8px 4px}
+  footer .f-links a{color:var(--text2);border-bottom:1px dotted var(--border);padding:9px 5px}
   footer .f-links a:hover{color:var(--accent);text-decoration:none}
   footer .disc{
-    margin:12px auto 0;max-width:640px;font-size:11.5px;line-height:1.8;color:var(--dim);
+    margin:14px auto 0;max-width:640px;font-size:var(--t-xs);line-height:1.9;color:var(--dim);
   }
 
   /* ── 手机端底部常驻购买条（仅 ≤640px；价格由 JS 从定价区读，永远同步） ── */
@@ -508,16 +606,16 @@
     background:var(--nav-bg);backdrop-filter:blur(12px);border-top:1px solid var(--border);
   }
   .buy-bar .bb-price{flex:1 1 auto;min-width:0;line-height:1.25}
-  .buy-bar .bb-price span{display:block;font-size:17px;font-weight:900;color:var(--gold)}
-  .buy-bar .bb-price small{display:block;font-size:10.5px;color:var(--text2);
+  .buy-bar .bb-price span{display:block;font-size:clamp(18px,1vw + 15px,20px);font-weight:900;color:var(--gold)}
+  .buy-bar .bb-price small{display:block;font-size:11.5px;color:var(--text2);
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .buy-bar .bb-btn{
     flex:0 0 auto;min-height:44px;display:inline-flex;align-items:center;justify-content:center;
-    padding:0 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:700;
+    padding:0 16px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:var(--t-sm);font-weight:700;
     color:var(--text2);text-decoration:none;white-space:nowrap;
   }
   .buy-bar .bb-btn.gold{background:var(--gold);border-color:var(--gold);color:#1a1a23}
-  .qr-hint-line{margin-top:10px;text-align:center;font-size:12.5px;color:var(--text2);line-height:1.7}
+  .qr-hint-line{margin-top:12px;text-align:center;font-size:var(--t-sm);color:var(--text2);line-height:1.75}
 
   /* ── 手机版「↑ 回到顶部」（仅 ≤640px 出现，滚动过一屏才显示） ── */
   .to-top{
@@ -534,9 +632,10 @@
   /* ── Toast ── */
   #toast{
     position:fixed;left:50%;bottom:36px;transform:translateX(-50%) translateY(12px);
-    background:var(--wht);color:var(--bg);font-size:13px;font-weight:700;
-    padding:11px 22px;border-radius:8px;z-index:10000;opacity:0;
+    background:var(--wht);color:var(--bg);font-size:var(--t-sm);font-weight:700;
+    padding:12px 24px;border-radius:var(--r-md);z-index:10000;opacity:0;
     transition:opacity .3s,transform .3s;pointer-events:none;max-width:88vw;text-align:center;
+    box-shadow:var(--sh-3);
   }
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -546,43 +645,43 @@
 
   /* ── iPad / 平板（641px ~ 1024px）：两列 grid、媒体行仍一行、留白加大 ── */
   @media (min-width:641px) and (max-width:1024px){
-    .wrap{max-width:900px;padding:46px 30px 24px}
-    .grid{grid-template-columns:repeat(2,1fr);gap:16px}
-    .price-grid{grid-template-columns:repeat(2,1fr);gap:16px}
+    .wrap{max-width:900px;padding:clamp(40px,4.4vw,58px) 32px 28px}
+    .grid{grid-template-columns:repeat(2,1fr);gap:18px}
+    .price-grid{grid-template-columns:repeat(2,1fr);gap:18px}
     .stats{grid-template-columns:repeat(3,1fr)}
-    h2{font-size:19px;margin-top:50px}
     .qr-row{gap:22px;margin-top:26px}
     .flow-row{gap:12px;margin-top:16px}
   }
 
-  /* ── 手机（≤640px）：单列、字号收紧、两张表都卡片化、媒体行仍一行、CTA 全宽 ── */
+  /* ── 手机（≤640px）：单列、两张表都卡片化、媒体行仍一行、CTA 全宽 ── */
   /* ── iPad / 平板（641 ~ 1024px）：六步流程两列，横向空间利用起来 ── */
   @media (min-width:641px) and (max-width:1024px){
-    .steps{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px}
+    .steps{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
     .steps li{margin:8px 0}
   }
 
   @media (max-width:640px){
     :root{--nav-h:58px}
-    .wrap{padding:30px 14px 10px}
+    .wrap{padding:32px 16px 12px}
     .glow{top:-200px;height:520px}
-    h1{font-size:29px;letter-spacing:.03em;margin:6px 0 8px}
-    h2{font-size:17.5px;margin-top:32px;margin-bottom:14px}
-    .lead{font-size:12.5px}
-    .card{padding:14px}
-    .card p{font-size:13.5px}
-    .note{padding:12px 14px}
+    /* 字号一律交给令牌（流体），这一档只调「结构」：几列、什么顺序、怎么对齐 */
+    h1{letter-spacing:.06em;margin:8px 0 10px}
+    /* 副标题在窄屏竖排成三行、**不带「·」** —— 横排时两段会粘成一句
+       （实测「…量化系统十年全市场数据湖」），换行又会把分隔符顶到行首。 */
+    .sub{flex-direction:column;align-items:center;row-gap:2px}
+    .sub span+span::before{content:none}
+    .card{padding:17px}
+    .note{padding:14px 15px}
     .grid{grid-template-columns:1fr}
     .price-grid{grid-template-columns:1fr}
-    .price-hero{padding:22px 14px}
-    .stats{grid-template-columns:1fr 1fr;gap:8px}
-    .stat b{font-size:18px}
-    .contact{padding:20px 14px}
+    .price-hero{padding:24px 16px}
+    .stats{grid-template-columns:1fr 1fr;gap:10px}
+    .contact{padding:22px 16px}
     /* Revolt ID 一行放不下就收字号：防止被卡片裁掉（宁可小一点，也不能横向溢出） */
-    .contact .id{font-size:20px;letter-spacing:.02em;overflow-wrap:anywhere}
-    .steps li{font-size:13px;padding-left:32px}
+    .contact .id{font-size:clamp(20px,5.4vw,24px);letter-spacing:.02em;overflow-wrap:anywhere}
+    .steps li{padding-left:34px}
     /* 出口示意图：字号再收一点，超出时只在代码块内滚动 */
-    pre.flow{font-size:10.5px;padding:12px}
+    pre.flow{font-size:11px;padding:12px}
     /* 对比表 + 定价表 → 卡片式：表头隐藏，每行一块（项目名 + 价格 + 说明），不靠横向滚动 */
     .table-wrap.cmp-wrap{
       border:none;background:transparent;overflow:visible;border-radius:0;
@@ -643,7 +742,7 @@
      容器仍满宽（左右各 2% 边缘）；≥1280px 再在右侧让出一列常驻栏（见下一档）。
      ══════════════════════════════════════════════════════════════ */
   @media (min-width:1025px){
-    .wrap{max-width:none;margin:0 2%;padding:10px 0 10px}
+    .wrap{max-width:none;margin:0 2%;padding:clamp(12px,1.2vw,22px) 0 28px}
     .wrap>.main{min-width:0}
     /* 电脑端：通知卡放浏览器右上侧（浮层，不推正文、也不盖中间的首屏标题） */
     .notif-wrap{
@@ -652,18 +751,11 @@
     }
     .notif-card{box-shadow:0 12px 32px var(--shadow)}
 
-    .grid{grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px}
-    .price-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-    .stats{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-top:34px}
-    h1{font-size:52px;line-height:1.25}
-    .sub{font-size:16px}
-    h2{font-size:23px;margin:64px 0 22px}
-    .card{padding:26px}
-    .card h3{font-size:16px}
-    .card p,.card li{font-size:13.5px}
-    .lead{font-size:15px}
-    .faq summary{font-size:15px}
-    .faq .a{font-size:14.5px}
+    .grid{grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:clamp(18px,1.4vw,26px)}
+    .price-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+    .stats{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin-top:32px}
+    h1{line-height:1.15}
+    /* 字号一律交给令牌（流体）—— 这里不再逐档写死，避免「断点打补丁」 */
 
     /* ── ① Hero 左右结构 ── */
     header.hero{
@@ -673,6 +765,7 @@
     header.hero .dragon{font-size:56px}
     header.hero h1{margin:10px 0 12px}
     header.hero .tags{justify-content:flex-start;margin-top:20px}
+    header.hero .sub{justify-content:flex-start}
     .hero-buy{
       display:block;background:linear-gradient(150deg,var(--hero-a),var(--hero-b));
       border:1px solid var(--accent-line);border-radius:14px;padding:22px 22px 18px;
@@ -708,12 +801,12 @@
     /* ── ② 错位分节：大标题独占一列、卡片网格占另一列（奇偶节左右互换） ── */
     .sect{display:grid;align-items:start;gap:18px 34px;margin-top:64px}
     .sect>h2{
-      margin:0;grid-area:t;font-size:24px;line-height:1.45;
+      margin:0;grid-area:t;line-height:var(--lh-tight);
       position:sticky;top:calc(var(--nav-h) + 16px);
     }
-    .sect-a{grid-template-columns:220px minmax(0,1fr);grid-template-areas:"t g"}
-    .sect-b{grid-template-columns:minmax(0,1fr) 220px;grid-template-areas:"g t" "n t"}
-    .sect-c{grid-template-columns:220px minmax(0,1fr);grid-template-areas:"t g"}
+    .sect-a{grid-template-columns:240px minmax(0,1fr);grid-template-areas:"t g"}
+    .sect-b{grid-template-columns:minmax(0,1fr) 240px;grid-template-areas:"g t" "n t"}
+    .sect-c{grid-template-columns:240px minmax(0,1fr);grid-template-areas:"t g"}
     .sect>.grid{grid-area:g;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
     .sect>.note{grid-area:n;margin-top:0}
 
@@ -741,18 +834,18 @@
     .qrhowto .howto>h2{margin-top:0}
     .qrhowto .qr-row{margin-top:0}
 
-    /* 满宽之后正文容易拉太长/左对齐留大片空：正文限一个阅读宽度并居中，卡片本身仍满宽 */
-    .card>p,.card>ul,.note,.lead,.faq .a,.faq summary,.cl-version ul,.cl-version p,
+    /* 满宽之后正文容易拉太长：居中的那批说明/导语/FAQ 限一个中文阅读宽
+       （≈34 个汉字/行），与同样居中的表格、媒体行对齐。
+       卡片内的正文不在这里 —— 见上面 `.card>p` 的「靠左对齐」说明。 */
+    .lead,.note,.faq .a,.faq summary,.cl-version ul,.cl-version p,
     .cl-version .cl-item,.cl-version .cl-sub-item,.cl-version .vtag,
-    .contact .hint,.qr-hint-line,.table-wrap.cmp-wrap>p,pre.flow{
-      max-width:88ch;margin-inline:auto;
+    .contact .hint,.qr-hint-line,.table-wrap.cmp-wrap>p{
+      max-width:var(--measure);margin-inline:auto;
     }
     /* 1920 下 3 张二维码 / 5 张流程图摊得太散：整行限宽居中 */
     .qr-row{max-width:900px;margin-inline:auto}
     .flow-row{max-width:900px;margin-inline:auto}
-    /* 卡片体量统一：价格卡也加大内边距与金额字号 */
-    .price-card{padding:22px}
-    .price-card .pc-amt{font-size:26px}
+    /* 卡片体量统一：价格卡沿用令牌里的内边距与金额字号（原来是逐档写死的 22px/26px） */
     /* 对比表：两列拉满 1800px 太空 —— 整表限宽居中；左侧标签列吸边。
        ⚠️ 桌面档表通常不溢出 ⇒ 吸边看不出效果（缩放 / 更窄桌面 / 表内横滚时才生效），属**防御性**保留。 */
     table.cmp{max-width:1180px;margin:0 auto;table-layout:fixed}
@@ -763,17 +856,32 @@
     .cmp thead th:first-child{background:var(--th-bg);z-index:3}
     .cmp td:last-child{max-width:78ch}
     /* ⚠️ table-layout:fixed 下 `td{max-width}` 不生效（列宽由表宽倒推）：
-       这里按「标签列 210px + 说明列 88ch」反算整表上限，保证说明列阅读宽 ≤ 88ch */
-    table.cmp{max-width:min(1180px,calc(210px + 88ch))}
+       这里按「标签列 210px + 说明列 34em」反算整表上限，保证说明列阅读宽 ≈ 34 个汉字 */
+    table.cmp{max-width:min(1180px,calc(210px + 34em))}
     /* 二维码/流程图别跟着满宽放大：单张限宽并居中 */
     .qr-item img{max-width:220px;margin:0 auto}   /* 微信收款码源图 376px，再大就糊 */
     .flow-row img{max-width:220px;margin:0 auto}
     /* 六步流程：宽档排成两列（利用横向空间），单条仍限 88ch 阅读宽 */
     .steps{
       display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
-      gap:6px 30px;max-width:1100px;margin-top:10px;
+      gap:10px 32px;max-width:1100px;margin-top:14px;
     }
-    .steps li{margin:8px 0;max-width:88ch}
+    .steps li{margin:10px 0;max-width:88ch}
+  }
+
+  /* ── iPad 横屏 / 小笔记本（1025 ~ 1279px）：**原来没有这一档**，它落进了桌面档 ——
+       全宽 2% 边距 + 220px 标题列 + 340~440px 下单卡，在 1180px 的 iPad Pro 横屏上
+       左右两列被挤扁、卡片只剩很窄的两列。这里加宽标题列、抬高卡片下限、收窄下单卡；
+       右上角那张 fixed 通知卡也一并收窄（太宽会压住 hero 下单卡）。 ── */
+  @media (min-width:1025px) and (max-width:1279px){
+    .sect-a,.sect-c{grid-template-columns:250px minmax(0,1fr)}
+    .sect-b{grid-template-columns:minmax(0,1fr) 250px}
+    .sect>.grid{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+    header.hero{grid-template-columns:minmax(0,1fr) minmax(320px,360px);gap:24px 32px}
+    .hero-buy{max-width:360px;justify-self:end}
+    .qrhowto{grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:18px 28px}
+    .notif-wrap{width:320px;max-width:320px}
+    .steps{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
   }
 
   /* ══════════════════════════════════════════════════════════════
@@ -808,20 +916,20 @@
     .rail-card{
       background:linear-gradient(180deg,var(--card),var(--bg2));
       border:1px solid var(--border);border-radius:var(--radius);
-      padding:16px 14px;box-shadow:0 8px 24px var(--shadow);
+      padding:18px 16px;box-shadow:var(--sh-2);
     }
-    .rail-card .rl-tag{font-size:10px;letter-spacing:.14em;color:var(--gold)}
-    .rail-card .rl-price{font-size:30px;font-weight:900;color:var(--accent);line-height:1.15;margin:4px 0 2px}
-    .rail-card .rl-price small{font-size:13px;color:var(--dim);font-weight:600}
-    .rail-card .rl-formal{font-size:11px;color:var(--dim);margin-bottom:7px}
+    .rail-card .rl-tag{font-size:10.5px;letter-spacing:.14em;color:var(--gold)}
+    .rail-card .rl-price{font-size:clamp(28px,1.3vw,34px);font-weight:900;color:var(--accent);line-height:1.15;margin:6px 0 3px}
+    .rail-card .rl-price small{font-size:13.5px;color:var(--dim);font-weight:600}
+    .rail-card .rl-formal{font-size:11.5px;color:var(--dim);margin-bottom:8px}
     .rail-card .rl-promo{
       display:block;background:var(--accent2);color:var(--accent);
-      border-radius:8px;padding:5px 8px;font-size:11px;line-height:1.5;
+      border-radius:8px;padding:6px 9px;font-size:11.5px;line-height:1.55;
     }
     .rail-card .rl-promo strong{color:var(--gold)}
     .rail-card .rl-ctas{display:flex;flex-direction:column;gap:7px;margin-top:10px}
     .rail-card .rl-ctas .btn{
-      width:100%;min-height:38px;padding:7px 10px;display:flex;
+      width:100%;min-height:40px;padding:8px 10px;display:flex;
       align-items:center;justify-content:center;
     }
     .rail-nav{
@@ -830,14 +938,23 @@
     }
     .rail-nav a.active{color:var(--accent);background:var(--accent2);border-color:var(--accent-line)}
     .rail-nav a{
-      display:flex;align-items:center;min-height:30px;padding:0 8px;border-radius:7px;
-      font-size:12px;color:var(--text2);border:1px solid transparent;
+      display:flex;align-items:center;min-height:34px;padding:0 10px;border-radius:8px;
+      font-size:var(--t-sm);color:var(--text2);border:1px solid transparent;
     }
     .rail-nav a:hover{color:var(--accent);background:var(--code-bg);text-decoration:none}
     .rail-card .rl-login{
       display:block;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);
       font-size:12px;color:var(--accent);text-align:center;
     }
+  }
+
+  /* ── 触控与悬停：`hover` 只给**真的有指针**的设备（触摸屏上悬停会「粘住」），
+        触摸设备把主 CTA 抬到 48px（Apple 44pt / Material 48dp 的上限档） ── */
+  @media (hover:hover) and (pointer:fine){
+    .qr-item img:hover,.flow-row img:hover{transform:scale(1.02);box-shadow:var(--sh-2)}
+  }
+  @media (pointer:coarse){
+    .btn{min-height:48px}
   }
 
   /* ── 无障碍：系统开启「减弱动态效果」时，动画与平滑滚动全部关掉 ── */
@@ -881,7 +998,11 @@
     <div class="hero-main">
       <div class="dragon">🐉</div>
       <h1>寻 龙 诀 PRO</h1>
-      <div class="sub">A 股一进二竞价打板量化系统 · 本地部署 · 核心层零 LLM 可选</div>
+      <div class="sub">
+        <span>A 股一进二竞价打板量化系统</span>
+        <span>十年全市场数据湖</span>
+        <span>数据只存在你自己的机器上</span>
+      </div>
       <div class="tags">
         <span class="tag">一进二竞价</span>
         <span class="tag">全市场真实竞价</span>
@@ -1228,7 +1349,7 @@ xlp 核心层（写表）──┤
   <!-- ═══ 8. 常见问题 ═══ -->
   <h2 id="faq">❓ 常见问题</h2>
   <div class="faq">
-    <details id="faq-order">
+    <details id="faq-order" open>
       <summary>会自动下单吗？</summary>
       <div class="a"><p><strong>不会</strong> —— 不接券商、不代下单、不经手资金（详见「风险与许可」）。</p></div>
     </details>
