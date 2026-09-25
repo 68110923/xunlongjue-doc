@@ -430,7 +430,19 @@
     letter-spacing:.06em;line-height:1.3;
   }
   .contact .hint{font-size:var(--t-sm);color:var(--dim);margin-top:6px;line-height:1.75}
+  /* 中文断行不看词边界，窄列里会把「不聊股票与交易」断成「…与交／易」。
+     强调短语都是 3~7 个字，直接整块不可断 —— 顺带也更好读。 */
+  .contact .hint strong{white-space:nowrap}
   .contact .btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:18px}
+  /* 三个按钮**压到同一行**、各收小一号 —— 在窄列里原来折成两行、白占一块高度。
+     手机档（≤640）仍保持竖排全宽：390px 横排会挤成三个小方块，反而难点。 */
+  @media (min-width:641px){
+    .contact .btns{flex-wrap:nowrap;gap:7px}
+    .contact .btns .btn{
+      padding:9px 12px;font-size:13px;letter-spacing:.02em;white-space:nowrap;
+      min-height:44px;display:inline-flex;align-items:center;justify-content:center;
+    }
+  }
   .btn{
     display:inline-block;padding:12px 26px;border-radius:var(--r-pill);
     font-size:clamp(14px,.25vw + 13px,15.5px);font-weight:700;
@@ -734,6 +746,22 @@
   }
 
   /* ══════════════════════════════════════════════════════════════
+     手机 / 平板（≤1024px）：联系卡在 DOM 里跟着二维码（桌面档要它常驻），
+     但这一档得排回「收款码 → 怎么买六步 → 联系卡」的阅读顺序 ——
+     否则「怎么买」这个 h2 会跑到联系卡**后面**，章节标题就不再引出本章了。
+     `display:contents` 让 .qr-panel 的盒子消失、子项直接参与父级 flex，
+     于是可以用 order 把联系卡排到最后。
+     ══════════════════════════════════════════════════════════════ */
+  @media (max-width:1024px){
+    .qrhowto{display:flex;flex-direction:column}
+    .qrhowto>.qr-panel{display:contents}
+    .qrhowto .qr-row{order:1}
+    .qrhowto .qr-hint-line{order:2}
+    .qrhowto>.howto{order:3}
+    .qrhowto .contact{order:4}
+  }
+
+  /* ══════════════════════════════════════════════════════════════
      桌面（≥1025px）：**左右结构重构**（不是简单上下堆叠）
        ① Hero       → 左：龙 + 标题 + 副标题 + 标签 ／ 右：紧凑下单卡
        ② 功能/数据/工程 → 大标题与卡片网格左右错落（数据节左右互换）
@@ -798,17 +826,26 @@
     }
     .hero-buy .hb-copy:hover{color:var(--accent);border-color:var(--accent-line)}
 
-    /* ── ② 错位分节：大标题独占一列、卡片网格占另一列（奇偶节左右互换） ── */
-    .sect{display:grid;align-items:start;gap:18px 34px;margin-top:64px}
+    /* ── ② 错位分节：大标题独占一列、内容占另一列，**左右交替** ──
+       现在 9 个章节全部走这个模式（除「定价与购买」「怎么买」保持原结构）：
+         这是什么(左) → PRO 版(右) → 功能(左) → 数据能力(右) → 工程与可靠性(左)
+         → 常见问题(右) → 风险与许可(左)
+       标题列是 sticky：读长内容时章节名一直挂在旁边，不丢位置。 ── */
+    .sect{display:grid;align-items:start;gap:18px 34px;margin-top:var(--sect)}
     .sect>h2{
       margin:0;grid-area:t;line-height:var(--lh-tight);
       position:sticky;top:calc(var(--nav-h) + 16px);
     }
     .sect-a{grid-template-columns:240px minmax(0,1fr);grid-template-areas:"t g"}
     .sect-b{grid-template-columns:minmax(0,1fr) 240px;grid-template-areas:"g t" "n t"}
-    .sect-c{grid-template-columns:240px minmax(0,1fr);grid-template-areas:"t g"}
-    .sect>.grid{grid-area:g;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    /* 内容列：`.grid`（卡片网格）或 `.sect-body`（一列里要竖着放好几块时用它包一层） */
+    .sect>.grid,.sect>.sect-body{grid-area:g;min-width:0}
+    .sect>.grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
     .sect>.note{grid-area:n;margin-top:0}
+    /* 跨两列的内容（#what 的关键数字条）：标题与正文分列之后，数字条整行铺满更稳 */
+    .sect>.stats{grid-column:1/-1;margin-top:10px}
+    /* 列内文字靠左 —— 34em 上限 + 居中在窄列里会散开（FAQ 的问与答同理） */
+    .sect-body .lead,.faq summary,.faq .a{margin-inline:0}
 
     /* ── ③ 定价：左价格 hero + CTA ／ 右 4 张价格卡 2×2 ── */
     .pricing-split{
@@ -833,6 +870,13 @@
     .qrhowto>.howto{grid-area:h;min-width:0}
     .qrhowto .howto>h2{margin-top:0}
     .qrhowto .qr-row{margin-top:0}
+    /* 联系卡也跟着这一列常驻 —— 它原来孤零零放在整段**下面**，读到第六步时
+       付款入口与加好友入口早就滚出屏幕了。列宽只有 300~440px，字号与内边距
+       各收一档，否则「Revolt · 68110923#4558」会折行。 */
+    .qrhowto .contact{margin-top:14px;padding:clamp(18px,1.6vw,24px)}
+    .qrhowto .contact .id{font-size:clamp(20px,1vw + 14px,25px);letter-spacing:.02em}
+    .qrhowto .contact .hint{margin-top:5px}
+    .qrhowto .contact .btns{gap:7px;margin-top:14px}
 
     /* 满宽之后正文容易拉太长：居中的那批说明/导语/FAQ 限一个中文阅读宽
        （≈34 个汉字/行），与同样居中的表格、媒体行对齐。
@@ -874,12 +918,12 @@
        左右两列被挤扁、卡片只剩很窄的两列。这里加宽标题列、抬高卡片下限、收窄下单卡；
        右上角那张 fixed 通知卡也一并收窄（太宽会压住 hero 下单卡）。 ── */
   @media (min-width:1025px) and (max-width:1279px){
-    .sect-a,.sect-c{grid-template-columns:250px minmax(0,1fr)}
+    .sect-a{grid-template-columns:250px minmax(0,1fr)}
     .sect-b{grid-template-columns:minmax(0,1fr) 250px}
     .sect>.grid{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
     header.hero{grid-template-columns:minmax(0,1fr) minmax(320px,360px);gap:24px 32px}
     .hero-buy{max-width:360px;justify-self:end}
-    .qrhowto{grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:18px 28px}
+    .qrhowto{grid-template-columns:minmax(330px,400px) minmax(0,1fr);gap:18px 28px}
     .notif-wrap{width:320px;max-width:320px}
     .steps{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
   }
@@ -1030,8 +1074,10 @@
     </aside>
   </header>
 
-  <!-- ═══ 1. 这是什么 ═══ -->
+  <!-- ═══ 1. 这是什么（标题在左） ═══ -->
+  <section class="sect sect-a">
   <h2 id="what">🎯 这是什么</h2>
+  <div class="sect-body">
   <div class="card">
     <p>
       一套<strong>部署在自己电脑或服务器上</strong>的 A 股量化研究工具。它在本地维护一份覆盖<strong>十年全市场</strong>的数据湖，
@@ -1048,6 +1094,7 @@
 xlp 核心层（写表）──┤
                     └─→ 微信推送 / 对话（AI 增强层，可选）</pre>
   </div>
+  </div><!-- /sect-body -->
 
   <div class="stats">
     <div class="stat"><b class="gold">2016 → 今</b><span>十年全市场日线</span></div>
@@ -1056,9 +1103,12 @@ xlp 核心层（写表）──┤
     <div class="stat"><b>16 个作业</b><span>一键装 systemd / crontab</span></div>
     <div class="stat"><b>09:26 前后</b><span>全市场竞价定盘即出选票</span></div>
   </div>
+  </section><!-- /what -->
 
-  <!-- ═══ 2. PRO 版新增与升级（与 README 同源，中性表述：只讲 PRO 版怎么做） ═══ -->
+  <!-- ═══ 2. PRO 版新增与升级（标题在右；与 README 同源，中性表述：只讲 PRO 版怎么做） ═══ -->
+  <section class="sect sect-b">
   <h2 id="compare">🆚 PRO 版新增与升级</h2>
+  <div class="sect-body">
   <p class="lead">
     原版 xunlongjue 已经把「一进二竞价打板」这条思路跑通；
     <strong>PRO 版在同一思路上把每一块做扎实</strong>：数据来源可核对、口径写进文档、
@@ -1116,8 +1166,10 @@ xlp 核心层（写表）──┤
   <div class="note accent">
     一句话：<strong>同样的思路，PRO 版把「数据从哪来、口径怎么定、结果对不对」做成了可核对的东西。</strong>
   </div>
+  </div><!-- /sect-body -->
+  </section><!-- /compare -->
 
-  <!-- ═══ 3. 功能 ═══ -->
+  <!-- ═══ 3. 功能（标题在左） ═══ -->
   <section class="sect sect-a">
   <h2 id="features">🧩 功能</h2>
   <div class="grid">
@@ -1199,7 +1251,8 @@ xlp 核心层（写表）──┤
   </section>
 
   <!-- ═══ 5. 工程与可靠性 ═══ -->
-  <section class="sect sect-c">
+  <!-- ═══ 5. 工程与可靠性（标题在左） ═══ -->
+  <section class="sect sect-a">
   <h2 id="reliable">🛡️ 工程与可靠性</h2>
   <div class="grid">
     <div class="card">
@@ -1303,6 +1356,23 @@ xlp 核心层（写表）──┤
     </div>
   </div>
   <p class="qr-hint-line">按上方价格付款（<strong>10 月 8 日前 888 元</strong>，之后 1288 元），<strong>备注你的 Revolt 用户名</strong>；手机上可<strong>长按图片识别 / 保存</strong>。</p>
+
+  <!-- 联系卡**放在二维码下面**：桌面端这一列是 sticky，读右边「怎么买」六步时
+       二维码与联系卡一起常驻（否则看到第六步就找不到付款入口与加好友入口了）。
+       手机 / 平板档用 `display:contents` + `order` 把它排回「码 → 六步 → 联系卡」。 -->
+  <div class="contact">
+    <div class="who">咨询 · 试用 · 日常交流</div>
+    <div class="id">Revolt&nbsp;·&nbsp;68110923#4558</div>
+    <div class="hint">
+      在 <a href="https://app.revolt.chat/" target="_blank" rel="noopener">app.revolt.chat</a> 注册后搜索这个 ID 加我；<br>
+      <strong>付款之后</strong>才会提供微信 / QQ，且微信 / QQ <strong>不聊股票与交易</strong>（防封号）。
+    </div>
+    <div class="btns">
+      <button class="btn gold js-copy-id" type="button" id="btn-copy">📋 复制 Revolt ID</button>
+      <a class="btn ghost" href="https://app.revolt.chat/" target="_blank" rel="noopener">打开 Revolt</a>
+      <a class="btn ghost" href="#pricing">💰 回到定价</a>
+    </div>
+  </div>
   </div><!-- /qr-panel -->
 
   <!-- ═══ 7. 怎么买（进群流程） ═══ -->
@@ -1332,22 +1402,10 @@ xlp 核心层（写表）──┤
   </section><!-- /howto -->
   </div><!-- /qrhowto -->
 
-  <div class="contact">
-    <div class="who">咨询 · 试用 · 日常交流</div>
-    <div class="id">Revolt&nbsp;·&nbsp;68110923#4558</div>
-    <div class="hint">
-      在 <a href="https://app.revolt.chat/" target="_blank" rel="noopener">app.revolt.chat</a> 注册后搜索这个 ID 加我；<br>
-      <strong>付款之后</strong>才会提供微信 / QQ，且微信 / QQ <strong>不聊股票与交易</strong>（防封号）。
-    </div>
-    <div class="btns">
-      <button class="btn gold js-copy-id" type="button" id="btn-copy">📋 复制 Revolt ID</button>
-      <a class="btn ghost" href="https://app.revolt.chat/" target="_blank" rel="noopener">打开 Revolt</a>
-      <a class="btn ghost" href="#pricing">💰 回到定价</a>
-    </div>
-  </div>
-
-  <!-- ═══ 8. 常见问题 ═══ -->
+  <!-- ═══ 8. 常见问题（标题在右） ═══ -->
+  <section class="sect sect-b">
   <h2 id="faq">❓ 常见问题</h2>
+  <div class="sect-body">
   <div class="faq">
     <details id="faq-order" open>
       <summary>会自动下单吗？</summary>
@@ -1405,9 +1463,13 @@ xlp 核心层（写表）──┤
       </div>
     </details>
   </div>
+  </div><!-- /sect-body -->
+  </section><!-- /faq -->
 
-  <!-- ═══ 9. 风险与许可 ═══ -->
+  <!-- ═══ 9. 风险与许可（标题在左） ═══ -->
+  <section class="sect sect-a">
   <h2 id="legal">⚖️ 风险与许可</h2>
+  <div class="sect-body">
   <div class="card">
     <ul>
       <li>仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，<strong>不承诺任何收益</strong>；数据可能延迟、缺失或出错，据此操作风险自担。</li>
@@ -1420,6 +1482,8 @@ xlp 核心层（写表）──┤
       完整条款见页脚：<strong>用户协议 · 隐私政策 · 风险揭示书</strong>；源码仓库内另有 <code>LICENSE</code> 与 <code>DISCLAIMER.md</code>。
     </div>
   </div>
+  </div><!-- /sect-body -->
+  </section><!-- /legal -->
 
   <!-- ═══ 更新日志（从 README.md 动态解析，页面不放静态 h2） ═══ -->
   <div id="changelog-anchor"></div>
