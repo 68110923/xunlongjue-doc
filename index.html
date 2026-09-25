@@ -305,6 +305,10 @@
     font-size:var(--t-sm);color:var(--text2);line-height:1.75;margin-top:var(--sect-head);
   }
   .note.accent{border-left-color:var(--accent)}
+  /* 「标题 + 小结」是一个成组块：两者贴近（10px），与正文之间再拉开（手机/平板档见下方媒体查询）
+     —— 桌面档这段距离由 `.sect` 的 grid gap 负责，这两条会被 ≥1025 里的规则覆盖。 */
+  .sect-head>h2{margin-bottom:10px}
+  .sect-head .note{margin-top:0;margin-bottom:0}
 
   /* ── 表格（容器内可横向滚动，不撑破页面） ── */
   .table-wrap{
@@ -759,6 +763,11 @@
     .qrhowto .qr-hint-line{order:2}
     .qrhowto>.howto{order:3}
     .qrhowto .contact{order:4}
+    /* 小结与正文之间必须有空隙：桌面档 `.sect` 是 grid（`gap:18px 34px` 负责这段距离），
+       而这一档 `.sect` 是普通块 —— `.sect-head` 与 `.sect-body` 直接相邻会**贴死**。
+       （小结原来挂在正文末尾，所以看不出这个问题。）留 20~28px 让「标题+小结」成组、
+       和正文分开。 */
+    .sect-head{margin-bottom:clamp(20px,3vw,28px)}
   }
 
   /* ══════════════════════════════════════════════════════════════
