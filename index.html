@@ -860,6 +860,30 @@
     /* 列内文字靠左 —— 34em 上限 + 居中在窄列里会散开（FAQ 的问与答同理） */
     .sect-body .lead,.faq summary,.faq .a{margin-inline:0}
 
+    /* ── 宽屏用「分栏」吃掉宽度，而不是把行拉长 ──
+       这些纯文字块（#what 的卡片、#legal 的清单、FAQ、更新日志）容器是满宽的，
+       正文却被 34em 阅读宽限制 ⇒ 宽屏上「宽盒子只有左半边有字」
+       （实测 1736px：卡片 ~1045px、正文 561px，空了 45%），看着像没做完。
+       而中文长行超过 ~40 字就很难读，所以**不能靠去掉上限来解决**。
+
+       `columns:25em` = 「装得下几栏就排几栏」：容器 ≥1600px 自动两栏（每栏 ≈25 个汉字，
+       仍在舒适区 25~40 内），更窄自动退回一栏 —— 不用按断点写死，1440 / 1728 / 1920 都自然。
+       ⚠️ FAQ 不用多栏：展开一条会触发整块重排、把别的条目挤到另一栏去；
+       改用 grid —— 展开只撑高自己那一行，别的条目不动。 */
+    /* #what 的卡片：多段正文 + 出口示意图 —— 在**卡片上**分栏，图整块落在右栏 */
+    .card.split{columns:25em;column-gap:32px}
+    .card.split>p,.card.split>pre{break-inside:avoid}
+    /* #legal 的卡片：只有 `<ul>` 一个子块，在卡片上分栏排不出两栏（整块进第一栏）
+       ⇒ 分栏要加在 `<ul>` 自己身上，并解掉它的阅读宽上限（不然只剩 561px，装不下两栏） */
+    .card.list2>ul{max-width:none;columns:25em;column-gap:32px}
+    .card.list2 li{break-inside:avoid}
+    .faq{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,25em),1fr));
+      gap:0 20px;align-items:start;
+    }
+    .cl-wrap{columns:25em;column-gap:20px}
+    .cl-version{break-inside:avoid}
+
     /* ── ③ 定价：左价格 hero + CTA ／ 右 4 张价格卡 2×2 ── */
     .pricing-split{
       display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);
@@ -1091,7 +1115,7 @@
   <section class="sect sect-a">
   <h2 id="what">🎯 这是什么</h2>
   <div class="sect-body">
-  <div class="card">
+  <div class="card split">
     <p>
       一套<strong>部署在自己电脑或服务器上</strong>的 A 股量化研究工具。它在本地维护一份覆盖<strong>十年全市场</strong>的数据湖，
       每个交易日自动完成：盘前竞价采集 → 一进二选票 → 盘中强多扫描 → 盘后复盘与明日观察，全部结果结构化落表。
@@ -1489,7 +1513,7 @@ xlp 核心层（写表）──┤
   </div>
   </div><!-- /sect-head -->
   <div class="sect-body">
-  <div class="card">
+  <div class="card list2">
     <ul>
       <li>仅供<strong>研究与学习</strong>，<strong>不构成任何投资建议</strong>，<strong>不承诺任何收益</strong>；数据可能延迟、缺失或出错，据此操作风险自担。</li>
       <li>本页<strong>不展示任何业绩数字</strong>：那是营销话术的重灾区；真实战绩请用 <code>xlp stats</code> 在你自己的库上现算（自带幸存者偏差标注）。</li>
