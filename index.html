@@ -376,7 +376,15 @@
     background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--border);
     border-radius:var(--radius);padding:clamp(18px,1.5vw,24px);box-shadow:var(--sh-1);
   }
-  .price-card .pc-name{font-size:var(--t-sm);color:var(--wht);font-weight:800;letter-spacing:.01em}
+  /* 价格卡的名称做成**小标签**（原来是和价格等宽的一整行标题 ⇒ 两者辨识度糊在一起）。
+     淡底 + 细描边 + 胶囊，宽度随文字收；价格仍是这张卡的主视觉（金色 / 大号）。
+     ⚠️ 用 `inline-block` 而不是块级：块级会撑满一行，又变回"和价格一样宽"。 */
+  .price-card .pc-name{
+    display:inline-block;width:auto;
+    font-size:var(--t-xs);font-weight:700;color:var(--text2);
+    background:var(--code-bg);border:1px solid var(--border);
+    border-radius:var(--r-pill);padding:3px 11px;letter-spacing:.02em;
+  }
   .price-card .pc-amt{font-size:var(--t-stat);font-weight:900;color:var(--gold);margin:8px 0;line-height:1.1}
   .price-card .pc-amt.hot{color:var(--accent)}
   .price-card .pc-desc{font-size:var(--t-xs);color:var(--dim);line-height:1.65}
