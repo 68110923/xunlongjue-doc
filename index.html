@@ -781,10 +781,13 @@
   @media (min-width:1025px){
     .wrap{max-width:none;margin:0 2%;padding:clamp(12px,1.2vw,22px) 0 28px}
     .wrap>.main{min-width:0}
-    /* 电脑端：通知卡放浏览器右上侧（浮层，不推正文、也不盖中间的首屏标题） */
+    /* 电脑端：通知卡放浏览器右上侧（浮层，不推正文、也不盖中间的首屏标题）
+       ⚠️ 宽度 = 右侧常驻栏的宽度（300px）。原来是 360px，比常驻栏宽 60px ——
+       左侧那 60px 会压到**正文列**上（实测 1440 下压掉 47px），看着像"盖住了东西"。
+       收成 300px 之后它只占常驻栏那一列；≥1280 再用 `right:2%` 与常驻栏左边对齐。 */
     .notif-wrap{
       position:fixed;top:calc(var(--nav-h) + 10px);right:16px;left:auto;transform:none;
-      width:360px;max-width:360px;margin:0;padding:0;z-index:98;
+      width:300px;max-width:300px;margin:0;padding:0;z-index:98;
     }
     .notif-card{box-shadow:0 12px 32px var(--shadow)}
 
@@ -961,7 +964,13 @@
     header.hero{grid-template-columns:minmax(0,1fr) minmax(320px,360px);gap:24px 32px}
     .hero-buy{max-width:360px;justify-self:end}
     .qrhowto{grid-template-columns:minmax(330px,400px) minmax(0,1fr);gap:18px 28px}
-    .notif-wrap{width:320px;max-width:320px}
+    /* 这一档**没有右侧常驻栏**（常驻栏 ≥1280 才出现），浮层无处可占、必然压住正文
+       ⇒ 退回文档流：导航之下、正文之上，把正文推下去而不是盖住它。
+       （≥1280 才用固定右上角那一套 —— 那里有 300px 的常驻栏正好容纳它。） */
+    .notif-wrap{
+      position:relative;top:auto;right:auto;
+      width:auto;max-width:900px;margin:14px auto 0;padding:0 10px;
+    }
     .steps{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
   }
 
@@ -987,6 +996,9 @@
       gap:30px 32px;align-items:start;
     }
     .wrap>.main{min-width:0}
+    /* 通知卡与常驻栏**同宽（300px）同左边线（`.wrap` 左右各留 2%）** ——
+       这样它只可能盖住常驻栏那一列，永远不会压到正文列上。 */
+    .notif-wrap{right:2%}
     .rail{
       display:block;align-self:start;position:sticky;top:calc(var(--nav-h) + 16px);
       transition:top .25s ease,margin-top .25s ease;
