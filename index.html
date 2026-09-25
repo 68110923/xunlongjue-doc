@@ -238,15 +238,15 @@
     background:linear-gradient(180deg,var(--h1a) 0%,var(--h1b) 40%,var(--h1c) 100%);
     -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   }
-  /* 副标题：拆成语义分段、**段内不折行**，换行只发生在「·」处 ——
-     否则中文会断在词中间（实测「十年全市／场数据湖」）。分隔点由 CSS 生成，
-     这样行尾不会留下一个孤零零的「·」。 */
+  /* 副标题：拆成语义分段、**段内不折行**，换行只发生在段与段之间 ——
+     否则中文会断在词中间（实测「十年全市／场数据湖」）。
+     不用 `·` 连接：换行时它会挂在行首（实测 1440 第二行「· 数据只存在…」），
+     改用段间距 —— 一行放得下就是一行，放不下在段间换行。 */
   .sub{
     color:var(--text2);font-size:var(--t-lead);letter-spacing:.02em;line-height:1.65;
-    display:flex;flex-wrap:wrap;justify-content:center;
+    display:flex;flex-wrap:wrap;justify-content:center;gap:3px 16px;
   }
   .sub span{white-space:nowrap}
-  .sub span+span::before{content:'·';margin:0 10px;color:var(--dim)}
   .tags{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:22px}
   .tag{
     font-size:var(--t-xs);color:var(--accent);background:var(--tag-bg);
@@ -385,6 +385,15 @@
     background:var(--code-bg);border:1px solid var(--border);
     border-radius:var(--r-pill);padding:3px 11px;letter-spacing:.02em;
   }
+  /* 标签里的「xunlongjue」指向**原版**宣传站（点进去看看原版是什么）。
+     用「加内边距 + 等量负外边距」把点击区撑到 ~25px 高（WCAG 2.5.8 的 24px 下限），
+     又不把胶囊撑大 —— 纯文字链接在手机上是 15px 高，点着太细。 */
+  .price-card .pc-name a{
+    display:inline-block;padding:9px 4px;margin:-9px -4px;
+    color:var(--accent);text-decoration:underline;text-decoration-style:dotted;
+    text-underline-offset:2px;
+  }
+  .price-card .pc-name a:hover{text-decoration-style:solid}
   .price-card .pc-amt{font-size:var(--t-stat);font-weight:900;color:var(--gold);margin:8px 0;line-height:1.1}
   .price-card .pc-amt.hot{color:var(--accent)}
   .price-card .pc-desc{font-size:var(--t-xs);color:var(--dim);line-height:1.65}
@@ -690,10 +699,8 @@
     .glow{top:-200px;height:520px}
     /* 字号一律交给令牌（流体），这一档只调「结构」：几列、什么顺序、怎么对齐 */
     h1{letter-spacing:.06em;margin:8px 0 10px}
-    /* 副标题在窄屏竖排成三行、**不带「·」** —— 横排时两段会粘成一句
-       （实测「…量化系统十年全市场数据湖」），换行又会把分隔符顶到行首。 */
-    .sub{flex-direction:column;align-items:center;row-gap:2px}
-    .sub span+span::before{content:none}
+    /* 副标题在窄屏竖排成三行（横排时两段会粘成一句，换行又会把分隔符顶到行首） */
+    .sub{flex-direction:column;align-items:center}
     .card{padding:17px}
     .note{padding:14px 15px}
     .grid{grid-template-columns:1fr}
@@ -808,12 +815,14 @@
     /* ── ① Hero 左右结构 ── */
     header.hero{
       display:grid;grid-template-columns:minmax(0,1.2fr) minmax(340px,440px);
-      gap:26px 42px;align-items:center;text-align:left;margin-bottom:48px;
+      gap:26px 42px;align-items:center;text-align:center;margin-bottom:48px;
     }
+    /* Hero 是门面：文字块在**自己那一列里居中**（原来是左对齐，右边空一块显得偏）。
+       `.dragon` / `h1` 是块级、继承 text-align；`.sub` / `.tags` 是 flex，见下面两行。 */
     header.hero .dragon{font-size:56px}
     header.hero h1{margin:10px 0 12px}
-    header.hero .tags{justify-content:flex-start;margin-top:20px}
-    header.hero .sub{justify-content:flex-start}
+    header.hero .tags{justify-content:center;margin-top:20px}
+    header.hero .sub{justify-content:center}
     .hero-buy{
       display:block;background:linear-gradient(150deg,var(--hero-a),var(--hero-b));
       border:1px solid var(--accent-line);border-radius:14px;padding:22px 22px 18px;
@@ -1056,6 +1065,13 @@
   }
   @media (pointer:coarse){
     .btn{min-height:48px}
+    /* 触摸设备（iPad 等）：导航 chip / 登录 / 主题开关一律抬到 ≥44px ——
+       平板档原来沿用桌面档的 40px，手指点着偏小（WCAG 2.5.5 建议 44px）。 */
+    nav .links a,nav .login{min-height:44px}
+    nav .theme-toggle{width:44px;height:44px}
+    .rail-nav a{min-height:40px}
+    /* Hero 下单卡里的「复制 Revolt ID」是虚线小按钮（实测只有 35px 高） */
+    .hero-buy .hb-copy{min-height:44px}
   }
 
   /* ── 无障碍：系统开启「减弱动态效果」时，动画与平滑滚动全部关掉 ── */
@@ -1380,7 +1396,7 @@ xlp 核心层（写表）──┤
       <div class="pc-desc">试用 5~7 个交易日（<strong>不含源码</strong>，看实际推送结果）；<strong>试用期内购买全额抵扣 88 元</strong>（正式价 1288 → 1200；首发期 888 → 800）</div>
     </div>
     <div class="price-card">
-      <div class="pc-name">原版 xunlongjue</div>
+      <div class="pc-name">原版 <a href="https://68110923.github.io/xunlongjue_doc/" target="_blank" rel="noopener">xunlongjue</a></div>
       <div class="pc-amt">888 元</div>
       <div class="pc-desc">仍在售；与 PRO 版的差别见「PRO 版新增与升级」一节</div>
     </div>
