@@ -832,10 +832,14 @@
          → 常见问题(右) → 风险与许可(左)
        标题列是 sticky：读长内容时章节名一直挂在旁边，不丢位置。 ── */
     .sect{display:grid;align-items:start;gap:18px 34px;margin-top:var(--sect)}
-    .sect>h2{
-      margin:0;grid-area:t;line-height:var(--lh-tight);
-      position:sticky;top:calc(var(--nav-h) + 16px);
+    /* 标题列：可以只有 h2，也可以是「h2 + 小结」包一层 .sect-head ——
+       小结要**跟着标题一起吸顶**，所以必须和 h2 待在同一个 sticky 容器里。 */
+    .sect>h2,.sect>.sect-head{
+      grid-area:t;position:sticky;top:calc(var(--nav-h) + 16px);min-width:0;
     }
+    .sect>h2,.sect-head>h2{margin:0;line-height:var(--lh-tight)}
+    /* 标题列里的小结：列宽只有 240px，字号与内边距各收一档（原文是给满宽写的） */
+    .sect-head .note{margin-top:14px;padding:12px 14px;font-size:var(--t-xs);line-height:1.72}
     .sect-a{grid-template-columns:240px minmax(0,1fr);grid-template-areas:"t g"}
     .sect-b{grid-template-columns:minmax(0,1fr) 240px;grid-template-areas:"g t" "n t"}
     /* 内容列：`.grid`（卡片网格）或 `.sect-body`（一列里要竖着放好几块时用它包一层） */
@@ -1107,7 +1111,12 @@ xlp 核心层（写表）──┤
 
   <!-- ═══ 2. PRO 版新增与升级（标题在右；与 README 同源，中性表述：只讲 PRO 版怎么做） ═══ -->
   <section class="sect sect-b">
+  <div class="sect-head">
   <h2 id="compare">🆚 PRO 版新增与升级</h2>
+  <div class="note accent">
+    同样的思路，把「数据从哪来、口径怎么定、结果对不对」做成可核对的东西。
+  </div>
+  </div><!-- /sect-head -->
   <div class="sect-body">
   <p class="lead">
     原版 xunlongjue 已经把「一进二竞价打板」这条思路跑通；
@@ -1163,9 +1172,6 @@ xlp 核心层（写表）──┤
       </tbody>
     </table>
   </div>
-  <div class="note accent">
-    一句话：<strong>同样的思路，PRO 版把「数据从哪来、口径怎么定、结果对不对」做成了可核对的东西。</strong>
-  </div>
   </div><!-- /sect-body -->
   </section><!-- /compare -->
 
@@ -1217,7 +1223,13 @@ xlp 核心层（写表）──┤
 
   <!-- ═══ 4. 数据能力（错位：卡片在左、大标题在右，与功能节左右互换） ═══ -->
   <section class="sect sect-b">
+  <div class="sect-head">
   <h2 id="data">📊 数据能力</h2>
+  <div class="note">
+    全部落在<strong>本地数据湖</strong>：<strong>17 张表</strong>只追加不覆盖、批次带血缘；
+    原始层永不改，派生层随时可重建，消费方只读 <code>v_*</code> 视图。
+  </div>
+  </div><!-- /sect-head -->
   <div class="grid">
     <div class="card">
       <h3>十年全市场日线</h3>
@@ -1244,13 +1256,8 @@ xlp 核心层（写表）──┤
       <p>宽基 / 行业 / 概念指数日线与指标（523 个），以及市盈率 / 市净率 / 市销率快照</p>
     </div>
   </div>
-  <div class="note">
-    全部落在<strong>本地数据湖</strong>：<strong>17 张表</strong>按主键只追加不覆盖，每个批次带血缘（批次号 + 入库时间），
-    原始层永不修改、派生层随时可重建。消费方（看板 / 脚本 / AI）<strong>只读视图 <code>v_*</code></strong>，底层换实现上层无感。
-  </div>
   </section>
 
-  <!-- ═══ 5. 工程与可靠性 ═══ -->
   <!-- ═══ 5. 工程与可靠性（标题在左） ═══ -->
   <section class="sect sect-a">
   <h2 id="reliable">🛡️ 工程与可靠性</h2>
@@ -1468,7 +1475,12 @@ xlp 核心层（写表）──┤
 
   <!-- ═══ 9. 风险与许可（标题在左） ═══ -->
   <section class="sect sect-a">
+  <div class="sect-head">
   <h2 id="legal">⚖️ 风险与许可</h2>
+  <div class="note">
+    完整条款见页脚：<strong>用户协议 · 隐私政策 · 风险揭示书</strong>；仓库内另有 <code>LICENSE</code> / <code>DISCLAIMER.md</code>。
+  </div>
+  </div><!-- /sect-head -->
   <div class="sect-body">
   <div class="card">
     <ul>
@@ -1478,9 +1490,6 @@ xlp 核心层（写表）──┤
       <li>软件为<strong>专有许可</strong>：可自用、可修改、可集成进自己的产品（含对外提供服务）；
         <strong>禁止转售或再分发源码本身</strong>；无担保，责任上限为已付价款。</li>
     </ul>
-    <div class="note">
-      完整条款见页脚：<strong>用户协议 · 隐私政策 · 风险揭示书</strong>；源码仓库内另有 <code>LICENSE</code> 与 <code>DISCLAIMER.md</code>。
-    </div>
   </div>
   </div><!-- /sect-body -->
   </section><!-- /legal -->
