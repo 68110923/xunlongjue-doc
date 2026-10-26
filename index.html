@@ -1131,9 +1131,8 @@
     </div>
     <aside class="hero-buy" aria-label="快速下单">
       <span class="hb-tag">一次买断 · 永久使用</span>
-      <div class="hb-price"><span data-slot="price">888</span><small> 元</small></div>
-      <div class="hb-formal">正式价 <span data-slot="price-formal">1288</span> 元 · 源码交付</div>
-      <div class="hb-promo" data-slot="promo">🎉 新上线特惠：<strong>10 月 8 日前下单按原版价 888 元</strong>（试用抵扣后 800）</div>
+      <div class="hb-price"><span data-slot="price">1288</span><small> 元</small></div>
+      <div class="hb-formal">源码交付 · 含全部文档</div>
       <ul class="hb-perks">
         <li>私有仓库可持续 <code>git pull</code> 拿更新</li>
         <li>十年全市场数据湖 + 18 份活文档</li>
@@ -1368,7 +1367,6 @@ xlp 核心层（写表）──┤
   <div class="price-hero">
     <div class="ph-tag">一次买断 · 永久使用</div>
     <div class="ph-price">1288 <small>元</small></div>
-    <div class="ph-promo">🎉 新上线特惠：<strong>10 月 8 日前下单按原版价 888 元</strong>（试用抵扣后 800）</div>
     <div class="ph-sub">PRO 版源码（原版 xunlongjue 888 元，差别见「PRO 版新增与升级」）</div>
     <ul class="perks">
       <li>源码交付</li>
@@ -1393,7 +1391,7 @@ xlp 核心层（写表）──┤
     <div class="price-card">
       <div class="pc-name">试用</div>
       <div class="pc-amt hot">88 元</div>
-      <div class="pc-desc">试用 5~7 个交易日（<strong>不含源码</strong>，看实际推送结果）；<strong>试用期内购买全额抵扣 88 元</strong>（正式价 1288 → 1200；首发期 888 → 800）</div>
+      <div class="pc-desc">试用 5~7 个交易日（<strong>不含源码</strong>，看实际推送结果）；<strong>试用期内购买全额抵扣 88 元</strong>（1288 → 1200）</div>
     </div>
     <div class="price-card">
       <div class="pc-name">原版 <a href="https://68110923.github.io/xunlongjue_doc/" target="_blank" rel="noopener">xunlongjue</a></div>
@@ -1429,7 +1427,7 @@ xlp 核心层（写表）──┤
       <div class="qr-hint">点图放大</div>
     </div>
   </div>
-  <p class="qr-hint-line">按上方价格付款（<strong>10 月 8 日前 888 元</strong>，之后 1288 元），<strong>备注你的 Revolt 用户名</strong>；手机上可<strong>长按图片识别 / 保存</strong>。</p>
+  <p class="qr-hint-line">按上方价格付款（<strong>1288 元</strong>），<strong>备注你的 Revolt 用户名</strong>；手机上可<strong>长按图片识别 / 保存</strong>。</p>
 
   <!-- 联系卡**放在二维码下面**：桌面端这一列是 sticky，读右边「怎么买」六步时
        二维码与联系卡一起常驻（否则看到第六步就找不到付款入口与加好友入口了）。
@@ -1590,8 +1588,7 @@ xlp 核心层（写表）──┤
     <div class="rail-card">
       <span class="rl-tag">一次买断 · 永久使用</span>
       <div class="rl-price"><span data-slot="price">—</span><small> 元</small></div>
-      <div class="rl-formal">正式价 <span data-slot="price-formal">—</span> 元</div>
-      <div class="rl-promo" data-slot="promo">🔥 首发特惠进行中，价格见定价区</div>
+      <div class="rl-formal">源码交付 · 一次买断</div>
       <div class="rl-ctas">
         <a class="btn gold" href="#pricing">💰 查看定价</a>
         <a class="btn ghost" href="#qr">🛒 立即购买</a>
@@ -2052,7 +2049,7 @@ function copyContact(){
   } else { fallback(); }
 }
 
-// ── 价格唯一真源：定价区的 `.ph-price`（正式价）与 `.ph-promo`（首发特惠文案）──
+// ── 价格唯一真源：定价区的 `.ph-price`（正式价）与 `.ph-promo`（促销文案，可选）──
 // 页面上任何「当前价格」都由这里现读现算：Hero 下单卡、右侧常驻栏、手机底部购买条
 // 都不写死数字 —— 改价只改定价区那一处。
 function readPrices(){
@@ -2118,7 +2115,7 @@ function initRailOffset(){
 function initBuyBar(){
   var bar = document.getElementById('buyBar');
   if(!bar) return;
-  // 价格从定价区读（首发特惠期间自动跟着变），不在 JS 里写死
+  // 价格从定价区读（促销期间自动跟着变），不在 JS 里写死
   var p = readPrices();
   var bbPrice = document.getElementById('bbPrice');
   var bbNote = document.getElementById('bbNote');
