@@ -427,7 +427,7 @@
     font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;
   }
   .steps li b{color:var(--wht)}
-  /* 进群流程 5 张图：永远 5 等分一行，窄屏等比缩小不换行，点图可开灯箱
+  /* 流程图行：5 等分一行，窄屏等比缩小不换行，点图可开灯箱（当前无图，样式保留）
      aspect-ratio 6/13 = 素材（600×1300）真实比例，5 格等高、不产生上下留白 */
   .flow-caption{margin:20px 0 0;font-size:var(--t-sm);color:var(--text2);text-align:center}
   .flow-row{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,.9vw,14px);margin-top:16px}
@@ -687,7 +687,7 @@
   }
 
   /* ── 手机（≤640px）：单列、两张表都卡片化、媒体行仍一行、CTA 全宽 ── */
-  /* ── iPad / 平板（641 ~ 1024px）：六步流程两列，横向空间利用起来 ── */
+  /* ── iPad / 平板（641 ~ 1024px）：购买步骤两列，横向空间利用起来 ── */
   @media (min-width:641px) and (max-width:1024px){
     .steps{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px}
     .steps li{margin:8px 0}
@@ -708,7 +708,7 @@
     .price-hero{padding:24px 16px}
     .stats{grid-template-columns:1fr 1fr;gap:10px}
     .contact{padding:22px 16px}
-    /* Revolt ID 一行放不下就收字号：防止被卡片裁掉（宁可小一点，也不能横向溢出） */
+    /* 看板账号 / 联系方式一行放不下就收字号：防止被卡片裁掉（宁可小一点，也不能横向溢出） */
     .contact .id{font-size:clamp(20px,5.4vw,24px);letter-spacing:.02em;overflow-wrap:anywhere}
     .steps li{padding-left:34px}
     /* 出口示意图：字号再收一点，超出时只在代码块内滚动 */
@@ -738,7 +738,7 @@
     .qr-item img{border-radius:10px}
     .qr-item .qr-label{font-size:10.5px;margin-top:5px}
     .qr-item .qr-hint{font-size:10px}
-    /* 进群流程：5 等分一行，间距 6~8px、圆角统一 */
+    /* 流程图行：5 等分一行，间距 6~8px、圆角统一 */
     .flow-row{gap:7px;margin-top:12px}
     .flow-row img{border-radius:10px}
     /* 吸顶导航：chip 行可滑动不换行，tap 目标 ≥44px，首页/登录看板都点得到 */
@@ -766,7 +766,7 @@
 
   /* ══════════════════════════════════════════════════════════════
      手机 / 平板（≤1024px）：联系卡在 DOM 里跟着二维码（桌面档要它常驻），
-     但这一档得排回「收款码 → 怎么买六步 → 联系卡」的阅读顺序 ——
+     但这一档得排回「收款码 → 怎么买步骤 → 联系卡」的阅读顺序 ——
      否则「怎么买」这个 h2 会跑到联系卡**后面**，章节标题就不再引出本章了。
      `display:contents` 让 .qr-panel 的盒子消失、子项直接参与父级 flex，
      于是可以用 order 把联系卡排到最后。
@@ -790,7 +790,7 @@
        ① Hero       → 左：龙 + 标题 + 副标题 + 标签 ／ 右：紧凑下单卡
        ② 功能/数据/工程 → 大标题与卡片网格左右错落（数据节左右互换）
        ③ 定价        → 左：价格 hero + CTA ／ 右：4 张价格卡 2×2
-       ④ 收款码与「怎么买」六步 → 并排（码列 sticky，读六步时不丢付款入口）
+       ④ 收款码与「怎么买」步骤 → 并排（码列 sticky，读步骤时不丢付款入口）
      容器仍满宽（左右各 2% 边缘）；≥1280px 再在右侧让出一列常驻栏（见下一档）。
      ══════════════════════════════════════════════════════════════ */
   @media (min-width:1025px){
@@ -849,6 +849,7 @@
       align-items:center;justify-content:center;
     }
     .hero-buy .hb-copy{
+      display:block;text-align:center;text-decoration:none;
       width:100%;margin-top:10px;background:transparent;border:1px dashed var(--border);
       border-radius:8px;padding:8px;font-size:12px;color:var(--text2);
       cursor:pointer;font-family:inherit;
@@ -918,7 +919,7 @@
     .pricing-split>.price-grid{margin-top:0;grid-template-columns:repeat(2,minmax(0,1fr))}
     .pricing-split .price-card{padding:18px}
 
-    /* ── ④ 收款码 + 「怎么买」六步并排（码列常驻可见） ── */
+    /* ── ④ 收款码 + 「怎么买」步骤并排（码列常驻可见） ── */
     .qrhowto{
       display:grid;grid-template-columns:minmax(340px,440px) minmax(0,1fr);
       grid-template-areas:"q h";gap:18px 34px;align-items:start;margin-top:36px;
@@ -927,9 +928,9 @@
     .qrhowto>.howto{grid-area:h;min-width:0}
     .qrhowto .howto>h2{margin-top:0}
     .qrhowto .qr-row{margin-top:0}
-    /* 联系卡也跟着这一列常驻 —— 它原来孤零零放在整段**下面**，读到第六步时
-       付款入口与加好友入口早就滚出屏幕了。列宽只有 300~440px，字号与内边距
-       各收一档，否则「Revolt · 68110923#4558」会折行。 */
+    /* 联系卡也跟着这一列常驻 —— 它原来孤零零放在整段**下面**，读步骤时
+       付款入口与申请账号入口早就滚出屏幕了。列宽只有 300~440px，字号与内边距
+       各收一档，否则较长的看板地址 / 账号会折行。 */
     .qrhowto .contact{margin-top:14px;padding:clamp(18px,1.6vw,24px)}
     .qrhowto .contact .id{font-size:clamp(20px,1vw + 14px,25px);letter-spacing:.02em}
     .qrhowto .contact .hint{margin-top:5px}
@@ -943,7 +944,7 @@
     .contact .hint,.qr-hint-line,.table-wrap.cmp-wrap>p{
       max-width:var(--measure);margin-inline:auto;
     }
-    /* 1920 下 3 张二维码 / 5 张流程图摊得太散：整行限宽居中 */
+    /* 1920 下 3 张二维码摊得太散：整行限宽居中 */
     .qr-row{max-width:900px;margin-inline:auto}
     .flow-row{max-width:900px;margin-inline:auto}
     /* 卡片体量统一：价格卡沿用令牌里的内边距与金额字号（原来是逐档写死的 22px/26px） */
@@ -962,7 +963,7 @@
     /* 二维码/流程图别跟着满宽放大：单张限宽并居中 */
     .qr-item img{max-width:220px;margin:0 auto}   /* 微信收款码源图 376px，再大就糊 */
     .flow-row img{max-width:220px;margin:0 auto}
-    /* 六步流程：宽档排成两列（利用横向空间），单条仍限 88ch 阅读宽 */
+    /* 购买步骤：宽档排成两列（利用横向空间），单条仍限 88ch 阅读宽 */
     .steps{
       display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
       gap:10px 32px;max-width:1100px;margin-top:14px;
@@ -1070,7 +1071,7 @@
     nav .links a,nav .login{min-height:44px}
     nav .theme-toggle{width:44px;height:44px}
     .rail-nav a{min-height:40px}
-    /* Hero 下单卡里的「复制 Revolt ID」是虚线小按钮（实测只有 35px 高） */
+    /* Hero 下单卡里的「申请看板账号」是虚线小按钮（实测只有 35px 高） */
     .hero-buy .hb-copy{min-height:44px}
   }
 
@@ -1142,7 +1143,7 @@
         <a class="btn gold" href="#qr">🛒 立即购买</a>
         <a class="btn ghost" href="#pricing">先试用</a>
       </div>
-      <button class="hb-copy js-copy-id" type="button">📋 复制 Revolt ID 68110923#4558</button>
+      <a class="hb-copy" href="https://xunlongjue.68110923.xyz/register" target="_blank" rel="noopener">🔑 申请看板账号</a>
     </aside>
   </header>
 
@@ -1407,7 +1408,7 @@ xlp 核心层（写表）──┤
 
   </div><!-- /pricing-split -->
 
-  <!-- 收款码 + 「怎么买」六步：桌面档并排（码列常驻可见），手机/平板档仍是原来的「码在上、六步在下」 -->
+  <!-- 收款码 + 「怎么买」步骤：桌面档并排（码列常驻可见），手机/平板档仍是原来的「码在上、步骤在下」 -->
   <div class="qrhowto">
   <div class="qr-panel">
   <div class="qr-row" id="qr">
@@ -1427,49 +1428,39 @@ xlp 核心层（写表）──┤
       <div class="qr-hint">点图放大</div>
     </div>
   </div>
-  <p class="qr-hint-line">按上方价格付款（<strong>1288 元</strong>），<strong>备注你的 Revolt 用户名</strong>；手机上可<strong>长按图片识别 / 保存</strong>。</p>
+  <p class="qr-hint-line">按上方价格付款（<strong>1288 元</strong>），<strong>备注你的联系方式</strong>；付款后到看板「提交注册申请」并上传支付截图。<strong>长按图片识别 / 保存</strong>。</p>
 
-  <!-- 联系卡**放在二维码下面**：桌面端这一列是 sticky，读右边「怎么买」六步时
-       二维码与联系卡一起常驻（否则看到第六步就找不到付款入口与加好友入口了）。
-       手机 / 平板档用 `display:contents` + `order` 把它排回「码 → 六步 → 联系卡」。 -->
+  <!-- 联系卡**放在二维码下面**：桌面端这一列是 sticky，读右边「怎么买」步骤时
+       二维码与联系卡一起常驻（否则看到最后一步就找不到付款入口与申请账号入口了）。
+       手机 / 平板档用 `display:contents` + `order` 把它排回「码 → 步骤 → 联系卡」。 -->
   <div class="contact">
-    <div class="who">咨询 · 试用 · 日常交流</div>
-    <div class="id">Revolt&nbsp;·&nbsp;68110923#4558</div>
+    <div class="who">开通 · 试用 · 日常交流</div>
+    <div class="id">看板内聊天</div>
     <div class="hint">
-      在 <a href="https://app.revolt.chat/" target="_blank" rel="noopener">app.revolt.chat</a> 注册后搜索这个 ID 加我；<br>
-      <strong>付款之后</strong>才会提供微信 / QQ，且微信 / QQ <strong>不聊股票与交易</strong>（防封号）。
+      付款后打开看板「提交注册申请」，上传支付截图；<br>
+      <strong>审核通过后</strong>，咨询、试用、答疑与日常交流都在<strong>看板内的聊天</strong>里。
     </div>
     <div class="btns">
-      <button class="btn gold js-copy-id" type="button" id="btn-copy">📋 复制 Revolt ID</button>
-      <a class="btn ghost" href="https://app.revolt.chat/" target="_blank" rel="noopener">打开 Revolt</a>
+      <a class="btn gold" href="https://xunlongjue.68110923.xyz/register" target="_blank" rel="noopener">🔑 申请看板账号</a>
+      <a class="btn ghost" href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">登录看板</a>
       <a class="btn ghost" href="#pricing">💰 回到定价</a>
     </div>
   </div>
   </div><!-- /qr-panel -->
 
-  <!-- ═══ 7. 怎么买（进群流程） ═══ -->
+  <!-- ═══ 7. 怎么买（开通流程） ═══ -->
   <section class="howto">
-  <h2 id="howto">🚀 怎么买（进群流程）</h2>
+  <h2 id="howto">🚀 怎么买（开通流程）</h2>
   <div class="card">
     <ol class="steps">
-      <li><b>来 Revolt 咨询（免费）</b>：注册 Revolt → 加我 <code>68110923#4558</code> → 问清楚再决定。
-        咨询、答疑、日常交流<strong>都在 Revolt</strong>。</li>
-      <li><b>试用（可选）</b>：试用 <strong>5~7 个交易日</strong>，每天在 Revolt 群里同步推送结果；
-        试用期内购买可<strong>全额抵扣</strong>（价格与抵扣见上方「定价与购买」）。</li>
-      <li><b>先付款</b>：微信 / 支付宝扫码（见上方收款码），备注你的 <strong>Revolt 用户名</strong>（或任意联系方式）。</li>
-      <li><b>付款后加微信 / QQ</b>：不公开（防骚扰）；微信 / QQ <strong>不聊股票、交易、理财</strong>
-        （易封号），这类问题请到 Revolt 问。</li>
-      <li><b>交付源码</b>：给你私有仓库的 <strong>只读 PAT</strong>（仅能拉代码），自己 <code>git clone</code> / <code>git pull</code>；随后把<strong>部署文档</strong>交给 Hermes 等 AI，它就能照着把环境装好。</li>
-      <li><b>进开发者交流群</b>：<strong>购买源码后</strong>拉你进「寻龙诀开发者交流群」——一起聊<strong>市场动态</strong>，把你的想法提给群主做成功能，也可以参与<strong>定制化的二次开发</strong>。</li>
+      <li><b>付款</b>：微信 / 支付宝扫码（见上方收款码），备注你的<strong>联系方式</strong>（手机号 / 邮箱，或看板用户名）。</li>
+      <li><b>申请看板账号</b>：打开<a href="https://xunlongjue.68110923.xyz/register" target="_blank" rel="noopener">看板注册页</a>
+        →「提交注册申请」，填用户名 / 密码，上传<strong>支付截图</strong>（一张即可），提交后由管理员审核。</li>
+      <li><b>审核通过后登录看板</b>：<strong>咨询、试用、答疑与日常交流都在看板内的聊天里发布</strong>；
+        购买源码后的开发者交流也在同一个聊天里。</li>
+      <li><b>交付源码</b>（购买源码后）：给你私有仓库的 <strong>只读 PAT</strong>（仅能拉代码），
+        自己 <code>git clone</code> / <code>git pull</code>；随后把<strong>部署文档</strong>交给 Hermes 等 AI，它就能照着把环境装好。</li>
     </ol>
-    <p class="flow-caption">Revolt 注册 / 加好友流程（点图放大）：</p>
-    <div class="flow-row">
-      <img src="media/进群流程/步骤1.webp" alt="Revolt 加好友 步骤 1：复制我的 ID" decoding="async" onclick="openLightbox(this)">
-      <img src="media/进群流程/步骤2.webp" alt="Revolt 加好友 步骤 2：注册 Revolt" decoding="async" onclick="openLightbox(this)">
-      <img src="media/进群流程/步骤3.webp" alt="Revolt 加好友 步骤 3：邮箱认证" decoding="async" onclick="openLightbox(this)">
-      <img src="media/进群流程/步骤4.webp" alt="Revolt 加好友 步骤 4：搜索 ID 发消息" decoding="async" onclick="openLightbox(this)">
-      <img src="media/进群流程/步骤5.webp" alt="Revolt 加好友 步骤 5：固定标签页" decoding="async" onclick="openLightbox(this)">
-    </div>
   </div>
   </section><!-- /howto -->
   </div><!-- /qrhowto -->
@@ -1527,11 +1518,10 @@ xlp 核心层（写表）──┤
       </div>
     </details>
     <details id="faq-contact">
-      <summary>怎么咨询 / 试用？为什么微信、QQ 不聊股票？</summary>
+      <summary>怎么咨询 / 试用？</summary>
       <div class="a">
-        <p><strong>咨询与试用都在 Revolt</strong>（注册后加我 <code>68110923#4558</code>）；
-        微信 / QQ <strong>付款后</strong>才提供，且<strong>不聊股票、交易、理财</strong>（易封号）。
-        购买源码后拉进「寻龙诀开发者交流群」。</p>
+        <p><strong>付款后申请看板账号</strong>（需管理员审核），审核通过后登录看板；
+        <strong>咨询、试用、答疑与日常交流都在看板内的聊天里</strong>。</p>
       </div>
     </details>
   </div>
@@ -2023,32 +2013,6 @@ function expandForHash(){
   }
 }
 
-// ── 复制联系方式 ──
-function toast(msg){
-  var t = document.getElementById('toast');
-  if (!t) return;
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toast._t);
-  toast._t = setTimeout(function(){ t.classList.remove('show'); }, 2000);
-}
-function copyContact(){
-  var txt = '68110923#4558';
-  function done(){ toast('✅ 已复制 Revolt ID：' + txt + '（打开 Revolt 搜索添加）'); }
-  function fallback(){
-    var ta = document.createElement('textarea');
-    ta.value = txt;
-    ta.style.cssText = 'position:fixed;top:-100px;opacity:0';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); done(); } catch (e) { toast('请手动复制：' + txt); }
-    ta.remove();
-  }
-  if (navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(done, fallback);
-  } else { fallback(); }
-}
-
 // ── 价格唯一真源：定价区的 `.ph-price`（正式价）与 `.ph-promo`（促销文案，可选）──
 // 页面上任何「当前价格」都由这里现读现算：Hero 下单卡、右侧常驻栏、手机底部购买条
 // 都不写死数字 —— 改价只改定价区那一处。
@@ -2142,10 +2106,6 @@ document.addEventListener('DOMContentLoaded', function(){initBuyBar();
   var tt = document.getElementById('themeToggle');
   if (tt) tt.addEventListener('click', toggleTheme);
   loadAll();
-  // 「复制 Revolt ID」：联系卡 + Hero 下单卡（可多个）
-  [].slice.call(document.querySelectorAll('.js-copy-id')).forEach(function(b){
-    b.addEventListener('click', copyContact);
-  });
   var lbClose = document.getElementById('lightboxClose');
   if (lbClose) lbClose.addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
   // 可点开的图片补上键盘可达性（Tab 聚焦 + Enter/Space 打开灯箱，focus-visible 有轮廓）
