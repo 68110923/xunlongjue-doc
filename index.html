@@ -359,6 +359,9 @@
   }
   .ph-price{font-size:var(--t-price);font-weight:900;color:var(--accent);line-height:1;letter-spacing:-.02em}
   .ph-price small{font-size:clamp(16px,1.1vw,20px);color:var(--dim);font-weight:600}
+  .hb-list,.ph-list{font-size:13px;color:var(--dim);margin-top:4px}
+  .hb-list del,.ph-list del{color:var(--text2);text-decoration-thickness:1.5px;font-weight:600}
+  .hb-list b,.ph-list b{color:var(--gold);font-weight:800}
   .ph-promo{
     display:inline-block;margin:12px 0 4px;padding:7px 14px;border-radius:var(--r-pill);
     background:var(--accent2);color:var(--accent);font-size:var(--t-sm);line-height:1.6;
@@ -1131,11 +1134,12 @@
       </div>
     </div>
     <aside class="hero-buy" aria-label="快速下单">
-      <span class="hb-tag">一次买断 · 永久使用</span>
+      <span class="hb-tag">一次买断 · 含后续策略更新</span>
       <div class="hb-price"><span data-slot="price">1288</span><small> 元</small></div>
-      <div class="hb-formal">源码交付 · 含全部文档</div>
+      <div class="hb-list">划线价 <del>5888</del> 元，限时按 <b>1288</b> 元</div>
+      <div class="hb-formal">源码交付 · 含全部文档 · 含后续策略更新</div>
       <ul class="hb-perks">
-        <li>私有仓库可持续 <code>git pull</code> 拿更新</li>
+        <li>私有仓库可持续 <code>git pull</code> 拿后续策略更新</li>
         <li>十年全市场数据湖 + 18 份活文档</li>
         <li>2 核 2 GB 就能跑，也可装自己电脑</li>
       </ul>
@@ -1358,14 +1362,15 @@ xlp 核心层（写表）──┤
   <div class="pricing-split">
   <div class="pricing-aside">
   <div class="price-hero">
-    <div class="ph-tag">一次买断 · 永久使用</div>
+    <div class="ph-tag">一次买断 · 含后续策略更新</div>
     <div class="ph-price">1288 <small>元</small></div>
-    <div class="ph-sub">PRO 版源码（原版 xunlongjue 同为 1288 元；老用户可直接同步 PRO 版源码）</div>
+    <div class="ph-list">划线价 <del>5888</del> 元，限时按 <b>1288</b> 元</div>
+    <div class="ph-sub">PRO 版源码（原版 xunlongjue 同为 1288 元；含后续策略更新；老用户可直接同步 PRO 版源码）</div>
     <ul class="perks">
       <li>源码交付</li>
       <li>部署教程 + 全部文档</li>
       <li>十年全市场数据湖</li>
-      <li>私有仓库可持续 <code>git pull</code> 拿更新</li>
+      <li>私有仓库可持续 <code>git pull</code> 拿后续策略更新</li>
       <li>15 个作业一键安装</li>
     </ul>
   </div>
@@ -1389,7 +1394,7 @@ xlp 核心层（写表）──┤
     <div class="price-card">
       <div class="pc-name">原版 <a href="https://68110923.github.io/xunlongjue_doc/" target="_blank" rel="noopener">xunlongjue</a></div>
       <div class="pc-amt">1288 元</div>
-      <div class="pc-desc">与 PRO 版统一定价；已购买原版的老用户可直接同步 PRO 版源码</div>
+      <div class="pc-desc">与 PRO 版统一定价（划线价 <del>5888</del> 元）；已购买原版的老用户可直接同步 PRO 版源码</div>
     </div>
     <div class="price-card">
       <div class="pc-name">云服务器（可选，自购）</div>
@@ -1464,14 +1469,14 @@ xlp 核心层（写表）──┤
   <h2 id="faq">❓ 常见问题</h2>
   <div class="sect-body">
   <div class="faq">
-    <details id="faq-order" open>
+    <details id="faq-order">
       <summary>会自动下单吗？</summary>
       <div class="a"><p><strong>不会</strong> —— 不接券商、不代下单、不经手资金（详见「风险与许可」）。</p></div>
     </details>
     <details id="faq-config">
-      <summary>需要什么配置？</summary>
+      <summary>部署需要什么系统环境？</summary>
       <div class="a">
-        <p><strong>2 核 2 GB / 磁盘 ≥ 10 GB</strong>，Ubuntu 22.04+（或自己的电脑）；实测最重作业峰值约 1.1 GB。</p>
+        <p>Ubuntu 22.04+（或自己的电脑），磁盘 ≥ 10 GB；安装脚本会检查依赖。</p>
         <p>⚠️ <strong>系统时区必须是 <code>Asia/Shanghai</code></strong> —— 数据口径恒为上海时间，但定时任务按本机时区解释计划，
         时区不对会整体偏 8 小时且不报错（<code>xlp doctor</code> 会检查）。</p>
       </div>
@@ -1488,6 +1493,14 @@ xlp 核心层（写表）──┤
       <summary>交付什么形式？</summary>
       <div class="a"><p>私有仓库<strong>只读 PAT</strong>（自己拉代码）+ 部署教程 + 全部文档；把部署文档交给 Hermes 等 AI 即可代你装好。数据首次运行时自己拉（约 14 分钟）。</p></div>
     </details>
+    <details id="faq-update">
+      <summary>源码买断后，后续策略更新怎么获取？</summary>
+      <div class="a"><p>源码买断<strong>包含后续策略更新</strong>。作者会打包到私有仓库，买家通过 <code>git pull</code> 同步，不额外收费。</p></div>
+    </details>
+    <details id="faq-trial">
+      <summary>怎么试用？试用多久？</summary>
+      <div class="a"><p>试用 5~7 个交易日，<strong>不含源码</strong>，结果在看板内查看；试用期内购买源码可全额抵扣试用费。</p></div>
+    </details>
     <details id="faq-time">
       <summary>多久出结果？</summary>
       <div class="a"><p>竞价与选票 <strong>09:26 前后</strong>（等全市场竞价定盘）；看天 09:27；盘中强多票每 30 分钟；复盘 16:08；明日观察 16:14。</p></div>
@@ -1497,8 +1510,10 @@ xlp 核心层（写表）──┤
       <div class="a"><p>市场会变，参数需要定期重标定；仓库带了重标定与自评脚本（<code>xlp stats</code> 现算真实战绩）。</p></div>
     </details>
     <details id="faq-server">
-      <summary>能装云服务器吗？</summary>
-      <div class="a"><p>能，2C2G 就够；也可以装在自己电脑上（常驻约 325 MB）。</p></div>
+      <summary>支持 2 核 2 GB 服务器流畅运行吗？</summary>
+      <div class="a">
+        <p><strong>支持。</strong> 实测 2 核 2 GB / 磁盘 ≥ 10 GB 可稳定运行，常驻约 325 MB，最重作业峰值约 1.1 GB；也可装在自己电脑上。</p>
+      </div>
     </details>
     <details id="faq-diff">
       <summary>与原版 / 别家有什么区别？</summary>
@@ -1576,7 +1591,7 @@ xlp 核心层（写表）──┤
   <!-- 右侧常驻栏（仅 ≥1280px 显示；价格由 JS 从定价区读取，这里不写死任何数字） -->
   <aside class="rail" aria-label="快速下单与页面导航">
     <div class="rail-card">
-      <span class="rl-tag">一次买断 · 永久使用</span>
+      <span class="rl-tag">一次买断 · 含后续策略更新</span>
       <div class="rl-price"><span data-slot="price">—</span><small> 元</small></div>
       <div class="rl-formal">源码交付 · 一次买断</div>
       <div class="rl-ctas">
@@ -2085,7 +2100,7 @@ function initBuyBar(){
   var bbNote = document.getElementById('bbNote');
   // 有优惠：大字显示**当前实付价**，小字标正式价；没优惠：大字=正式价，小字=买断说明。
   if(bbPrice) bbPrice.textContent = p.currentNum ? (p.currentNum + ' 元') : p.formal;
-  if(bbNote) bbNote.textContent = p.hasPromo ? ('正式价 ' + p.formal) : '一次买断 · 永久使用';
+  if(bbNote) bbNote.textContent = p.hasPromo ? ('正式价 ' + p.formal) : '一次买断 · 含后续策略更新';
   var ticking = false;
   function update(){
     ticking = false;
