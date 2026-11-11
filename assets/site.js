@@ -41,6 +41,43 @@
     a.addEventListener("click", closeMenu);
   });
 
+  // 公告关闭（当前会话记住）
+  var announce = document.getElementById("announcement");
+  var announceClose = document.getElementById("announcementClose");
+  try { if (localStorage.getItem("xlp-announce-closed") === "1" && announce) announce.hidden = true; } catch (e) {}
+  if (announceClose && announce) {
+    announceClose.addEventListener("click", function () {
+      announce.hidden = true;
+      try { localStorage.setItem("xlp-announce-closed", "1"); } catch (e) {}
+    });
+  }
+
+  // 咨询弹窗
+  var consult = document.getElementById("consultDialog");
+  var consultOpen = document.getElementById("consultOpen");
+  if (consult && consultOpen) {
+    function closeConsult() {
+      document.body.classList.remove("consult-open");
+      if (consult.open) consult.close();
+    }
+    consultOpen.addEventListener("click", function () {
+      document.body.classList.add("consult-open");
+      if (typeof consult.showModal === "function") consult.showModal();
+      else consult.hidden = false;
+    });
+    var consultClose = consult.querySelector("[data-consult-close]");
+    if (consultClose) consultClose.addEventListener("click", closeConsult);
+    consult.addEventListener("click", function (e) {
+      if (e.target === consult) closeConsult();
+    });
+    consult.addEventListener("close", function () {
+      document.body.classList.remove("consult-open");
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && consult.open) closeConsult();
+    });
+  }
+
   // FAQ 导航：点问题目录后，右侧对应 details 自动展开
   document.querySelectorAll('a[href^="#faq-"]').forEach(function (a) {
     a.addEventListener("click", function () {

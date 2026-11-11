@@ -49,6 +49,12 @@
     <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
   </div>
 </header>
+<div class="announce" id="announcement">
+  <span class="announce-tag">公告</span>
+  <span>PRO 源码 1288 元 · 看板试用 88 元 · 公众号每天更新战绩</span>
+  <a href="pricing/">查看</a>
+  <button id="announcementClose" type="button" aria-label="关闭公告">✕</button>
+</div>
 <div class="menu-overlay" id="menuOverlay"></div>
 <main class="wrap">
 <section class="hero">
@@ -77,6 +83,7 @@
     <div class="card"><span class="tag">DATA</span><h3>本地数据湖</h3><p>原始层只追加不覆盖，派生层可重建；行情、竞价、池、龙虎榜留在自己的机器上。</p></div>
     <div class="card"><span class="tag">STRATEGY</span><h3>一进二选票</h3><p>把首板、竞价、位置、量价、板块和风险条件串成一条可回测的流程。</p></div>
     <div class="card"><span class="tag">REVIEW</span><h3>每日复盘</h3><p>命中、遗漏、盲区自动归档，生成明日观察，不靠手写表格。</p></div>
+    <div class="card"><span class="tag">VERIFY</span><h3>回测与自评</h3><p>用真实开盘价回看，命中率、失败均亏和期望收益一起看。</p></div>
   </div>
 </section>
 
@@ -91,6 +98,7 @@
     <div><b>盘中</b>固定节奏重算行情</div>
     <div><b>盘后</b>复盘与明日观察</div>
   </div>
+  <div class="platform-strip"><span>推送方式</span> 微信 · 企业微信 · 钉钉 · 飞书 · DSH-IM</div>
 </section>
 
 <section class="section" id="pricing-home">
@@ -135,6 +143,16 @@
   </div>
 </section>
 </main>
+<button class="consult-fab" id="consultOpen" type="button">💬 咨询开发大大</button>
+<dialog class="consult-dialog" id="consultDialog">
+  <header class="consult-head"><strong>咨询开发大大</strong><button type="button" data-consult-close aria-label="关闭">✕</button></header>
+  <div class="consult-body">
+    <p>购买、试用、部署问题，先看公众号和文档；付款后作者会主动联系你，发送部署所需配置。</p>
+    <img src="media/公众号/公众号二维码.jpg" alt="寻龙诀公众号二维码" loading="lazy">
+    <div class="consult-actions"><a class="btn primary" href="pricing/">购买 / 试用</a><a class="btn ghost" href="docs/faq/">先看 FAQ</a></div>
+    <p class="consult-note">不代下单、不承诺收益；仅供研究。</p>
+  </div>
+</dialog>
 <footer class="wrap page-foot">
   <div class="links">
     <a href="docs/">文档</a>

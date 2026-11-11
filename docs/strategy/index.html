@@ -49,6 +49,7 @@
     <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
   </div>
 </header>
+
 <div class="menu-overlay" id="menuOverlay"></div>
 <div class="docs-shell"><aside class="docs-side" id="docsSide"><details open><summary>文档</summary><a href="../../docs/">文档首页</a></details><details open><summary>入门</summary><a href="../../docs/getting-started/">安装与部署</a></details><details open><summary>策略</summary><a href="../../docs/strategy/" class=active>策略总览</a><a href="../../docs/strategy/first-board/">A股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></details><details open><summary>数据与验证</summary><a href="../../docs/data/">数据湖</a><a href="../../docs/backtest/">回测</a></details><details open><summary>帮助</summary><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></details></aside><main class="docs-body">
 <h1>策略总览</h1>
@@ -60,6 +61,16 @@
 <h2 id="h-3">边界</h2>
 <p>任何筛选都只能提高研究效率，不能保证结果。策略、数据和回测方法要一起看，不要用一个指标代替判断。</p>
 </main><aside class="docs-toc"><strong>本页目录</strong><a href="#h-1">三段结构</a><a href="#h-2">阅读顺序</a><a href="#h-3">边界</a></aside></div>
+<button class="consult-fab" id="consultOpen" type="button">💬 咨询开发大大</button>
+<dialog class="consult-dialog" id="consultDialog">
+  <header class="consult-head"><strong>咨询开发大大</strong><button type="button" data-consult-close aria-label="关闭">✕</button></header>
+  <div class="consult-body">
+    <p>购买、试用、部署问题，先看公众号和文档；付款后作者会主动联系你，发送部署所需配置。</p>
+    <img src="../../media/公众号/公众号二维码.jpg" alt="寻龙诀公众号二维码" loading="lazy">
+    <div class="consult-actions"><a class="btn primary" href="../../pricing/">购买 / 试用</a><a class="btn ghost" href="../../docs/faq/">先看 FAQ</a></div>
+    <p class="consult-note">不代下单、不承诺收益；仅供研究。</p>
+  </div>
+</dialog>
 <footer class="wrap page-foot">
   <div class="links">
     <a href="../../docs/">文档</a>

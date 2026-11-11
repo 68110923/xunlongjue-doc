@@ -49,6 +49,7 @@
     <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
   </div>
 </header>
+
 <div class="menu-overlay" id="menuOverlay"></div>
 <div class="docs-shell"><aside class="docs-side" id="docsSide"><details open><summary>文档</summary><a href="../../docs/">文档首页</a></details><details open><summary>入门</summary><a href="../../docs/getting-started/">安装与部署</a></details><details open><summary>策略</summary><a href="../../docs/strategy/">策略总览</a><a href="../../docs/strategy/first-board/">A股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></details><details open><summary>数据与验证</summary><a href="../../docs/data/" class=active>数据湖</a><a href="../../docs/backtest/">回测</a></details><details open><summary>帮助</summary><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></details></aside><main class="docs-body"><h1>A股本地数据湖怎么做？</h1>
 <p class="docs-lead">把数据放在自己手里，才能稳定复现回测，不被接口和网络牵着走。</p>
@@ -71,6 +72,16 @@
 <p><strong>一定要用 DuckDB 吗？</strong> 不是。DuckDB 只是单机分析的一种选择，核心是分层、主键、可重建和质量校验。</p>
 <p><strong>2 核 2 GB 能跑吗？</strong> 可以跑日常流程，但盘中高频扫描和全量回测要错开，避免同时占用内存。</p>
 </main><aside class="docs-toc"><strong>本页目录</strong><a href="#h-1">为什么用 DuckDB + Parquet</a><a href="#h-2">表怎么分层</a><a href="#h-3">质量比“有数据”更重要</a><a href="#h-4">为什么不能只存一份 CSV</a><a href="#h-5">常见问题</a></aside></div>
+<button class="consult-fab" id="consultOpen" type="button">💬 咨询开发大大</button>
+<dialog class="consult-dialog" id="consultDialog">
+  <header class="consult-head"><strong>咨询开发大大</strong><button type="button" data-consult-close aria-label="关闭">✕</button></header>
+  <div class="consult-body">
+    <p>购买、试用、部署问题，先看公众号和文档；付款后作者会主动联系你，发送部署所需配置。</p>
+    <img src="../../media/公众号/公众号二维码.jpg" alt="寻龙诀公众号二维码" loading="lazy">
+    <div class="consult-actions"><a class="btn primary" href="../../pricing/">购买 / 试用</a><a class="btn ghost" href="../../docs/faq/">先看 FAQ</a></div>
+    <p class="consult-note">不代下单、不承诺收益；仅供研究。</p>
+  </div>
+</dialog>
 <footer class="wrap page-foot">
   <div class="links">
     <a href="../../docs/">文档</a>

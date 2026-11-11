@@ -89,6 +89,38 @@ button { font: inherit; }
 .top-actions a:hover, .top-actions button:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
 .menu-toggle { display: none; }
 .topbar:not(.docs-top) .menu-toggle { display: none !important; }
+.announce{
+  display:flex;align-items:center;gap:8px;padding:8px 18px;background:var(--gold-soft);
+  border-bottom:1px solid var(--border);color:var(--text-2);font-size:12px;
+}
+.announce-tag{flex:0 0 auto;background:var(--gold);color:var(--wht);border-radius:5px;padding:2px 7px;font-weight:700}
+.announce a{flex:0 0 auto;font-weight:700}
+.announce button{margin-left:auto;flex:0 0 auto;border:0;background:transparent;color:var(--dim);cursor:pointer;font-size:15px;padding:2px 4px}
+.announce button:hover{color:var(--accent)}
+.consult-fab{
+  position:fixed;right:18px;bottom:20px;z-index:55;display:inline-flex;align-items:center;
+  min-height:42px;padding:0 15px;border:1px solid var(--accent);border-radius:999px;
+  background:var(--accent);color:#fff;font-size:13px;font-weight:700;cursor:pointer;
+  box-shadow:var(--shadow);
+}
+.consult-fab:hover{opacity:.9}
+body.consult-open .consult-fab{display:none}
+.platform-strip{margin-top:14px;color:var(--dim);font-size:12px;line-height:1.7}
+.platform-strip span{color:var(--text-2);font-weight:700;margin-right:5px}
+.consult-dialog{
+  width:min(360px,calc(100vw - 32px));max-width:100%;padding:0;border:1px solid var(--border);
+  border-radius:16px;background:var(--surface);color:var(--text);box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+.consult-dialog::backdrop{background:rgba(0,0,0,.38)}
+.consult-head{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid var(--border)}
+.consult-head strong{color:var(--wht)}
+.consult-head button{border:0;background:transparent;color:var(--dim);font-size:17px;cursor:pointer}
+.consult-body{padding:16px;font-size:13px;line-height:1.7}
+.consult-body p{color:var(--text-2);margin-bottom:12px}
+.consult-body img{display:block;width:160px;max-width:100%;margin:0 auto 14px;border-radius:10px;border:1px solid var(--border);background:#fff}
+.consult-actions{display:flex;gap:8px;flex-wrap:wrap}
+.consult-actions .btn{flex:1;min-height:40px}
+.consult-note{font-size:11px;color:var(--dim);margin:10px 0 0!important}
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 .hero { padding: 82px 0 58px; text-align: center; }
 .eyebrow { color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
@@ -251,6 +283,14 @@ button { font: inherit; }
   .hero { padding: 46px 0 32px; }
   .wrap { padding: 0 16px; }
   .section { padding: 46px 0; }
+  .cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cards .card { padding: 14px 13px; }
+  .cards .card h3 { font-size: 15px; }
+  .cards .card p { font-size: 12.5px; line-height: 1.65; }
+  .workflow { grid-template-columns: 1fr 1fr; }
+  .announce { padding: 7px 12px; font-size: 11px; }
+  .announce span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .consult-fab { right: 14px; bottom: calc(16px + env(safe-area-inset-bottom)); min-height: 40px; padding: 0 12px; font-size: 12px; }
   .hero h1 { font-size: clamp(28px, 7.4vw, 36px); line-height: 1.22; letter-spacing: -.04em; }
   .hero .lead { font-size: 15.5px; line-height: 1.72; }
   .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
@@ -266,7 +306,7 @@ button { font: inherit; }
 @media (max-width: 480px) {
   .stats { grid-template-columns: 1fr 1fr; }
   .hero-actions .btn { width: 100%; }
-  .workflow { grid-template-columns: 1fr; }
+  .workflow { grid-template-columns: 1fr 1fr; }
   .brand { font-size: 14px; }
   .topbar { padding: 0 14px; gap: 8px; }
   .top-actions a { display: none; }
