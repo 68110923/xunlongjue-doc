@@ -1079,6 +1079,98 @@
   }
 
   /* ── 无障碍：系统开启「减弱动态效果」时，动画与平滑滚动全部关掉 ── */
+
+  /* ── 咨询入口与聊天面板 ───────────────────────────────────────
+     电脑：右侧抽屉，宽 400px；手机：全屏聊天页（100dvh）。
+     不引入外部 CSS/JS，颜色全部走页面主题令牌，亮/暗色自动跟随。 */
+  .xlp-consult-fab{
+    position:fixed;right:24px;bottom:24px;z-index:9998;
+    display:inline-flex;align-items:center;gap:7px;min-height:46px;padding:0 17px;
+    border:1px solid var(--accent-line);border-radius:var(--r-pill);
+    background:var(--accent);color:#fff;font-size:14px;font-weight:700;letter-spacing:.02em;
+    cursor:pointer;box-shadow:var(--sh-2);transition:transform .18s,box-shadow .18s,opacity .18s;
+  }
+  .xlp-consult-fab:hover{transform:translateY(-1px);box-shadow:var(--sh-3)}
+  .xlp-consult-fab:active{transform:translateY(0)}
+  .xlp-consult{
+    position:fixed;top:0;right:0;bottom:0;z-index:9999;
+    width:min(400px,100vw);display:flex;flex-direction:column;min-height:0;
+    background:var(--bg2);color:var(--text);border-left:1px solid var(--border);
+    box-shadow:var(--sh-3);transform:translateX(102%);visibility:hidden;
+    transition:transform .22s ease,visibility .22s ease;
+  }
+  .xlp-consult.open{transform:translateX(0);visibility:visible}
+  body.xlp-consult-open{overflow:hidden}
+  .xlp-consult-head{
+    flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg2);
+  }
+  .xlp-consult-head strong{display:block;color:var(--wht);font-size:var(--t-base);line-height:1.3}
+  .xlp-consult-sub{display:block;margin-top:3px;color:var(--dim);font-size:var(--t-xs);line-height:1.4}
+  .xlp-consult-close{
+    flex:0 0 auto;width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;
+    border:1px solid var(--border);border-radius:var(--r-sm);background:var(--bg2);
+    color:var(--text2);font-size:18px;line-height:1;cursor:pointer;
+  }
+  .xlp-consult-close:hover{border-color:var(--accent);color:var(--accent)}
+  .xlp-consult-body{
+    flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+    display:flex;flex-direction:column;gap:9px;padding:14px;background:var(--bg);
+    -webkit-overflow-scrolling:touch;
+  }
+  .xlp-consult-hint{
+    margin:auto;padding:22px 12px;color:var(--dim);font-size:var(--t-sm);
+    line-height:1.7;text-align:center;
+  }
+  .xlp-msg{
+    max-width:84%;align-self:flex-start;padding:9px 12px;border-radius:14px 14px 14px 4px;
+    background:var(--card);color:var(--text);border:1px solid var(--border);
+    font-size:var(--t-sm);line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;
+  }
+  .xlp-msg.mine{
+    align-self:flex-end;border-radius:14px 14px 4px 14px;
+    background:var(--accent);color:#fff;border-color:transparent;
+  }
+  .xlp-msg time{display:block;margin-top:3px;font-size:10px;color:var(--dim);text-align:right}
+  .xlp-msg.mine time{color:rgba(255,255,255,.72)}
+  .xlp-msg img{display:block;max-width:100%;height:auto;margin-top:2px;border-radius:9px}
+  .xlp-msg a{display:block;max-width:100%}
+  .xlp-consult-form{
+    flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:10px 12px;
+    padding-bottom:calc(10px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--border);background:var(--bg2);
+  }
+  .xlp-consult-form input[type="text"]{
+    flex:1 1 auto;min-width:0;height:42px;padding:0 12px;border:1px solid var(--border);
+    border-radius:10px;background:var(--bg);color:var(--text);font-size:16px;
+    outline:none;transition:border-color .18s,box-shadow .18s;
+  }
+  .xlp-consult-form input[type="text"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-line)}
+  .xlp-consult-form button{
+    flex:0 0 auto;height:42px;min-width:42px;padding:0 13px;border-radius:10px;
+    border:1px solid var(--border);background:var(--bg);color:var(--text2);
+    font-size:16px;line-height:1;cursor:pointer;
+  }
+  .xlp-consult-form button[type="submit"]{
+    border-color:var(--accent);background:var(--accent);color:#fff;font-size:14px;font-weight:700;
+  }
+  .xlp-consult-form button:hover{border-color:var(--accent);color:var(--accent)}
+  .xlp-consult-form button[type="submit"]:hover{color:#fff}
+  .xlp-consult-form button:disabled{opacity:.45;cursor:not-allowed}
+
+  @media (max-width:640px){
+    /* 手机：FAB 让开底部购买条；回到顶部再往上叠一层 */
+    .xlp-consult-fab{right:14px;bottom:calc(84px + env(safe-area-inset-bottom));min-height:44px;padding:0 14px;font-size:13px}
+    .xlp-consult{
+      top:0;left:0;right:0;bottom:0;width:100%;height:100%;height:100dvh;border-left:0;
+      border-radius:0;transform:translateY(103%);
+    }
+    .xlp-consult.open{transform:translateY(0)}
+    .xlp-consult-head{padding-top:calc(14px + env(safe-area-inset-top))}
+    .to-top{bottom:calc(142px + env(safe-area-inset-bottom))}
+    .xlp-consult-body{padding-bottom:14px}
+  }
+
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     *,*::before,*::after{
@@ -1623,6 +1715,32 @@ xlp 核心层（写表）──┤
 <button id="toTop" class="to-top" type="button" aria-label="回到顶部" title="回到顶部">↑</button>
 <div id="toast" role="status" aria-live="polite"></div>
 
+
+  <!-- ── 咨询入口（电脑右侧抽屉 / 手机全屏）────────────────────── -->
+  <button id="xlp-consult-open" class="xlp-consult-fab" type="button"
+          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询寻龙诀">💬 咨询</button>
+
+  <div id="xlp-consult" class="xlp-consult" role="dialog" aria-modal="false"
+       aria-labelledby="xlp-consult-title" aria-hidden="true">
+    <header class="xlp-consult-head">
+      <div>
+        <strong id="xlp-consult-title">咨询寻龙诀</strong>
+        <span class="xlp-consult-sub">购买 · 试用 · 看板问题</span>
+      </div>
+      <button class="xlp-consult-close" type="button" data-close aria-label="关闭咨询">✕</button>
+    </header>
+    <div class="xlp-consult-body" id="xlp-consult-body" aria-live="polite">
+      <p class="xlp-consult-hint">有问题直接说，管理员看到会回复。</p>
+    </div>
+    <form class="xlp-consult-form" id="xlp-consult-form">
+      <input type="file" accept="image/*" id="xlp-consult-file" hidden>
+      <button type="button" id="xlp-consult-img" aria-label="发送图片">📷</button>
+      <input type="text" id="xlp-consult-input" placeholder="输入问题…" maxlength="2000"
+             autocomplete="off" aria-label="咨询内容">
+      <button type="submit">发送</button>
+    </form>
+  </div>
+
 <script>
 // 通知与更新日志的唯一真源：仓库根目录 README.md（本地预览时依次向上找，最后走公开 raw 兜底）
 var RAW_URL = 'https://raw.githubusercontent.com/68110923/xunlongjue-doc/main/README.md';
@@ -2138,5 +2256,222 @@ document.addEventListener('DOMContentLoaded', function(){initBuyBar();
 window.addEventListener('hashchange', expandForHash);
 document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeLightbox(); });
 </script>
+
+<script>
+// ── 咨询面板：注册设备 → 发文字/图片 → 轮询；不引入外部依赖 ──
+(function () {
+  "use strict";
+
+  var BASE = "https://" + "xunlongjue.68110923.xyz";
+  var KEY = "xlp-pro-contact-2026";
+  var TOKEN_KEY = "xlp-pro-consult-token";
+  var INSTALL_KEY = "xlp-pro-install-id";
+
+  var panel = document.getElementById("xlp-consult");
+  var openBtn = document.getElementById("xlp-consult-open");
+  var body = document.getElementById("xlp-consult-body");
+  var form = document.getElementById("xlp-consult-form");
+  var input = document.getElementById("xlp-consult-input");
+  var fileInput = document.getElementById("xlp-consult-file");
+  var imageBtn = document.getElementById("xlp-consult-img");
+  if (!panel || !openBtn || !body || !form || !input) return;
+
+  var lastId = 0;
+  var timer = null;
+  var sending = false;
+
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return "id-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+  }
+
+  function installId() {
+    var id = localStorage.getItem(INSTALL_KEY);
+    if (!id) { id = uuid(); localStorage.setItem(INSTALL_KEY, id); }
+    return id;
+  }
+
+  function token() { return localStorage.getItem(TOKEN_KEY) || ""; }
+
+  function headers(extra) {
+    var h = Object.assign({ Accept: "application/json" }, extra || {});
+    if (token()) h["X-Contact-Device"] = token();
+    return h;
+  }
+
+  function register() {
+    return fetch(BASE + "/api/v1/contact/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Contact-Key": KEY },
+      body: JSON.stringify({ installId: installId(), label: "PRO", source: "pro" })
+    }).then(function (r) {
+      if (!r.ok) throw new Error("register " + r.status);
+      return r.json();
+    }).then(function (data) {
+      if (!data || !data.token) throw new Error("register empty");
+      localStorage.setItem(TOKEN_KEY, data.token);
+      return data.token;
+    });
+  }
+
+  function ready() {
+    return token() ? Promise.resolve() : register();
+  }
+
+  function asset(url) {
+    if (!url) return "";
+    return /^https?:\/\//i.test(url) ? url : BASE + url;
+  }
+
+  function clearHint() {
+    var hint = body.querySelector(".xlp-consult-hint");
+    if (hint) hint.remove();
+  }
+
+  function showHint(text) {
+    clearHint();
+    var p = document.createElement("p");
+    p.className = "xlp-consult-hint";
+    p.textContent = text;
+    body.appendChild(p);
+  }
+
+  function render(messages) {
+    if (!messages || !messages.length) return;
+    clearHint();
+    messages.forEach(function (message) {
+      if (!message || !message.id || message.id <= lastId) return;
+      var row = document.createElement("div");
+      row.className = "xlp-msg" + (message.mine ? " mine" : "");
+      if (message.kind === "image" && message.image_url) {
+        var link = document.createElement("a");
+        link.href = asset(message.image_url);
+        link.target = "_blank";
+        link.rel = "noopener";
+        var img = document.createElement("img");
+        img.loading = "lazy";
+        img.alt = "咨询图片";
+        img.src = asset(message.thumb_url || message.image_url);
+        link.appendChild(img);
+        row.appendChild(link);
+      } else {
+        var span = document.createElement("span");
+        span.textContent = message.body || "";
+        row.appendChild(span);
+      }
+      var time = document.createElement("time");
+      time.textContent = message.at_text || "";
+      row.appendChild(time);
+      body.appendChild(row);
+      lastId = message.id;
+    });
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function poll(showError) {
+    return fetch(BASE + "/api/v1/contact/messages?since=" + encodeURIComponent(lastId), {
+      headers: headers()
+    }).then(function (r) {
+      if (!r.ok) throw new Error("poll " + r.status);
+      return r.json();
+    }).then(function (data) {
+      render(data.messages || []);
+    }).catch(function (err) {
+      if (showError) showHint("暂时连不上，请稍后再试。");
+      throw err;
+    });
+  }
+
+  function setOpen(open) {
+    panel.classList.toggle("open", open);
+    panel.setAttribute("aria-hidden", open ? "false" : "true");
+    openBtn.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.classList.toggle("xlp-consult-open", open);
+    if (!open && timer) { clearInterval(timer); timer = null; }
+  }
+
+  function openPanel() {
+    setOpen(true);
+    ready().then(function () {
+      return poll(true);
+    }).catch(function () {
+      showHint("暂时连不上，请稍后再试。");
+    });
+    if (timer) clearInterval(timer);
+    timer = setInterval(function () { poll(false).catch(function () {}); }, 5000);
+    setTimeout(function () { input.focus(); }, 80);
+  }
+
+  function closePanel() {
+    setOpen(false);
+    if (input) input.blur();
+  }
+
+  function sendText(text) {
+    if (sending) return;
+    sending = true;
+    var submit = form.querySelector('button[type="submit"]');
+    if (submit) submit.disabled = true;
+    ready().then(function () {
+      return fetch(BASE + "/api/v1/contact/messages", {
+        method: "POST",
+        headers: headers({ "Content-Type": "application/json" }),
+        body: JSON.stringify({ text: text, clientId: uuid() })
+      });
+    }).then(function (r) {
+      if (r.status === 429) throw new Error("slow");
+      if (!r.ok) throw new Error("send " + r.status);
+      input.value = "";
+      return poll(false);
+    }).catch(function (err) {
+      showHint(err && err.message === "slow" ? "发送太频繁，稍后再试。" : "发送失败，请稍后再试。");
+    }).then(function () {
+      sending = false;
+      if (submit) submit.disabled = false;
+    });
+  }
+
+  function sendImage(file) {
+    if (!file || sending) return;
+    if (file.size > 2 * 1024 * 1024) {
+      showHint("图片不能超过 2 MB。");
+      return;
+    }
+    sending = true;
+    var data = new FormData();
+    data.append("image", file);
+    ready().then(function () {
+      return fetch(BASE + "/api/v1/contact/images", {
+        method: "POST", headers: headers(), body: data
+      });
+    }).then(function (r) {
+      if (!r.ok) throw new Error("image " + r.status);
+      return poll(false);
+    }).catch(function () {
+      showHint("图片发送失败，请稍后再试。");
+    }).then(function () {
+      sending = false;
+    });
+  }
+
+  openBtn.addEventListener("click", openPanel);
+  panel.querySelector("[data-close]").addEventListener("click", closePanel);
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var text = input.value.trim();
+    if (text) sendText(text);
+  });
+  imageBtn.addEventListener("click", function () { fileInput.click(); });
+  fileInput.addEventListener("change", function () {
+    var file = fileInput.files && fileInput.files[0];
+    fileInput.value = "";
+    if (file) sendImage(file);
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && panel.classList.contains("open")) closePanel();
+  });
+})();
+</script>
+
 </body>
 </html>
