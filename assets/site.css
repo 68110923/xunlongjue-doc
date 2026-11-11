@@ -253,6 +253,9 @@ button { font: inherit; }
 .home-qr img{width:100%;max-width:112px;aspect-ratio:1;object-fit:cover;border-radius:9px;border:1px solid var(--border);background:#fff}
 .home-price-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
 .home-price-actions .btn{min-height:42px}
+.steps{margin:16px 0 0;padding-left:1.2em;color:var(--text-2);font-size:14px;line-height:1.9}
+.steps li{margin:4px 0}
+.steps b{color:var(--wht)}
 
 .qr-cta{display:grid;grid-template-columns:180px minmax(0,1fr);gap:26px;align-items:center;padding:24px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(135deg,var(--gold-soft),transparent 65%),var(--surface)}
 .qr-cta img{width:180px;max-width:100%;border-radius:12px;border:1px solid var(--border);background:#fff}
@@ -297,6 +300,7 @@ button { font: inherit; }
   .docs-body { max-width: none; }
   .menu-overlay.open { display: block; position: fixed; inset: var(--nav) 0 0; z-index: 40; background: rgba(0, 0, 0, .35); }
   body.menu-open { overflow: hidden; }
+  body.menu-open .xlp-consult-fab { display: none; }
   .home-price-panel { padding: 20px 14px; }
   .home-price-main { font-size: 54px; }
   .home-perks { gap: 5px 12px; font-size: 11.5px; }
