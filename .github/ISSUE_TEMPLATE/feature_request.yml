@@ -1,0 +1,36 @@
+name: 💡 Feature request
+description: 提出改进建议或新能力
+title: "[feature] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请描述使用场景和期望结果；不要提交私有源码、真实 API Key 或未脱敏的交易数据。
+  - type: textarea
+    id: problem
+    attributes:
+      label: 想解决什么问题
+      description: 当前的做法哪里不够好
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 期望方案
+      description: 你希望它怎么工作
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 已考虑过的替代方案
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 已搜索过现有 issue
+          required: true
+        - label: 内容不包含私有源码、Key 或未脱敏数据
+          required: true

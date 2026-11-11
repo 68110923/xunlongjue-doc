@@ -5,20 +5,20 @@
 ## 核心能力
 
 - 全市场真实竞价，每日每票一行
-- A 股一进二竞价打板选票，20 道硬闸 + 10 维评分
+- A 股一进二竞价打板选票，多道硬闸 + 多维评分
 - 盘中强多扫描与每日自动复盘
 - 本地数据湖，按主键只追加不覆盖，带批次血缘
-- 53 条质量断言 + 3 条复权不变量
+- 质量断言与复权校验
 - 核心层零 LLM 可独立运行，AI 层可选
 
 ## 主题页
 
-- 这是什么：https://68110923.github.io/xunlongjue-doc/what-is-xunlongjue/
-- A股一进二：https://68110923.github.io/xunlongjue-doc/a-share-first-board/
-- 竞价打板：https://68110923.github.io/xunlongjue-doc/auction-limit-up/
-- 龙虎榜：https://68110923.github.io/xunlongjue-doc/dragon-tiger/
-- 数据湖：https://68110923.github.io/xunlongjue-doc/data-lake/
-- 回测：https://68110923.github.io/xunlongjue-doc/backtest/
+- 寻龙诀 PRO 是什么？：https://68110923.github.io/xunlongjue-doc/what-is-xunlongjue/
+- A股一进二是什么？：https://68110923.github.io/xunlongjue-doc/a-share-first-board/
+- 竞价打板怎么看？：https://68110923.github.io/xunlongjue-doc/auction-limit-up/
+- 龙虎榜怎么看？：https://68110923.github.io/xunlongjue-doc/dragon-tiger/
+- A股本地数据湖怎么做？：https://68110923.github.io/xunlongjue-doc/data-lake/
+- 一进二策略怎么回测？：https://68110923.github.io/xunlongjue-doc/backtest/
 
 ## 相关链接
 
