@@ -1190,6 +1190,13 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
+    {"@type": "Question", "name": "这是什么？", "acceptedAnswer": {"@type": "Answer", "text": "部署在自己电脑或服务器上的 A 股量化研究工具：本地数据湖、一进二选票、自动复盘、网页看板或微信推送；核心层不依赖 AI。"}},
+    {"@type": "Question", "name": "完全不懂股票能用吗？", "acceptedAnswer": {"@type": "Answer", "text": "能看懂输出，但仍需自己判断。系统只给研究结论，不代下单、不承诺收益；建议先用看板试用。"}},
+    {"@type": "Question", "name": "不接 AI 能用吗？", "acceptedAnswer": {"@type": "Answer", "text": "能。核心层零 LLM，数据、选票、复盘照常运行；AI 只负责推送话术和问答。"}},
+    {"@type": "Question", "name": "数据保存在哪里？", "acceptedAnswer": {"@type": "Answer", "text": "全部保存在自己的电脑或服务器，不经过第三方；源码通过私有仓库只读 PAT 交付。"}},
+    {"@type": "Question", "name": "不会部署怎么办？", "acceptedAnswer": {"@type": "Answer", "text": "可以按部署文档自己安装，也可选择远程协助；暂时不部署可先申请看板试用。"}},
+    {"@type": "Question", "name": "源码能二次开发吗？", "acceptedAnswer": {"@type": "Answer", "text": "可以。交付完整源码、文档和 CLI，可在自己的项目里引用；禁止转售或再分发源码本身。"}},
+    {"@type": "Question", "name": "软件稳定吗？", "acceptedAnswer": {"@type": "Answer", "text": "原版与 PRO 版同一条路线已持续实盘运行超过一年，核心链路每日自动执行；策略经过长期实盘验证与历史回测。"}},
     {"@type": "Question", "name": "会自动下单吗？", "acceptedAnswer": {"@type": "Answer", "text": "不会。项目不连接券商、不代下单、不经手资金，只做数据整理与策略研究。"}},
     {"@type": "Question", "name": "部署需要什么系统环境？", "acceptedAnswer": {"@type": "Answer", "text": "Ubuntu 22.04+ 或自己的电脑，磁盘不少于 10 GB；系统时区必须是 Asia/Shanghai。"}},
     {"@type": "Question", "name": "需要会编程吗？", "acceptedAnswer": {"@type": "Answer", "text": "不需要。装好后每天自动运行，结果在网页看板或微信里查看；会命令行更便于排障。"}},
@@ -1594,6 +1601,14 @@ xlp 核心层（写表）──┤
   <h2 id="faq">❓ 常见问题</h2>
   <div class="sect-body">
   <div class="faq">
+    <details id="faq-what">
+      <summary>这是什么？</summary>
+      <div class="a"><p>部署在自己电脑或服务器上的 A 股量化研究工具：本地数据湖 + 一进二选票 + 自动复盘 + 网页看板 / 微信推送；核心层不依赖 AI。</p></div>
+    </details>
+    <details id="faq-newbie">
+      <summary>完全不懂股票能用吗？</summary>
+      <div class="a"><p>能看懂输出，但仍需自己判断。系统只给研究结论，不代下单、不承诺收益；建议先用看板试用。</p></div>
+    </details>
     <details id="faq-order">
       <summary>会自动下单吗？</summary>
       <div class="a"><p><strong>不会</strong> —— 不接券商、不代下单、不经手资金（详见「风险与许可」）。</p></div>
@@ -1610,6 +1625,14 @@ xlp 核心层（写表）──┤
       <summary>数据源 Key 谁付？</summary>
       <div class="a"><p><strong>数据源免费</strong>，接入方式与配置随交付提供；额外付费只有 AI 的 token 成本，约 <strong>0.2 元/天</strong>，不接 AI 则没有这项成本。</p></div>
     </details>
+    <details id="faq-ai">
+      <summary>不接 AI 能用吗？</summary>
+      <div class="a"><p>能。核心层零 LLM，数据、选票、复盘照常运行；AI 只负责推送话术和问答，不接就没有 token 成本。</p></div>
+    </details>
+    <details id="faq-data">
+      <summary>数据保存在哪里？</summary>
+      <div class="a"><p>全部保存在你自己的电脑或服务器，不经过第三方；源码通过私有仓库只读 PAT 交付。</p></div>
+    </details>
     <details id="faq-nocode">
       <summary>需要会编程吗？</summary>
       <div class="a"><p>不需要。装好后每天自动跑，结果在网页看板或微信里看；会命令行更好排障。</p></div>
@@ -1618,9 +1641,17 @@ xlp 核心层（写表）──┤
       <summary>交付什么形式？</summary>
       <div class="a"><p>私有仓库<strong>只读 PAT</strong>（自己拉代码）+ 部署教程 + 全部文档；把部署文档交给 Hermes 等 AI 即可代你装好。数据首次运行时自己拉（约 14 分钟）。</p></div>
     </details>
+    <details id="faq-deploy">
+      <summary>不会部署怎么办？</summary>
+      <div class="a"><p>可以按部署文档自己装；也可选 <strong>200 元远程协助</strong>（约 2 小时）；暂时不部署可先申请看板试用。</p></div>
+    </details>
     <details id="faq-update">
       <summary>源码买断后，后续策略更新怎么获取？</summary>
       <div class="a"><p>源码买断<strong>包含后续策略更新</strong>。作者会打包到私有仓库，买家通过 <code>git pull</code> 同步，不额外收费。</p></div>
+    </details>
+    <details id="faq-dev">
+      <summary>源码能二次开发吗？</summary>
+      <div class="a"><p>可以。交付完整源码、文档和 CLI，可在自己的项目里引用；<strong>禁止转售或再分发源码本身</strong>。</p></div>
     </details>
     <details id="faq-trial">
       <summary>怎么试用？试用多久？</summary>
@@ -1632,7 +1663,7 @@ xlp 核心层（写表）──┤
     </details>
     <details id="faq-decay">
       <summary>策略会不会失效？</summary>
-      <div class="a"><p>市场会变，参数需要定期重标定；仓库带了重标定与自评脚本（<code>xlp stats</code> 现算真实战绩）。</p></div>
+      <div class="a"><p>市场会变，不承诺永远有效；策略经过长期实盘验证与历史回测，仓库带了重标定与自评脚本（<code>xlp stats</code> 现算真实战绩）。</p></div>
     </details>
     <details id="faq-server">
       <summary>支持 2 核 2 GB 服务器流畅运行吗？</summary>
@@ -1642,13 +1673,13 @@ xlp 核心层（写表）──┤
     </details>
     <details id="faq-diff">
       <summary>与原版 / 别家有什么区别？</summary>
-      <div class="a"><p>见「PRO 版新增与升级」：<strong>全市场真实竞价 + 权威涨跌停口径 + 53 条质量闸 + 一套能自证的流程</strong>。</p></div>
+      <div class="a"><p>见「PRO 版新增与升级」：<strong>全市场真实竞价 + 权威涨跌停口径 + 53 条质量断言 + 3 条复权不变量 + 一套能自证的流程</strong>。</p></div>
     </details>
     <details id="faq-stability">
       <summary>软件稳定吗？</summary>
       <div class="a">
-        <p><strong>稳定。</strong>原版 xunlongjue 与 PRO 版同一条路线已持续维护超过一年，核心链路每日实盘运行；
-        策略经过长期回测与参数重标定，更新持续发布（更新日志实时可见）。</p>
+        <p><strong>稳定。</strong>原版 xunlongjue 与 PRO 版同一条路线已持续实盘运行超过一年，核心链路每日自动执行；
+        策略经过长期实盘验证与历史回测，参数持续跟踪和重标定，更新日志实时可见。</p>
       </div>
     </details>
     <details id="faq-contact">
