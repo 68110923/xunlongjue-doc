@@ -24,7 +24,7 @@
 <meta name="wxwork:image:height" content="1200">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v=20261112-4">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
@@ -33,8 +33,8 @@
   document.documentElement.setAttribute('data-theme', m ? m[1] : (saved === 'dark' ? 'dark' : 'light'));
 })();
 </script>
-<script src="assets/site.js" defer></script>
-<script src="assets/consult.js" defer></script>
+<script src="assets/site.js?v=20261112-4" defer></script>
+<script src="assets/consult.js?v=20261112-4" defer></script>
 </head>
 <body>
 <header class="topbar">
@@ -51,11 +51,21 @@
   </div>
 </header>
 <div class="announce" id="announcement">
-  <span class="announce-tag">公告</span>
-  <span>源码 1288 · 试用 88 · 公众号看战绩</span>
-  <a href="pricing/">查看</a>
+  <button class="announce-main" id="announcementOpen" type="button">
+    <span class="announce-tag">公告</span>
+    <span>源码 1288 · 试用 88 · 公众号看战绩</span>
+    <span class="announce-more">查看</span>
+  </button>
   <button id="announcementClose" type="button" aria-label="关闭公告">✕</button>
 </div>
+<dialog class="notice-dialog" id="noticeDialog">
+  <header><strong>公告</strong><button type="button" data-notice-close aria-label="关闭">✕</button></header>
+  <div class="notice-body">
+    <p><strong>PRO 源码 1288 元</strong>，一次买断；<strong>看板试用 88 元</strong>，5~7 个交易日，购买源码可抵扣。</p>
+    <p>付款备注微信，作者会主动联系并发送部署所需配置。公众号每天更新盘前推送、复盘和战绩截图。</p>
+    <div class="notice-actions"><a class="btn primary" href="pricing/">查看定价</a><a class="btn ghost" href="docs/faq/">先看 FAQ</a></div>
+  </div>
+</dialog>
 <div class="menu-overlay" id="menuOverlay"></div>
 <main class="wrap">
 <section class="hero">
@@ -104,25 +114,24 @@
 
 <section class="section" id="pricing-home">
   <div class="section-head">
-    <h2>价格与试用</h2>
-    <p>一次买断，按需选择；付款后作者主动联系，发送部署所需的账号和密钥。</p>
+    <h2>定价与购买</h2>
+    <p>源码交付，一次买断；付款后作者主动联系，发送部署所需配置。</p>
   </div>
-  <div class="price-summary">
-    <a class="price-item" href="pricing/"><span>PRO 源码</span><b>1288</b><small>一次买断 · 永久使用</small></a>
-    <a class="price-item" href="pricing/"><span>协助部署</span><b>200</b><small>可选 · 约 2 小时</small></a>
-    <a class="price-item" href="pricing/"><span>看板试用</span><b>88</b><small>5~7 个交易日</small></a>
-  </div>
-  <p class="price-foot"><a href="pricing/">查看完整定价与付款方式 →</a></p>
-</section>
-
-<section class="section" id="wechat">
-  <div class="qr-cta">
-    <img src="media/公众号/公众号二维码.jpg" alt="寻龙诀公众号二维码" loading="lazy">
-    <div>
-      <h2>关注公众号，看每天战绩</h2>
-      <p>公众号每天更新盘前推送、收盘复盘和实际战绩截图。先看真实运行结果，再决定是否购买。</p>
-      <p class="qr-note">微信扫码关注 · 每日更新</p>
+  <div class="home-price-panel">
+    <div class="home-price-main"><span>1288</span><small>元</small></div>
+    <p class="home-price-desc">📦 源码定价（交付源码 + 部署教程）</p>
+    <div class="home-perks">
+      <span>源码交付</span><span>部署教程</span><span>策略持续更新</span><span>本地数据湖</span>
     </div>
+    <div class="home-alt"><b>协助部署 200 元</b><span>一对一远程协助，约 2 小时</span></div>
+    <p class="home-trial">💡 想先试？<b>88 元</b> 看板试用 5~7 个交易日，购买源码可全额抵扣。</p>
+    <p class="home-scan">扫码付款，备注微信；付款后作者主动联系。</p>
+    <div class="home-qr-row">
+      <div class="home-qr"><img src="media/收款码/支付宝收款码.jpg" alt="支付宝收款码" loading="lazy"><span>支付宝支付</span></div>
+      <div class="home-qr"><img src="media/收款码/微信收款码.jpg" alt="微信收款码" loading="lazy"><span>微信支付</span></div>
+      <div class="home-qr"><img src="media/公众号/公众号二维码.jpg" alt="公众号二维码" loading="lazy"><span>公众号 · 每日战绩</span></div>
+    </div>
+    <div class="home-price-actions"><a class="btn primary" href="pricing/">查看完整定价</a><a class="btn ghost" href="docs/getting-started/">部署流程</a></div>
   </div>
 </section>
 

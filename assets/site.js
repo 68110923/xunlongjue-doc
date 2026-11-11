@@ -52,6 +52,26 @@
     });
   }
 
+  // 公告详情
+  var notice = document.getElementById("noticeDialog");
+  var noticeOpen = document.getElementById("announcementOpen");
+  if (notice && noticeOpen) {
+    function closeNotice() {
+      document.body.classList.remove("notice-open");
+      if (notice.open) notice.close();
+    }
+    noticeOpen.addEventListener("click", function () {
+      document.body.classList.add("notice-open");
+      if (typeof notice.showModal === "function") notice.showModal();
+      else notice.hidden = false;
+    });
+    var noticeClose = notice.querySelector("[data-notice-close]");
+    if (noticeClose) noticeClose.addEventListener("click", closeNotice);
+    notice.addEventListener("click", function (e) { if (e.target === notice) closeNotice(); });
+    notice.addEventListener("close", function () { document.body.classList.remove("notice-open"); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && notice.open) closeNotice(); });
+  }
+
   // FAQ 导航：点问题目录后，右侧对应 details 自动展开
   document.querySelectorAll('a[href^="#faq-"]').forEach(function (a) {
     a.addEventListener("click", function () {
