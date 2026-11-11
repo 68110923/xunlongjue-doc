@@ -222,11 +222,18 @@ button { font: inherit; }
   }
   .docs-side.open {
     display: block;
-    position: relative;
+    position: fixed;
+    top: var(--nav);
+    left: 0;
+    right: 0;
+    bottom: auto;
+    height: calc(100dvh - var(--nav));
     z-index: 45;
-    background: var(--bg);
-    max-height: calc(100dvh - var(--nav) - 20px);
+    max-height: none;
+    padding: 16px 20px calc(22px + env(safe-area-inset-bottom));
     overflow: auto;
+    background: var(--bg);
+    -webkit-overflow-scrolling: touch;
   }
   .docs-body { max-width: none; }
   .menu-overlay.open { display: block; position: fixed; inset: var(--nav) 0 0; z-index: 40; background: rgba(0, 0, 0, .35); }
@@ -241,11 +248,17 @@ button { font: inherit; }
   .split { grid-template-columns: 1fr; }
   .cta-band { display: block; padding: 24px; }
   .cta-band .btn { margin-top: 16px; }
-  .hero { padding: 48px 0 34px; }
+  .hero { padding: 46px 0 32px; }
   .wrap { padding: 0 16px; }
-  .section { padding: 48px 0; }
-  .hero h1 { font-size: clamp(32px, 9vw, 42px); }
-  .hero .lead { font-size: 15.5px; }
+  .section { padding: 46px 0; }
+  .hero h1 { font-size: clamp(28px, 7.4vw, 36px); line-height: 1.22; letter-spacing: -.04em; }
+  .hero .lead { font-size: 15.5px; line-height: 1.72; }
+  .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero-actions .btn { width: auto; padding: 0 8px; }
+  .docs-body h1 { font-size: clamp(27px, 8vw, 34px); }
+  .docs-body h2 { font-size: 21px; margin-top: 28px; }
+  .docs-body .card { padding: 16px; }
+  .docs-body pre { white-space: pre-wrap; word-break: break-word; font-size: 12px; }
   .price-card { padding: 18px; }
   .price-card .amount { font-size: 28px; }
   .page-foot { padding-bottom: calc(32px + env(safe-area-inset-bottom)); }
