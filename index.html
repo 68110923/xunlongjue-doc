@@ -1094,14 +1094,15 @@
   .xlp-consult-fab:active{transform:translateY(0)}
   .xlp-consult{
     position:fixed;top:0;right:0;bottom:0;z-index:9999;
-    width:min(400px,100vw);display:flex;flex-direction:column;min-height:0;
+    width:min(400px,100vw);display:grid;grid-template-rows:auto minmax(0,1fr) auto;
+    min-height:0;overflow:hidden;
     background:var(--bg2);color:var(--text);border-left:1px solid var(--border);
     box-shadow:var(--sh-3);transform:translateX(102%);visibility:hidden;
     transition:transform .22s ease,visibility .22s ease;
   }
   .xlp-consult.open{transform:translateX(0);visibility:visible}
-  body.xlp-consult-open{overflow:hidden;touch-action:none}
-  html.xlp-consult-open{overflow:hidden}
+  html.xlp-consult-open,body.xlp-consult-open{overflow:hidden;overscroll-behavior:none}
+  body.xlp-consult-open{touch-action:none}
   .xlp-consult-head{
     /* 页面全局 header 有 margin-bottom + 居中；这里必须显式归零，否则中间会出现空白带 */
     flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;
@@ -2288,15 +2289,34 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
     return window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
   }
 
-  function syncViewport() {
+  var lastViewportSync = 0;
+  var viewportTimers = [];
+
+  function syncViewport(force) {
     if (!panel.classList.contains("open") || !isMobile()) return;
     var vv = window.visualViewport;
     if (!vv) return;
-    // iOS/Android 键盘弹出时 visualViewport 才是真实可见区域；
-    // 用 fixed 面板自己的高度跟随它，页眉不会被顶出屏幕。
-    panel.style.top = vv.offsetTop + "px";
-    panel.style.height = vv.height + "px";
+    var now = Date.now();
+    if (!force && now - lastViewportSync < 48) return;
+    lastViewportSync = now;
+    // 与站内聊天一致：fixed 面板相对布局视口定位，键盘弹起时必须同时补高度和 offsetTop。
+    var height = Math.floor(vv.height);
+    var offset = Math.round(vv.offsetTop || 0);
+    panel.style.height = height + "px";
+    panel.style.top = (offset > 0 ? offset : 0) + "px";
     panel.style.bottom = "auto";
+  }
+
+  function scheduleViewport() {
+    syncViewport(true);
+    viewportTimers.forEach(function (id) { clearTimeout(id); });
+    // 键盘动画期间量到的是过期高度，落定后再补几次；和站内聊天同一节奏。
+    viewportTimers = [60, 160, 320, 600, 900].map(function (delay) {
+      return setTimeout(function () {
+        syncViewport(true);
+        if (window.scrollY !== 0) window.scrollTo(0, 0);
+      }, delay);
+    });
   }
 
   function lockPage() {
@@ -2304,21 +2324,26 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
     pageScroll = window.scrollY || window.pageYOffset || 0;
     document.documentElement.classList.add("xlp-consult-open");
     document.body.classList.add("xlp-consult-open");
+    // 把 body 钉死，iOS 才没法为了露出输入框去滚文档。
     document.body.style.position = "fixed";
-    document.body.style.top = "-" + pageScroll + "px";
+    document.body.style.top = "0";
     document.body.style.left = "0";
     document.body.style.right = "0";
+    document.body.style.bottom = "0";
     document.body.style.width = "100%";
-    syncViewport();
+    scheduleViewport();
   }
 
   function unlockPage() {
+    viewportTimers.forEach(function (id) { clearTimeout(id); });
+    viewportTimers = [];
     document.documentElement.classList.remove("xlp-consult-open");
     document.body.classList.remove("xlp-consult-open");
     document.body.style.position = "";
     document.body.style.top = "";
     document.body.style.left = "";
     document.body.style.right = "";
+    document.body.style.bottom = "";
     document.body.style.width = "";
     panel.style.top = "";
     panel.style.height = "";
@@ -2513,16 +2538,12 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
     fileInput.value = "";
     if (file) sendImage(file);
   });
-  input.addEventListener("focus", function () {
-    // 等浏览器把键盘动画走完再校正可见区域
-    setTimeout(syncViewport, 120);
-    setTimeout(syncViewport, 320);
-  });
+  input.addEventListener("focus", scheduleViewport);
   if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", syncViewport);
-    window.visualViewport.addEventListener("scroll", syncViewport);
+    window.visualViewport.addEventListener("resize", function () { syncViewport(false); });
+    window.visualViewport.addEventListener("scroll", function () { syncViewport(false); });
   }
-  window.addEventListener("resize", syncViewport);
+  window.addEventListener("resize", scheduleViewport);
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" && panel.classList.contains("open")) closePanel();
   });
