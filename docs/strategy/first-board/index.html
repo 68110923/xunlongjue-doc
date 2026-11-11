@@ -6,11 +6,12 @@
 <title>A股一进二是什么？首板到二板的筛选逻辑 · 寻龙诀 PRO</title>
 <meta name="description" content="解释 A 股一进二：首板、竞价、硬闸、评分与板块共振；为什么首板不等于二板，以及常见误区。">
 <meta name="robots" content="index,follow">
-<link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/a-share-first-board/">
-<meta property="og:type" content="article">
+<link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/docs/strategy/first-board/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="寻龙诀 PRO">
 <meta property="og:title" content="A股一进二是什么？首板到二板的筛选逻辑">
 <meta property="og:description" content="解释 A 股一进二：首板、竞价、硬闸、评分与板块共振；为什么首板不等于二板，以及常见误区。">
-<meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/a-share-first-board/">
+<meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/docs/strategy/first-board/">
 <meta property="og:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,10 +24,7 @@
 <meta name="wxwork:image:height" content="1200">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
-<meta name="twitter:image:width" content="1200">
-<meta name="twitter:image:height" content="630">
-<link rel="stylesheet" href="../topics.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"A股一进二是什么？首板到二板的筛选逻辑","description":"解释 A 股一进二：首板、竞价、硬闸、评分与板块共振；为什么首板不等于二板，以及常见误区。","datePublished":"2026-11-12","dateModified":"2026-11-12","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/a-share-first-board/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
+<link rel="stylesheet" href="../../../assets/site.css">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
@@ -35,26 +33,30 @@
   document.documentElement.setAttribute('data-theme', m ? m[1] : (saved === 'dark' ? 'dark' : 'light'));
 })();
 </script>
+<script src="../../../assets/site.js" defer></script>
 </head>
 <body>
-<header class="topic-head">
-  <a class="topic-brand" href="../">🐉 寻龙诀 PRO</a>
-  <nav>
-    <a href="../#features">功能</a>
-    <a href="../#pricing">定价</a>
-    <a href="../#faq">常见问题</a>
-    <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
+<header class="topbar docs-top">
+  <a class="brand" href="../../../">🐉 寻龙诀 <span>PRO</span></a>
+  <nav class="top-links">
+    <a href="../../../docs/">文档</a>
+    <a href="../../../pricing/">定价</a>
+    <a href="../../../docs/changelog/">更新日志</a>
   </nav>
+  <div class="top-actions">
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="打开目录" aria-expanded="false">☰</button>
+    <a href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener">GitHub</a>
+    <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
+  </div>
 </header>
-<main class="topic-wrap">
-  <nav class="topic-crumb"><a href="../">首页</a> / <span>A股一进二是什么？</span></nav>
-  <article>
-    <h1>A股一进二是什么？</h1>
-    <p class="topic-lead">一进二不是“看到首板就买”，而是从首板里筛出次日更可能继续走强的候选。</p>
-    <p>“一进二”指首板之后，次日能否继续涨停、走出二板。首板只说明当天有资金把它推到涨停；第二天能不能接住，取决于竞价、位置、量价、板块和情绪。</p>
-<h2>首板只是起点</h2>
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="docs-shell"><aside class="docs-side" id="docsSide"><details open><summary>文档</summary><a href="../../../docs/">文档首页</a></details><details open><summary>入门</summary><a href="../../../docs/getting-started/">安装与部署</a></details><details open><summary>策略</summary><a href="../../../docs/strategy/">策略总览</a><a href="../../../docs/strategy/first-board/" class=active>A股一进二</a><a href="../../../docs/strategy/auction/">竞价打板</a><a href="../../../docs/strategy/dragon-tiger/">龙虎榜</a></details><details open><summary>数据与验证</summary><a href="../../../docs/data/">数据湖</a><a href="../../../docs/backtest/">回测</a></details><details open><summary>帮助</summary><a href="../../../docs/faq/">常见问题</a><a href="../../../docs/changelog/">更新日志</a></details></aside><main class="docs-body"><h1>A股一进二是什么？</h1>
+<p class="docs-lead">一进二不是“看到首板就买”，而是从首板里筛出次日更可能继续走强的候选。</p>
+
+<p>“一进二”指首板之后，次日能否继续涨停、走出二板。首板只说明当天有资金把它推到涨停；第二天能不能接住，取决于竞价、位置、量价、板块和情绪。</p>
+<h2 id="h-1">首板只是起点</h2>
 <p>首板数量每天可能几十只，真正能进入研究范围的是少数。寻龙诀 PRO 会把首板池先做硬条件过滤，再做评分和板块共振，最后按区间排序。</p>
-<h2>核心判断维度</h2>
+<h2 id="h-2">核心判断维度</h2>
 <ul>
   <li><strong>竞价</strong>：高开多少、竞价量够不够、有没有被抢筹。</li>
   <li><strong>位置</strong>：是否处于低位、是否已经连续上涨、是否离均线过远。</li>
@@ -62,46 +64,26 @@
   <li><strong>板块</strong>：同板块涨停家数、连板高度、是否形成共振。</li>
   <li><strong>风险</strong>：高开低走、单边下跌后急反弹、涨停密集等。</li>
 </ul>
-<h2>常见误区</h2>
-<h2>为什么首板多、二板少</h2>
+<h2 id="h-3">常见误区</h2>
+<h2 id="h-4">为什么首板多、二板少</h2>
 <p>首板只需要当天资金推动，二板还要经过隔夜情绪、竞价承接和盘中分歧。大部分首板会在次日被淘汰，所以筛选的目标不是“找最强”，而是先把明显不合适的票排除掉。</p>
-<h2>筛选不是预测</h2>
+<h2 id="h-5">筛选不是预测</h2>
 <p>任何筛选都只能提高研究效率，不能保证结果。位置、竞价、量价和板块要一起看，单独一个条件很容易得出相反结论。</p>
-<h2>常见问题</h2>
+<h2 id="h-6">常见问题</h2>
 <p><strong>首板数量越多越好吗？</strong> 不一定。首板过多可能意味着情绪扩散，也可能意味着次日分歧更大。</p>
 <p><strong>竞价高开就一定能买吗？</strong> 不一定。高开还要看量能、位置和板块，过高也可能变成兑现。</p>
-    <div class="topic-cta">
-      <a class="topic-btn" href="../#pricing">查看定价</a>
-      <a class="topic-btn ghost" href="../#faq">常见问题</a>
-    </div>
-  </article>
-  <aside class="topic-more">
-    <strong>继续了解</strong>
-    <a href="../what-is-xunlongjue/">这是什么</a>
-    <a href="../a-share-first-board/">一进二是什么</a>
-    <a href="../auction-limit-up/">竞价打板</a>
-    <a href="../dragon-tiger/">龙虎榜</a>
-    <a href="../data-lake/">数据湖</a>
-    <a href="../backtest/">回测</a>
-  </aside>
-</main>
-<footer class="topic-foot">
+</main><aside class="docs-toc"><strong>本页目录</strong><a href="#h-1">首板只是起点</a><a href="#h-2">核心判断维度</a><a href="#h-3">常见误区</a><a href="#h-4">为什么首板多、二板少</a><a href="#h-5">筛选不是预测</a><a href="#h-6">常见问题</a></aside></div>
+<footer class="wrap page-foot">
+  <div class="links">
+    <a href="../../../docs/">文档</a>
+    <a href="../../../pricing/">定价</a>
+    <a href="../../../docs/faq/">常见问题</a>
+    <a href="../../../docs/changelog/">更新日志</a>
+    <a href="../../../legal/terms.html">用户协议</a>
+    <a href="../../../legal/privacy.html">隐私政策</a>
+    <a href="../../../legal/risk.html">风险揭示书</a>
+  </div>
   <p>⚠️ 仅供研究与学习，不构成任何投资建议，不承诺任何收益。股市有风险，投资须谨慎。</p>
-  <p><a href="../">返回首页</a> · <a href="../sitemap.xml">站点地图</a></p>
 </footer>
-<script>
-(function(){
-  var root = document.documentElement;
-  var btn = document.getElementById('themeToggle');
-  function sync(){ if (btn) btn.textContent = root.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙'; }
-  if (btn) btn.addEventListener('click', function(){
-    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('xlp-theme', next); } catch (e) {}
-    sync();
-  });
-  sync();
-})();
-</script>
 </body>
 </html>

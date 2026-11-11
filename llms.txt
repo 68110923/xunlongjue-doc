@@ -1,31 +1,22 @@
 # 寻龙诀 PRO
 
-寻龙诀 PRO 是一套部署在自己电脑或服务器上的 A 股量化研究工具。它在本地维护覆盖十年全市场的本地数据湖，每个交易日自动完成盘前竞价采集、一进二选票、盘中强多扫描、盘后复盘与明日观察，并把结果结构化落盘，供网页看板或微信推送读取。
+一套部署在自己电脑或服务器上的 A 股量化研究工具：本地数据湖、全市场真实竞价、一进二选票、每日自动复盘。
 
-## 核心能力
+## 页面
 
-- 全市场真实竞价，每日每票一行
-- A 股一进二竞价打板选票，多道硬闸 + 多维评分
-- 盘中强多扫描与每日自动复盘
-- 本地数据湖，按主键只追加不覆盖，带批次血缘
-- 质量断言与复权校验
-- 核心层零 LLM 可独立运行，AI 层可选
+- 首页：https://68110923.github.io/xunlongjue-doc/
+- 定价：https://68110923.github.io/xunlongjue-doc/pricing/
+- 文档：https://68110923.github.io/xunlongjue-doc/docs/
 
-## 主题页
-
-- 寻龙诀 PRO 是什么？：https://68110923.github.io/xunlongjue-doc/what-is-xunlongjue/
-- A股一进二是什么？：https://68110923.github.io/xunlongjue-doc/a-share-first-board/
-- 竞价打板怎么看？：https://68110923.github.io/xunlongjue-doc/auction-limit-up/
-- 龙虎榜怎么看？：https://68110923.github.io/xunlongjue-doc/dragon-tiger/
-- A股本地数据湖怎么做？：https://68110923.github.io/xunlongjue-doc/data-lake/
-- 一进二策略怎么回测？：https://68110923.github.io/xunlongjue-doc/backtest/
-
-## 相关链接
-
-- 官网：https://68110923.github.io/xunlongjue-doc/
-- 客户看板：https://xunlongjue.68110923.xyz/
-- 公开仓库：https://github.com/68110923/xunlongjue-doc
-- 私有源码仓库不公开
+- 安装与部署：https://68110923.github.io/xunlongjue-doc/docs/getting-started/
+- 策略总览：https://68110923.github.io/xunlongjue-doc/docs/strategy/
+- A股一进二：https://68110923.github.io/xunlongjue-doc/docs/strategy/first-board/
+- 竞价打板：https://68110923.github.io/xunlongjue-doc/docs/strategy/auction/
+- 龙虎榜：https://68110923.github.io/xunlongjue-doc/docs/strategy/dragon-tiger/
+- 数据湖：https://68110923.github.io/xunlongjue-doc/docs/data/
+- 回测：https://68110923.github.io/xunlongjue-doc/docs/backtest/
+- 常见问题：https://68110923.github.io/xunlongjue-doc/docs/faq/
+- 更新日志：https://68110923.github.io/xunlongjue-doc/docs/changelog/
 
 ## 说明
 

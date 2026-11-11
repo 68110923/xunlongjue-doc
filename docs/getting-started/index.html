@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>安装与部署 · 寻龙诀 PRO</title>
+<meta name="description" content="寻龙诀 PRO 安装、环境检查与定时任务部署。">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/docs/getting-started/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="寻龙诀 PRO">
+<meta property="og:title" content="安装与部署">
+<meta property="og:description" content="寻龙诀 PRO 安装、环境检查与定时任务部署。">
+<meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/docs/getting-started/">
+<meta property="og:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta name="wechat:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
+<meta name="wechat:image:width" content="1200">
+<meta name="wechat:image:height" content="1200">
+<meta name="wxwork:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
+<meta name="wxwork:image:width" content="1200">
+<meta name="wxwork:image:height" content="1200">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
+<link rel="stylesheet" href="../../assets/site.css">
+<script>
+(function(){
+  var m = location.search.match(/[?&]theme=(dark|light)/);
+  var saved = '';
+  try { saved = localStorage.getItem('xlp-theme') || ''; } catch (e) {}
+  document.documentElement.setAttribute('data-theme', m ? m[1] : (saved === 'dark' ? 'dark' : 'light'));
+})();
+</script>
+<script src="../../assets/site.js" defer></script>
+</head>
+<body>
+<header class="topbar docs-top">
+  <a class="brand" href="../../">🐉 寻龙诀 <span>PRO</span></a>
+  <nav class="top-links">
+    <a href="../../docs/">文档</a>
+    <a href="../../pricing/">定价</a>
+    <a href="../../docs/changelog/">更新日志</a>
+  </nav>
+  <div class="top-actions">
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="打开目录" aria-expanded="false">☰</button>
+    <a href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener">GitHub</a>
+    <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
+  </div>
+</header>
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="docs-shell"><aside class="docs-side" id="docsSide"><details open><summary>文档</summary><a href="../../docs/">文档首页</a></details><details open><summary>入门</summary><a href="../../docs/getting-started/" class=active>安装与部署</a></details><details open><summary>策略</summary><a href="../../docs/strategy/">策略总览</a><a href="../../docs/strategy/first-board/">A股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></details><details open><summary>数据与验证</summary><a href="../../docs/data/">数据湖</a><a href="../../docs/backtest/">回测</a></details><details open><summary>帮助</summary><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></details></aside><main class="docs-body">
+<h1>安装与部署</h1>
+<p class="docs-lead">把数据、策略和看板部署在自己的电脑或服务器上。</p>
+<h2 id="h-1">环境要求</h2>
+<ul><li>Ubuntu 22.04+ 或自己的电脑，磁盘 ≥ 10 GB。</li><li>系统时区必须是 <code>Asia/Shanghai</code>；时区不对会让定时任务整体偏移。</li><li>2 核 2 GB 可跑日常流程；盘中扫描和全量回测建议错开。</li></ul>
+<h2 id="h-2">首次启动</h2>
+<pre>git clone &lt;私有仓库&gt;
+cd xunlongjue-pro
+uv sync
+./.venv/bin/xlp doctor
+./.venv/bin/xlp verify
+./.venv/bin/xlp status</pre>
+<p><code>doctor</code> 检查环境与数据源，<code>verify</code> 检查数据质量，<code>status</code> 查看湖内数据范围。</p>
+<h2 id="h-3">装定时任务</h2>
+<p>只选一个调度入口：systemd 或 crontab，不要同时装。</p>
+<pre>./.venv/bin/xlp cron install --system</pre>
+<p>装好后用 <code>systemctl list-timers 'xlp-*'</code> 检查全部作业。盘前与盘后是两条独立链，互不依赖。</p>
+<h2 id="h-4">下一步</h2>
+<p>部署完成后，继续看 <a href="../strategy/">策略总览</a> 或 <a href="../faq/">常见问题</a>。</p>
+</main><aside class="docs-toc"><strong>本页目录</strong><a href="#h-1">环境要求</a><a href="#h-2">首次启动</a><a href="#h-3">装定时任务</a><a href="#h-4">下一步</a></aside></div>
+<footer class="wrap page-foot">
+  <div class="links">
+    <a href="../../docs/">文档</a>
+    <a href="../../pricing/">定价</a>
+    <a href="../../docs/faq/">常见问题</a>
+    <a href="../../docs/changelog/">更新日志</a>
+    <a href="../../legal/terms.html">用户协议</a>
+    <a href="../../legal/privacy.html">隐私政策</a>
+    <a href="../../legal/risk.html">风险揭示书</a>
+  </div>
+  <p>⚠️ 仅供研究与学习，不构成任何投资建议，不承诺任何收益。股市有风险，投资须谨慎。</p>
+</footer>
+</body>
+</html>

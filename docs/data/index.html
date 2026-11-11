@@ -6,11 +6,12 @@
 <title>A股本地数据湖：DuckDB、Parquet 与质量校验 · 寻龙诀 PRO</title>
 <meta name="description" content="为什么量化研究需要本地数据湖，DuckDB + Parquet 如何组织 A 股行情、竞价、龙虎榜与质量校验。">
 <meta name="robots" content="index,follow">
-<link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/data-lake/">
-<meta property="og:type" content="article">
+<link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/docs/data/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="寻龙诀 PRO">
 <meta property="og:title" content="A股本地数据湖：DuckDB、Parquet 与质量校验">
 <meta property="og:description" content="为什么量化研究需要本地数据湖，DuckDB + Parquet 如何组织 A 股行情、竞价、龙虎榜与质量校验。">
-<meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/data-lake/">
+<meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/docs/data/">
 <meta property="og:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,10 +24,7 @@
 <meta name="wxwork:image:height" content="1200">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
-<meta name="twitter:image:width" content="1200">
-<meta name="twitter:image:height" content="630">
-<link rel="stylesheet" href="../topics.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"A股本地数据湖：DuckDB、Parquet 与质量校验","description":"为什么量化研究需要本地数据湖，DuckDB + Parquet 如何组织 A 股行情、竞价、龙虎榜与质量校验。","datePublished":"2026-11-12","dateModified":"2026-11-12","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/data-lake/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
+<link rel="stylesheet" href="../../assets/site.css">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
@@ -35,71 +33,55 @@
   document.documentElement.setAttribute('data-theme', m ? m[1] : (saved === 'dark' ? 'dark' : 'light'));
 })();
 </script>
+<script src="../../assets/site.js" defer></script>
 </head>
 <body>
-<header class="topic-head">
-  <a class="topic-brand" href="../">🐉 寻龙诀 PRO</a>
-  <nav>
-    <a href="../#features">功能</a>
-    <a href="../#pricing">定价</a>
-    <a href="../#faq">常见问题</a>
-    <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
+<header class="topbar docs-top">
+  <a class="brand" href="../../">🐉 寻龙诀 <span>PRO</span></a>
+  <nav class="top-links">
+    <a href="../../docs/">文档</a>
+    <a href="../../pricing/">定价</a>
+    <a href="../../docs/changelog/">更新日志</a>
   </nav>
+  <div class="top-actions">
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="打开目录" aria-expanded="false">☰</button>
+    <a href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener">GitHub</a>
+    <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
+  </div>
 </header>
-<main class="topic-wrap">
-  <nav class="topic-crumb"><a href="../">首页</a> / <span>A股本地数据湖怎么做？</span></nav>
-  <article>
-    <h1>A股本地数据湖怎么做？</h1>
-    <p class="topic-lead">把数据放在自己手里，才能稳定复现回测，不被接口和网络牵着走。</p>
-    <p>只靠接口现拉数据，会碰到限流、保留期、字段变化和重复计算。本地数据湖把原始数据按主键保存下来，派生数据随时重建，回测和研究才有稳定底座。</p>
-<h2>为什么用 DuckDB + Parquet</h2>
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="docs-shell"><aside class="docs-side" id="docsSide"><details open><summary>文档</summary><a href="../../docs/">文档首页</a></details><details open><summary>入门</summary><a href="../../docs/getting-started/">安装与部署</a></details><details open><summary>策略</summary><a href="../../docs/strategy/">策略总览</a><a href="../../docs/strategy/first-board/">A股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></details><details open><summary>数据与验证</summary><a href="../../docs/data/" class=active>数据湖</a><a href="../../docs/backtest/">回测</a></details><details open><summary>帮助</summary><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></details></aside><main class="docs-body"><h1>A股本地数据湖怎么做？</h1>
+<p class="docs-lead">把数据放在自己手里，才能稳定复现回测，不被接口和网络牵着走。</p>
+
+<p>只靠接口现拉数据，会碰到限流、保留期、字段变化和重复计算。本地数据湖把原始数据按主键保存下来，派生数据随时重建，回测和研究才有稳定底座。</p>
+<h2 id="h-1">为什么用 DuckDB + Parquet</h2>
 <ul>
   <li><strong>列式存储</strong>：只读需要的列，适合行情和指标聚合。</li>
   <li><strong>单机可用</strong>：不需要额外数据库服务，2 核 2 GB 也能跑。</li>
   <li><strong>可核对</strong>：原始层只追加不覆盖，带批次和入库时间。</li>
   <li><strong>可重建</strong>：复权、指标等派生层可以从原始层重算。</li>
 </ul>
-<h2>表怎么分层</h2>
+<h2 id="h-2">表怎么分层</h2>
 <p>原始层保存日线、竞价、涨停池、龙虎榜、人气榜等；派生层保存复权、指标和策略产物；消费方只读视图，不直接读中间文件。</p>
-<h2>质量比“有数据”更重要</h2>
-<h2>为什么不能只存一份 CSV</h2>
+<h2 id="h-3">质量比“有数据”更重要</h2>
+<h2 id="h-4">为什么不能只存一份 CSV</h2>
 <p>行情数据有复权、停牌、退市、除权、字段变更等问题。只存一份扁平文件，出了问题很难知道是哪一步、哪一天、哪一批数据错了。</p>
 <p>本地数据湖会给每批数据留批次号和入库时间，原始层不覆盖，派生层可以重建。这样回测和排障才能复现。</p>
-<h2>常见问题</h2>
+<h2 id="h-5">常见问题</h2>
 <p><strong>一定要用 DuckDB 吗？</strong> 不是。DuckDB 只是单机分析的一种选择，核心是分层、主键、可重建和质量校验。</p>
 <p><strong>2 核 2 GB 能跑吗？</strong> 可以跑日常流程，但盘中高频扫描和全量回测要错开，避免同时占用内存。</p>
-    <div class="topic-cta">
-      <a class="topic-btn" href="../#pricing">查看定价</a>
-      <a class="topic-btn ghost" href="../#faq">常见问题</a>
-    </div>
-  </article>
-  <aside class="topic-more">
-    <strong>继续了解</strong>
-    <a href="../what-is-xunlongjue/">这是什么</a>
-    <a href="../a-share-first-board/">一进二是什么</a>
-    <a href="../auction-limit-up/">竞价打板</a>
-    <a href="../dragon-tiger/">龙虎榜</a>
-    <a href="../data-lake/">数据湖</a>
-    <a href="../backtest/">回测</a>
-  </aside>
-</main>
-<footer class="topic-foot">
+</main><aside class="docs-toc"><strong>本页目录</strong><a href="#h-1">为什么用 DuckDB + Parquet</a><a href="#h-2">表怎么分层</a><a href="#h-3">质量比“有数据”更重要</a><a href="#h-4">为什么不能只存一份 CSV</a><a href="#h-5">常见问题</a></aside></div>
+<footer class="wrap page-foot">
+  <div class="links">
+    <a href="../../docs/">文档</a>
+    <a href="../../pricing/">定价</a>
+    <a href="../../docs/faq/">常见问题</a>
+    <a href="../../docs/changelog/">更新日志</a>
+    <a href="../../legal/terms.html">用户协议</a>
+    <a href="../../legal/privacy.html">隐私政策</a>
+    <a href="../../legal/risk.html">风险揭示书</a>
+  </div>
   <p>⚠️ 仅供研究与学习，不构成任何投资建议，不承诺任何收益。股市有风险，投资须谨慎。</p>
-  <p><a href="../">返回首页</a> · <a href="../sitemap.xml">站点地图</a></p>
 </footer>
-<script>
-(function(){
-  var root = document.documentElement;
-  var btn = document.getElementById('themeToggle');
-  function sync(){ if (btn) btn.textContent = root.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙'; }
-  if (btn) btn.addEventListener('click', function(){
-    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('xlp-theme', next); } catch (e) {}
-    sync();
-  });
-  sync();
-})();
-</script>
 </body>
 </html>
