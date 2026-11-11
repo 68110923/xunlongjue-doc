@@ -34,6 +34,7 @@
 })();
 </script>
 <script src="../../../assets/site.js" defer></script>
+<script src="../../../assets/consult.js" defer></script>
 </head>
 <body>
 <header class="topbar docs-top">
@@ -75,21 +76,31 @@
 <p>只看高开百分比，不看竞价额；只看竞价额，不看是否一字；或者把竞价结果当成全天走势的保证。这些都是单指标判断。</p>
 <p>竞价数据要和首板质量、所处位置、板块强度一起使用。开盘后还要观察承接，不能把 09:25 的结论机械执行到收盘。</p>
 </main><aside class="docs-toc"><strong>本页目录</strong><a href="#h-1">竞价看什么</a><a href="#h-2">竞价不是预测</a><a href="#h-3">为什么强调真实竞价</a><a href="#h-4">竞价时间线</a><a href="#h-5">常见误区</a></aside></div>
-<button class="consult-fab" id="consultOpen" type="button">💬 咨询作者</button>
-<dialog class="consult-dialog" id="consultDialog">
-  <header class="consult-head"><strong>咨询作者</strong><button type="button" data-consult-close aria-label="关闭">✕</button></header>
-  <div class="consult-body">
-    <p>购买、试用或已有客户的部署问题，按下面方式联系。</p>
-    <ol>
-      <li><strong>购买 / 试用</strong>：到<a href="../../../pricing/">定价页</a>付款并备注微信，作者看到后会主动加你。</li>
-      <li><strong>已有看板</strong>：登录后使用站内聊天；源码客户的长期交流在微信交流群。</li>
-      <li><strong>公开问题</strong>：先看 <a href="../../../docs/faq/">FAQ</a>；开 issue 时不要贴密码、PAT、API Key。</li>
-    </ol>
-    <img src="../../../media/公众号/公众号二维码.jpg" alt="寻龙诀公众号二维码" loading="lazy">
-    <div class="consult-actions"><a class="btn primary" href="../../../pricing/">购买 / 试用</a><a class="btn ghost" href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">登录看板</a><a class="btn ghost" href="../../../docs/faq/">先看 FAQ</a></div>
-    <p class="consult-note">不代下单、不承诺收益；仅供研究。公众号每天更新战绩截图。</p>
+  <!-- ── 咨询入口（电脑右侧抽屉 / 手机全屏）────────────────────── -->
+  <button id="xlp-consult-open" class="xlp-consult-fab" type="button"
+          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询作者">💬 咨询作者</button>
+
+  <div id="xlp-consult" class="xlp-consult" role="dialog" aria-modal="false"
+       aria-labelledby="xlp-consult-title" aria-hidden="true">
+    <header class="xlp-consult-head">
+      <div>
+        <strong id="xlp-consult-title">咨询作者</strong>
+        <span class="xlp-consult-sub">购买 · 试用 · 看板问题</span>
+      </div>
+      <button class="xlp-consult-close" type="button" data-close aria-label="关闭咨询">✕</button>
+    </header>
+    <div class="xlp-consult-body" id="xlp-consult-body" aria-live="polite">
+      <p class="xlp-consult-hint">购买、试用、部署问题直接说；请勿发送密码、PAT、API Key。</p>
+    </div>
+    <form class="xlp-consult-form" id="xlp-consult-form">
+      <input type="file" accept="image/*" id="xlp-consult-file" hidden>
+      <button type="button" id="xlp-consult-img" aria-label="发送图片">📷</button>
+      <input type="text" id="xlp-consult-input" placeholder="输入问题…" maxlength="2000"
+             autocomplete="off" aria-label="咨询内容">
+      <button type="submit">发送</button>
+    </form>
   </div>
-</dialog>
+
 <footer class="wrap page-foot">
   <div class="links">
     <a href="../../../docs/">文档</a>
