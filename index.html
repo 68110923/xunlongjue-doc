@@ -2291,18 +2291,23 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
 
   var viewportTimer = null;
   var lastViewportHeight = 0;
+  var lastViewportTop = -1;
 
   function syncViewport() {
     if (!panel.classList.contains("open") || !isMobile()) return;
     var vv = window.visualViewport;
     if (!vv) return;
-    // 只改高度，不改 top：top 反复跳动是页眉"乱跳"的来源。
-    // body 已经 fixed，面板固定在布局视口顶部，键盘只改变可见高度。
+    // fixed 元素相对布局视口定位；iOS 键盘弹起时视觉视口会整体位移，
+    // 必须同时补 height 和 offsetTop，否则页眉被顶出屏幕。
     var height = Math.floor(vv.height);
-    if (Math.abs(height - lastViewportHeight) < 2) return;
+    var top = Math.round(vv.offsetTop || 0);
+    if (Math.abs(height - lastViewportHeight) < 2 && Math.abs(top - lastViewportTop) < 2) {
+      return;
+    }
     lastViewportHeight = height;
+    lastViewportTop = top;
     panel.style.height = height + "px";
-    panel.style.top = "0px";
+    panel.style.top = (top > 0 ? top : 0) + "px";
     panel.style.bottom = "auto";
   }
 
@@ -2310,9 +2315,9 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
     if (viewportTimer) clearTimeout(viewportTimer);
     viewportTimer = setTimeout(function () {
       syncViewport();
-      // 键盘还没收完时再补一次；不要每帧改尺寸，否则页眉会抖。
-      viewportTimer = setTimeout(syncViewport, 180);
-    }, delay || 90);
+      // 键盘动画收尾时再补一次；只在去抖后更新，避免页眉逐帧抖。
+      viewportTimer = setTimeout(syncViewport, 220);
+    }, delay || 100);
   }
 
   function lockPage() {
@@ -2546,6 +2551,7 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
   input.addEventListener("focus", function () { scheduleViewport(80); });
   if (window.visualViewport) {
     window.visualViewport.addEventListener("resize", function () { scheduleViewport(120); });
+    window.visualViewport.addEventListener("scroll", function () { scheduleViewport(120); });
   }
   window.addEventListener("resize", function () { scheduleViewport(120); });
   document.addEventListener("keydown", function (event) {
