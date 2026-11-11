@@ -1191,6 +1191,34 @@
     .xlp-consult-body{padding-bottom:14px}
   }
 
+  /* ── 深入了解：左侧目录 + 右侧内容 ── */
+  .docs-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start}
+  .docs-nav{
+    position:sticky;top:calc(var(--nav-h) + 16px);max-height:calc(100vh - var(--nav-h) - 32px);
+    overflow:auto;padding:12px;border:1px solid var(--border);border-radius:var(--r-md);
+    background:var(--card);box-shadow:var(--sh-1);
+  }
+  .docs-nav details+details{margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+  .docs-nav summary{
+    cursor:pointer;list-style:none;color:var(--wht);font-size:var(--t-sm);font-weight:700;
+    padding:5px 6px;border-radius:6px;
+  }
+  .docs-nav summary::-webkit-details-marker{display:none}
+  .docs-nav summary::after{content:"＋";float:right;color:var(--dim);font-weight:400}
+  .docs-nav details[open] summary::after{content:"－"}
+  .docs-nav a{
+    display:block;padding:6px 8px;margin:1px 0;border-radius:6px;
+    color:var(--text2);font-size:var(--t-sm);line-height:1.5;text-decoration:none;
+  }
+  .docs-nav a:hover{background:var(--code-bg);color:var(--accent);text-decoration:none}
+  .docs-main{min-width:0}
+  .docs-main>#faq{margin-top:34px;padding-top:24px;border-top:1px solid var(--border)}
+  .docs-main details[id],.docs-main h2[id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
+  @media (max-width:900px){
+    .docs-layout{display:block}
+    .docs-nav{position:static;max-height:none;margin-bottom:16px}
+  }
+
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     *,*::before,*::after{
@@ -1611,29 +1639,55 @@ xlp 核心层（写表）──┤
   </section><!-- /howto -->
   </div><!-- /qrhowto -->
 
-  <!-- ═══ 深入了解（主题页内链） ═══ -->
+  <!-- ═══ 深入了解 + 常见问题（左侧目录 / 右侧内容） ═══ -->
   <section class="sect sect-b" id="topics">
   <div class="sect-head">
   <h2 id="deep-dive">📚 深入了解</h2>
-  <div class="note">按问题拆开，适合搜索和快速了解。</div>
+  <div class="note">按主题或问题浏览，左侧选条目，右侧直接看内容。</div>
   </div>
   <div class="sect-body">
-  <div class="card">
-    <p><a href="what-is-xunlongjue/"><strong>寻龙诀 PRO 是什么？</strong></a>本地数据湖、一进二选票、自动复盘，适合谁。</p>
-    <p><a href="a-share-first-board/"><strong>A股一进二是什么？</strong></a>首板到二板的筛选逻辑、核心维度与常见误区。</p>
-    <p><a href="auction-limit-up/"><strong>竞价打板怎么看？</strong></a>09:25 集合竞价、高开幅度、竞价量能。</p>
-    <p><a href="dragon-tiger/"><strong>龙虎榜怎么看？</strong></a>总榜、机构榜、游资榜分别代表什么。</p>
-    <p><a href="data-lake/"><strong>A股本地数据湖</strong></a>DuckDB、Parquet、质量校验与可重建。</p>
-    <p><a href="backtest/"><strong>一进二怎么回测？</strong></a>命中率、7日最佳、期望收益与样本偏差。</p>
-  </div>
-  </div>
-  </section>
-
-  <!-- ═══ 8. 常见问题（标题在右） ═══ -->
-  <section class="sect sect-b">
-  <h2 id="faq">❓ 常见问题</h2>
-  <div class="sect-body">
-  <div class="faq">
+  <div class="docs-layout">
+    <aside class="docs-nav" aria-label="深入了解目录">
+      <details open>
+        <summary>主题</summary>
+        <a href="what-is-xunlongjue/">这是什么</a>
+        <a href="a-share-first-board/">A股一进二是什么</a>
+        <a href="auction-limit-up/">竞价打板怎么看</a>
+        <a href="dragon-tiger/">龙虎榜怎么看</a>
+        <a href="data-lake/">A股本地数据湖</a>
+        <a href="backtest/">一进二怎么回测</a>
+      </details>
+      <details open>
+        <summary>常见问题</summary>
+        <a href="#faq-what">这是什么？</a>
+        <a href="#faq-newbie">完全不懂股票能用吗？</a>
+        <a href="#faq-order">会自动下单吗？</a>
+        <a href="#faq-config">部署需要什么环境？</a>
+        <a href="#faq-key">数据源 Key 谁付？</a>
+        <a href="#faq-ai">不接 AI 能用吗？</a>
+        <a href="#faq-data">数据保存在哪里？</a>
+        <a href="#faq-nocode">需要会编程吗？</a>
+        <a href="#faq-delivery">交付什么形式？</a>
+        <a href="#faq-deploy">不会部署怎么办？</a>
+        <a href="#faq-update">后续策略更新怎么拿？</a>
+        <a href="#faq-dev">源码能二次开发吗？</a>
+        <a href="#faq-trial">怎么试用？</a>
+        <a href="#faq-time">多久出结果？</a>
+        <a href="#faq-decay">策略会不会失效？</a>
+        <a href="#faq-server">2核2GB能跑吗？</a>
+        <a href="#faq-diff">和别家有什么区别？</a>
+        <a href="#faq-stability">软件稳定吗？</a>
+        <a href="#faq-contact">怎么咨询 / 试用？</a>
+        <a href="#faq-upgrade">原版怎么升级 PRO？</a>
+      </details>
+    </aside>
+    <div class="docs-main">
+      <div class="card">
+        <p><strong>先看主题</strong>：适合系统了解产品、策略和数据边界。</p>
+        <p><strong>再看问题</strong>：适合直接查“会不会下单”“怎么部署”“数据在哪”等具体疑问。</p>
+      </div>
+      <h2 id="faq">❓ 常见问题</h2>
+        <div class="faq">
     <details id="faq-what">
       <summary>这是什么？</summary>
       <div class="a"><p>部署在自己电脑或服务器上的 A 股量化研究工具：本地数据湖 + 一进二选票 + 自动复盘 + 网页看板 / 微信推送；核心层不依赖 AI。</p></div>
@@ -1729,8 +1783,11 @@ xlp 核心层（写表）──┤
       </div>
     </details>
   </div>
-  </div><!-- /sect-body -->
-  </section><!-- /faq -->
+
+    </div>
+  </div>
+  </div>
+  </section>
 
   <!-- ═══ 9. 风险与许可（标题在左） ═══ -->
   <section class="sect sect-a">
