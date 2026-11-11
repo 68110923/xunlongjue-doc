@@ -11,6 +11,15 @@
 - 53 条质量断言 + 3 条复权不变量
 - 核心层零 LLM 可独立运行，AI 层可选
 
+## 主题页
+
+- 这是什么：https://68110923.github.io/xunlongjue-doc/what-is-xunlongjue/
+- A股一进二：https://68110923.github.io/xunlongjue-doc/a-share-first-board/
+- 竞价打板：https://68110923.github.io/xunlongjue-doc/auction-limit-up/
+- 龙虎榜：https://68110923.github.io/xunlongjue-doc/dragon-tiger/
+- 数据湖：https://68110923.github.io/xunlongjue-doc/data-lake/
+- 回测：https://68110923.github.io/xunlongjue-doc/backtest/
+
 ## 相关链接
 
 - 官网：https://68110923.github.io/xunlongjue-doc/

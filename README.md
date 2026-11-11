@@ -125,6 +125,15 @@ xlp 核心层（写表）──┤
 
 > ⚠️ 收款码与看板入口**只在宣传页上**：本文件会随源码交付，不写联系方式与收款码。
 
+## 📚 深入了解
+
+- [寻龙诀 PRO 是什么？](https://68110923.github.io/xunlongjue-doc/what-is-xunlongjue/)：本地数据湖、一进二选票、自动复盘，适合谁
+- [A股一进二是什么？](https://68110923.github.io/xunlongjue-doc/a-share-first-board/)：首板到二板的筛选逻辑与常见误区
+- [竞价打板怎么看？](https://68110923.github.io/xunlongjue-doc/auction-limit-up/)：09:25 集合竞价、高开幅度与竞价量能
+- [龙虎榜怎么看？](https://68110923.github.io/xunlongjue-doc/dragon-tiger/)：总榜、机构榜、游资榜的区别
+- [A股本地数据湖](https://68110923.github.io/xunlongjue-doc/data-lake/)：DuckDB、Parquet、质量校验
+- [一进二怎么回测？](https://68110923.github.io/xunlongjue-doc/backtest/)：命中率、7日最佳、期望收益
+
 ## ❓ 常见问题
 
 | 问题 | 回答 |
@@ -157,6 +166,7 @@ xlp 核心层（写表）──┤
 - **公开站 SEO**：补 canonical、FAQ/HowTo 结构化数据、llms.txt 与 sitemap
 - **公开仓库元信息同步**：描述、主页、topics 由 pro 自动同步，保持单仓库维护
 - **FAQ 完善**：补充新手可用性、AI 可选、数据位置、部署方式与二次开发说明，稳定性和策略表述同步修正
+- **主题页拆分**：新增一进二、竞价、龙虎榜、数据湖、回测等独立页面，补内链、sitemap 与 llms.txt
 
 ### V20261111 (2026-11-11)
 - **首页咨询入口**：电脑端右侧聊天抽屉，手机端全屏聊天；避开底部购买条与回到顶部按钮，键盘弹起时面板贴合可见区域，关闭后恢复原页面位置

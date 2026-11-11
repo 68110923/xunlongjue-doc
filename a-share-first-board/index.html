@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A股一进二是什么？首板到二板的筛选逻辑 · 寻龙诀 PRO</title>
+<meta name="description" content="解释 A 股一进二：首板、竞价、硬闸、评分与板块共振；为什么首板不等于二板，以及常见误区。">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/a-share-first-board/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A股一进二是什么？首板到二板的筛选逻辑">
+<meta property="og:description" content="解释 A 股一进二：首板、竞价、硬闸、评分与板块共振；为什么首板不等于二板，以及常见误区。">
+<meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/a-share-first-board/">
+<link rel="stylesheet" href="../topics.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"A股一进二是什么？首板到二板的筛选逻辑","description":"解释 A 股一进二：首板、竞价、硬闸、评分与板块共振；为什么首板不等于二板，以及常见误区。","datePublished":"2026-11-12","dateModified":"2026-11-12","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/a-share-first-board/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
+<script>
+(function(){
+  var m = location.search.match(/[?&]theme=(dark|light)/);
+  var saved = '';
+  try { saved = localStorage.getItem('xlp-theme') || ''; } catch (e) {}
+  document.documentElement.setAttribute('data-theme', m ? m[1] : (saved === 'dark' ? 'dark' : 'light'));
+})();
+</script>
+</head>
+<body>
+<header class="topic-head">
+  <a class="topic-brand" href="../">🐉 寻龙诀 PRO</a>
+  <nav>
+    <a href="../#features">功能</a>
+    <a href="../#pricing">定价</a>
+    <a href="../#faq">常见问题</a>
+    <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
+  </nav>
+</header>
+<main class="topic-wrap">
+  <nav class="topic-crumb"><a href="../">首页</a> / <span>A股一进二是什么？</span></nav>
+  <article>
+    <h1>A股一进二是什么？</h1>
+    <p class="topic-lead">一进二不是“看到首板就买”，而是从首板里筛出次日更可能继续走强的候选。</p>
+    <p>“一进二”指首板之后，次日能否继续涨停、走出二板。首板只说明当天有资金把它推到涨停；第二天能不能接住，取决于竞价、位置、量价、板块和情绪。</p>
+<h2>首板只是起点</h2>
+<p>首板数量每天可能几十只，真正能进入研究范围的是少数。寻龙诀 PRO 会把首板池先做硬条件过滤，再做评分和板块共振，最后按区间排序。</p>
+<h2>核心判断维度</h2>
+<ul>
+  <li><strong>竞价</strong>：高开多少、竞价量够不够、有没有被抢筹。</li>
+  <li><strong>位置</strong>：是否处于低位、是否已经连续上涨、是否离均线过远。</li>
+  <li><strong>量价</strong>：封板时间、换手、成交额、炸板情况。</li>
+  <li><strong>板块</strong>：同板块涨停家数、连板高度、是否形成共振。</li>
+  <li><strong>风险</strong>：高开低走、单边下跌后急反弹、涨停密集等。</li>
+</ul>
+<h2>常见误区</h2>
+<p>把“首板”当成“必涨”，或者只看一个指标就下单，都是把概率问题当成确定性问题。策略只能提高筛选效率，不能消除亏损。</p>
+    <div class="topic-cta">
+      <a class="topic-btn" href="../#pricing">查看定价</a>
+      <a class="topic-btn ghost" href="../#faq">常见问题</a>
+    </div>
+  </article>
+  <aside class="topic-more">
+    <strong>继续了解</strong>
+    <a href="../what-is-xunlongjue/">这是什么</a>
+    <a href="../a-share-first-board/">一进二是什么</a>
+    <a href="../auction-limit-up/">竞价打板</a>
+    <a href="../dragon-tiger/">龙虎榜</a>
+    <a href="../data-lake/">数据湖</a>
+    <a href="../backtest/">回测</a>
+  </aside>
+</main>
+<footer class="topic-foot">
+  <p>⚠️ 仅供研究与学习，不构成任何投资建议，不承诺任何收益。股市有风险，投资须谨慎。</p>
+  <p><a href="../">返回首页</a> · <a href="../sitemap.xml">站点地图</a></p>
+</footer>
+<script>
+(function(){
+  var root = document.documentElement;
+  var btn = document.getElementById('themeToggle');
+  function sync(){ if (btn) btn.textContent = root.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙'; }
+  if (btn) btn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('xlp-theme', next); } catch (e) {}
+    sync();
+  });
+  sync();
+})();
+</script>
+</body>
+</html>

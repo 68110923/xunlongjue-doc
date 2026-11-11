@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>一进二策略怎么回测？命中率、7日最佳与期望收益 · 寻龙诀 PRO</title>
+<meta name="description" content="一进二回测应该看什么：命中率、失败均亏、7日最佳、期望收益，以及样本量和幸存者偏差。">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/backtest/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一进二策略怎么回测？命中率、7日最佳与期望收益">
+<meta property="og:description" content="一进二回测应该看什么：命中率、失败均亏、7日最佳、期望收益，以及样本量和幸存者偏差。">
+<meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/backtest/">
+<link rel="stylesheet" href="../topics.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"一进二策略怎么回测？命中率、7日最佳与期望收益","description":"一进二回测应该看什么：命中率、失败均亏、7日最佳、期望收益，以及样本量和幸存者偏差。","datePublished":"2026-11-12","dateModified":"2026-11-12","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/backtest/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
+<script>
+(function(){
+  var m = location.search.match(/[?&]theme=(dark|light)/);
+  var saved = '';
+  try { saved = localStorage.getItem('xlp-theme') || ''; } catch (e) {}
+  document.documentElement.setAttribute('data-theme', m ? m[1] : (saved === 'dark' ? 'dark' : 'light'));
+})();
+</script>
+</head>
+<body>
+<header class="topic-head">
+  <a class="topic-brand" href="../">🐉 寻龙诀 PRO</a>
+  <nav>
+    <a href="../#features">功能</a>
+    <a href="../#pricing">定价</a>
+    <a href="../#faq">常见问题</a>
+    <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
+  </nav>
+</header>
+<main class="topic-wrap">
+  <nav class="topic-crumb"><a href="../">首页</a> / <span>一进二策略怎么回测？</span></nav>
+  <article>
+    <h1>一进二策略怎么回测？</h1>
+    <p class="topic-lead">回测不是证明“策略能赚钱”，而是检查它在不同市场阶段是否稳定。</p>
+    <p>只看命中率很容易被误导：高命中率可能伴随大亏，低命中率也可能有正期望。一进二回测至少要看四个维度。</p>
+<h2>四个指标</h2>
+<ul>
+  <li><strong>命中率</strong>：推送票次日涨停的比例。</li>
+  <li><strong>失败均亏</strong>：没涨停的票平均亏多少。</li>
+  <li><strong>7日最佳</strong>：买入后 7 个交易日内最高价相对买入价的涨幅。</li>
+  <li><strong>期望收益</strong>：胜率 × 均盈 + 败率 × 均亏。</li>
+</ul>
+<h2>容易忽略的偏差</h2>
+<p>样本太少、只挑上涨阶段、用收盘价而不是真实开盘价、忽略涨停买不进，都会让回测结果失真。回测要尽量使用当时可得的真实数据。</p>
+<h2>怎么用回测</h2>
+<p>先看不同市场阶段的稳定性，再看参数变化后的名单差异。不要为了一个漂亮数字反复拟合历史；回测是筛掉坏想法，不是制造好结果。</p>
+    <div class="topic-cta">
+      <a class="topic-btn" href="../#pricing">查看定价</a>
+      <a class="topic-btn ghost" href="../#faq">常见问题</a>
+    </div>
+  </article>
+  <aside class="topic-more">
+    <strong>继续了解</strong>
+    <a href="../what-is-xunlongjue/">这是什么</a>
+    <a href="../a-share-first-board/">一进二是什么</a>
+    <a href="../auction-limit-up/">竞价打板</a>
+    <a href="../dragon-tiger/">龙虎榜</a>
+    <a href="../data-lake/">数据湖</a>
+    <a href="../backtest/">回测</a>
+  </aside>
+</main>
+<footer class="topic-foot">
+  <p>⚠️ 仅供研究与学习，不构成任何投资建议，不承诺任何收益。股市有风险，投资须谨慎。</p>
+  <p><a href="../">返回首页</a> · <a href="../sitemap.xml">站点地图</a></p>
+</footer>
+<script>
+(function(){
+  var root = document.documentElement;
+  var btn = document.getElementById('themeToggle');
+  function sync(){ if (btn) btn.textContent = root.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙'; }
+  if (btn) btn.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('xlp-theme', next); } catch (e) {}
+    sync();
+  });
+  sync();
+})();
+</script>
+</body>
+</html>

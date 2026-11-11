@@ -1,0 +1,123 @@
+:root {
+  --bg: #f4f4f7;
+  --bg2: #ffffff;
+  --card: #ffffff;
+  --border: #e0e0e7;
+  --text: #333333;
+  --text2: #52525b;
+  --dim: #6b6b76;
+  --accent: #4338ca;
+  --accent-soft: #e7e7fb;
+  --wht: #141418;
+  --shadow: rgba(20, 20, 30, .12);
+  --radius: 14px;
+  --max: 860px;
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  --bg: #0f0f13;
+  --bg2: #15151e;
+  --card: #1a1a23;
+  --border: rgba(255, 255, 255, .1);
+  --text: #e4e4e7;
+  --text2: #a1a1aa;
+  --dim: #71717a;
+  --accent: #818cf8;
+  --accent-soft: #1e1b4a;
+  --wht: #f4f4f5;
+  --shadow: rgba(0, 0, 0, .45);
+  color-scheme: dark;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 16px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.topic-head {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 54px;
+  padding: 0 18px;
+  background: var(--bg);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+.topic-brand { color: var(--wht); font-weight: 800; white-space: nowrap; }
+.topic-head nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.topic-head nav a, .topic-head nav button {
+  color: var(--text2);
+  font: inherit;
+  font-size: 13px;
+  padding: 8px 9px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+.topic-head nav a:hover, .topic-head nav button:hover { color: var(--accent); background: var(--accent-soft); text-decoration: none; }
+.topic-wrap { max-width: var(--max); margin: 0 auto; padding: 38px 22px 54px; }
+.topic-crumb { color: var(--dim); font-size: 13px; margin-bottom: 18px; }
+.topic-crumb a { color: var(--text2); }
+article h1 { color: var(--wht); font-size: clamp(29px, 4vw, 44px); line-height: 1.25; letter-spacing: -.02em; margin-bottom: 14px; }
+.topic-lead { color: var(--text2); font-size: clamp(16px, 1.7vw, 19px); line-height: 1.7; margin-bottom: 30px; }
+article h2 { color: var(--wht); font-size: clamp(20px, 2.4vw, 26px); line-height: 1.4; margin: 34px 0 12px; }
+article p { margin: 12px 0; }
+article ul { margin: 12px 0 12px 1.25em; }
+article li { margin: 7px 0; }
+article strong { color: var(--wht); }
+.topic-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); }
+.topic-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+.topic-btn:hover { text-decoration: none; opacity: .9; }
+.topic-btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--border); }
+.topic-more {
+  display: grid;
+  gap: 4px;
+  margin-top: 42px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.topic-more strong { color: var(--wht); margin-bottom: 5px; }
+.topic-more a { color: var(--text2); padding: 4px 0; }
+.topic-more a:hover { color: var(--accent); text-decoration: none; }
+.topic-foot {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 22px 22px 44px;
+  border-top: 1px solid var(--border);
+  color: var(--dim);
+  font-size: 12px;
+  line-height: 1.9;
+}
+.topic-foot p { margin: 4px 0; }
+@media (max-width: 560px) {
+  .topic-head { align-items: flex-start; flex-direction: column; padding: 10px 16px; }
+  .topic-head nav { justify-content: flex-start; }
+  .topic-wrap { padding: 28px 16px 42px; }
+  .topic-foot { padding: 20px 16px 36px; }
+}
