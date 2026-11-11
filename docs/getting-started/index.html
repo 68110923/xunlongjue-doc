@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>安装与部署 · 寻龙诀 PRO</title>
-<meta name="description" content="寻龙诀 PRO 安装、环境检查与定时任务部署。">
+<meta name="description" content="寻龙诀 PRO 部署流程：DSH、DeepSeek、IM 机器人与源码安装；密码和 PAT 付款后单独发送。">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/docs/getting-started/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="寻龙诀 PRO">
 <meta property="og:title" content="安装与部署">
-<meta property="og:description" content="寻龙诀 PRO 安装、环境检查与定时任务部署。">
+<meta property="og:description" content="寻龙诀 PRO 部署流程：DSH、DeepSeek、IM 机器人与源码安装；密码和 PAT 付款后单独发送。">
 <meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/docs/getting-started/">
 <meta property="og:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
 <meta property="og:image:width" content="1200">
@@ -52,24 +52,55 @@
 <div class="menu-overlay" id="menuOverlay"></div>
 <div class="docs-shell"><aside class="docs-side" id="docsSide"><details open><summary>文档</summary><a href="../../docs/">文档首页</a></details><details open><summary>入门</summary><a href="../../docs/getting-started/" class=active>安装与部署</a></details><details open><summary>策略</summary><a href="../../docs/strategy/">策略总览</a><a href="../../docs/strategy/first-board/">A股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></details><details open><summary>数据与验证</summary><a href="../../docs/data/">数据湖</a><a href="../../docs/backtest/">回测</a></details><details open><summary>帮助</summary><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></details></aside><main class="docs-body">
 <h1>安装与部署</h1>
-<p class="docs-lead">把数据、策略和看板部署在自己的电脑或服务器上。</p>
-<h2 id="h-1">环境要求</h2>
-<ul><li>Ubuntu 22.04+ 或自己的电脑，磁盘 ≥ 10 GB。</li><li>系统时区必须是 <code>Asia/Shanghai</code>；时区不对会让定时任务整体偏移。</li><li>2 核 2 GB 可跑日常流程；盘中扫描和全量回测建议错开。</li></ul>
-<h2 id="h-2">首次启动</h2>
-<pre>git clone &lt;私有仓库&gt;
+<p class="docs-lead">付款后由作者主动联系，单独发送设备信息、私有仓库 PAT 和数据快照密码。公开页不保存任何密码或密钥。</p>
+<div class="note-box"><p><strong>安全提醒：</strong>服务器密码、PAT、API Key 和快照密码只通过私聊发送；不要贴到公开 issue、群聊或截图里。拿到后建议立即修改一次。</p></div>
+<h2 id="h-1">第一步：让 AI agent 装 DSH</h2>
+<p>把下面的任务和登录信息交给支持 shell 的 AI agent（豆包、Codex、DSH、Trae 等）。服务器信息付款后单独发送。</p>
+<pre>设备：服务器（推荐 Ubuntu 24.04）
+IP / SSH 端口 / 用户 / 密码：付款后由作者单独发送
+
+1) 安装或升级 Node.js，并设置 npm 镜像：
+   npm config set registry https://registry.npmmirror.com
+
+2) 安装并启动 DSH：
+   npx @deepseek-ai/dsh web --no-open
+
+3) 确认 DSH 宿主已配置开机自启。
+
+4) 在 DSH 上安装插件：
+   github:yjh051108/dsh-super-injector（第一个装）
+   github:xmanrui/dsh-im
+   github:68110923/dsh-mobile-ux
+
+5) 服务器上通过 SSH 隧道访问 DSH：
+   ssh -L 3081:127.0.0.1:3080 -p &lt;SSH端口&gt; &lt;用户&gt;@&lt;服务器IP&gt;</pre>
+<p>本地电脑直接打开 DSH 给出的地址；服务器则打开本地 <code>http://127.0.0.1:3081</code>。</p>
+<h2 id="h-2">第二步：配置 DeepSeek 与 IM 机器人</h2>
+<ol>
+  <li>给 DeepSeek 充值少量 token 费用：<a href="https://platform.deepseek.com/usage" target="_blank" rel="noopener">platform.deepseek.com</a>。可以创建 API Key 填到 DSH 的「设置 → 模型」，也可以直接登录账号。</li>
+  <li>打开 DSH，找到「IM 机器人」，绑定微信、钉钉或其他使用方式。</li>
+  <li>DSH-IM：设置 → 更多设置 → 投递设置 → 新建投递目标，勾选「会话双向同步」，点测试确认能收到消息。</li>
+  <li>DSH-IM 右上角：设置 → 投递，勾选「投递模型回答」并保存。</li>
+</ol>
+<h2 id="h-3">第三步：部署寻龙诀 PRO</h2>
+<ol>
+  <li>API Key：前往 <a href="https://fuyao.aicubes.cn/" target="_blank" rel="noopener">fuyao.aicubes.cn</a> 注册并获取，填入项目配置。</li>
+  <li>付款后作者会单独发送私有仓库只读 PAT；用它克隆源码：</li>
+</ol>
+<pre>git clone https://github.com/68110923/xunlongjue-pro.git
 cd xunlongjue-pro
 uv sync
 ./.venv/bin/xlp doctor
-./.venv/bin/xlp verify
-./.venv/bin/xlp status</pre>
-<p><code>doctor</code> 检查环境与数据源，<code>verify</code> 检查数据质量，<code>status</code> 查看湖内数据范围。</p>
-<h2 id="h-3">装定时任务</h2>
-<p>只选一个调度入口：systemd 或 crontab，不要同时装。</p>
-<pre>./.venv/bin/xlp cron install --system</pre>
-<p>装好后用 <code>systemctl list-timers 'xlp-*'</code> 检查全部作业。盘前与盘后是两条独立链，互不依赖。</p>
-<h2 id="h-4">下一步</h2>
-<p>部署完成后，继续看 <a href="../strategy/">策略总览</a> 或 <a href="../faq/">常见问题</a>。</p>
-</main><aside class="docs-toc"><strong>本页目录</strong><a href="#h-1">环境要求</a><a href="#h-2">首次启动</a><a href="#h-3">装定时任务</a><a href="#h-4">下一步</a></aside></div>
+./.venv/bin/xlp verify</pre>
+<ol start="3">
+  <li>按仓库内 <code>docs/DEPLOY.md</code> 完成数据、定时任务和看板部署。</li>
+  <li>首次拉取数据快照时，使用作者单独发送的快照密码；不要把密码写进仓库或公开文档。</li>
+</ol>
+<h2 id="h-4">部署完成后</h2>
+<p>先跑 <code>xlp doctor</code>、<code>xlp verify</code>、<code>xlp status</code>，确认环境、数据和质量检查都正常，再开启定时任务。</p>
+<h2 id="h-5">需要协助？</h2>
+<p>不想自己部署，可以选择 200 元远程协助；付款后作者会联系你，约 2 小时完成。</p>
+</main><aside class="docs-toc"><strong>本页目录</strong><a href="#h-1">第一步：让 AI agent 装 DSH</a><a href="#h-2">第二步：配置 DeepSeek 与 IM 机器人</a><a href="#h-3">第三步：部署寻龙诀 PRO</a><a href="#h-4">部署完成后</a><a href="#h-5">需要协助？</a></aside></div>
 <footer class="wrap page-foot">
   <div class="links">
     <a href="../../docs/">文档</a>

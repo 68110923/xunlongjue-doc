@@ -23,15 +23,20 @@
     if (side) side.classList.remove("open");
     if (overlay) overlay.classList.remove("open");
     if (menu) menu.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("menu-open");
   }
   if (menu && side) {
     menu.addEventListener("click", function () {
       var open = side.classList.toggle("open");
       if (overlay) overlay.classList.toggle("open", open);
       menu.setAttribute("aria-expanded", open ? "true" : "false");
+      document.body.classList.toggle("menu-open", open);
     });
   }
   if (overlay) overlay.addEventListener("click", closeMenu);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeMenu();
+  });
   document.querySelectorAll(".docs-side a").forEach(function (a) {
     a.addEventListener("click", closeMenu);
   });
