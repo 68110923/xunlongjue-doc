@@ -1100,10 +1100,13 @@
     transition:transform .22s ease,visibility .22s ease;
   }
   .xlp-consult.open{transform:translateX(0);visibility:visible}
-  body.xlp-consult-open{overflow:hidden}
+  body.xlp-consult-open{overflow:hidden;touch-action:none}
+  html.xlp-consult-open{overflow:hidden}
   .xlp-consult-head{
+    /* 页面全局 header 有 margin-bottom + 居中；这里必须显式归零，否则中间会出现空白带 */
     flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;
-    padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg2);
+    margin:0;padding:14px 16px;border-bottom:1px solid var(--border);
+    background:var(--bg2);text-align:left;
   }
   .xlp-consult-head strong{display:block;color:var(--wht);font-size:var(--t-base);line-height:1.3}
   .xlp-consult-sub{display:block;margin-top:3px;color:var(--dim);font-size:var(--t-xs);line-height:1.4}
@@ -2279,6 +2282,49 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
   var lastId = 0;
   var timer = null;
   var sending = false;
+  var pageScroll = 0;
+
+  function isMobile() {
+    return window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
+  }
+
+  function syncViewport() {
+    if (!panel.classList.contains("open") || !isMobile()) return;
+    var vv = window.visualViewport;
+    if (!vv) return;
+    // iOS/Android 键盘弹出时 visualViewport 才是真实可见区域；
+    // 用 fixed 面板自己的高度跟随它，页眉不会被顶出屏幕。
+    panel.style.top = vv.offsetTop + "px";
+    panel.style.height = vv.height + "px";
+    panel.style.bottom = "auto";
+  }
+
+  function lockPage() {
+    if (!isMobile()) return;
+    pageScroll = window.scrollY || window.pageYOffset || 0;
+    document.documentElement.classList.add("xlp-consult-open");
+    document.body.classList.add("xlp-consult-open");
+    document.body.style.position = "fixed";
+    document.body.style.top = "-" + pageScroll + "px";
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    syncViewport();
+  }
+
+  function unlockPage() {
+    document.documentElement.classList.remove("xlp-consult-open");
+    document.body.classList.remove("xlp-consult-open");
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    panel.style.top = "";
+    panel.style.height = "";
+    panel.style.bottom = "";
+    if (pageScroll) window.scrollTo(0, pageScroll);
+  }
 
   function uuid() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
@@ -2386,7 +2432,7 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
     panel.classList.toggle("open", open);
     panel.setAttribute("aria-hidden", open ? "false" : "true");
     openBtn.setAttribute("aria-expanded", open ? "true" : "false");
-    document.body.classList.toggle("xlp-consult-open", open);
+    if (open) lockPage(); else unlockPage();
     if (!open && timer) { clearInterval(timer); timer = null; }
   }
 
@@ -2467,6 +2513,16 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeL
     fileInput.value = "";
     if (file) sendImage(file);
   });
+  input.addEventListener("focus", function () {
+    // 等浏览器把键盘动画走完再校正可见区域
+    setTimeout(syncViewport, 120);
+    setTimeout(syncViewport, 320);
+  });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", syncViewport);
+    window.visualViewport.addEventListener("scroll", syncViewport);
+  }
+  window.addEventListener("resize", syncViewport);
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" && panel.classList.contains("open")) closePanel();
   });
