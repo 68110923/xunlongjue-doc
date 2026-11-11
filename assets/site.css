@@ -117,6 +117,9 @@ body.consult-open .consult-fab{display:none}
 .consult-head button{border:0;background:transparent;color:var(--dim);font-size:17px;cursor:pointer}
 .consult-body{padding:16px;font-size:13px;line-height:1.7}
 .consult-body p{color:var(--text-2);margin-bottom:12px}
+.consult-body ol{margin:0 0 14px 1.15em;color:var(--text-2)}
+.consult-body li{margin:7px 0}
+.consult-body li strong{color:var(--wht)}
 .consult-body img{display:block;width:160px;max-width:100%;margin:0 auto 14px;border-radius:10px;border:1px solid var(--border);background:#fff}
 .consult-actions{display:flex;gap:8px;flex-wrap:wrap}
 .consult-actions .btn{flex:1;min-height:40px}
