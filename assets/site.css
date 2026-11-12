@@ -990,6 +990,7 @@ body.footer-visible .xlp-consult-fab { opacity: 0; pointer-events: none; transfo
   z-index: 9998;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
   min-height: 46px;
   padding: 0 18px;
@@ -1006,6 +1007,7 @@ body.footer-visible .xlp-consult-fab { opacity: 0; pointer-events: none; transfo
 }
 .xlp-consult-fab:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); }
 .fab-label { display: inline; }
+.fab-icon { flex: 0 0 auto; width: 18px; height: 18px; }
 .xlp-consult-fab:active { transform: translateY(0); }
 
 .xlp-consult {
