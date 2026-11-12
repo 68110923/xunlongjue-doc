@@ -27,7 +27,7 @@
 <meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
-<link rel="stylesheet" href="../../assets/site.css?v=cc6cf3b4">
+<link rel="stylesheet" href="../../assets/site.css?v=ea2e2e2b">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
@@ -38,8 +38,8 @@
 })();
 </script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"数据湖","description":"为什么量化研究需要本地数据湖，DuckDB + Parquet 如何组织 A 股行情、竞价、龙虎榜与质量校验。","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/docs/data/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
-<script src="../../assets/site.js?v=cc6cf3b4" defer></script>
-<script src="../../assets/consult.js?v=cc6cf3b4" defer></script>
+<script src="../../assets/site.js?v=ea2e2e2b" defer></script>
+<script src="../../assets/consult.js?v=ea2e2e2b" defer></script>
 </head>
 <body class="page page-docs">
 <a class="skip-link" href="#main">跳到主要内容</a>
@@ -75,7 +75,7 @@
   <div class="docs-main">
     <nav class="breadcrumb" aria-label="面包屑"><a href="../../docs/">文档</a> / <span>数据与验证</span> / <span>数据湖</span></nav>
     <h1>A 股本地数据湖怎么做？</h1>
-    <p class="docs-lead">把数据放在自己手里，才能稳定复现回测，不被接口和网络牵着走。</p>
+<p class="docs-lead">把数据放在自己手里，才能稳定复现回测，不被接口和网络牵着走。</p>
     <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>原始层只追加不覆盖，派生层随时可重建。</li><li>每批数据带批次号和入库时间，问题可追溯。</li><li>53 条质量断言 + 3 条复权不变量，不过即失败。</li></ul></div>
     <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">为什么用 DuckDB + Parquet</a><a href="#h-2">表怎么分层</a><a href="#h-3">质量比“有数据”更重要</a><a href="#h-4">为什么不能只存一份 CSV</a><a href="#h-5">常见问题</a></div></details>
     <div class="prose">

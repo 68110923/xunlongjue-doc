@@ -745,39 +745,6 @@ body.footer-visible .xlp-consult-fab { opacity: 0; pointer-events: none; transfo
 
 /* ── 部署页 ─────────────────────────────────────────────────────────── */
 
-.deploy-summary {
-  margin: 22px 0 18px;
-  padding: 24px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: linear-gradient(135deg, var(--accent-soft), transparent 70%), var(--surface);
-  box-shadow: var(--shadow-sm);
-}
-.deploy-kicker {
-  margin: 0 0 6px;
-  color: var(--gold);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-.deploy-oneliner {
-  margin: 0 0 18px;
-  color: var(--text);
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  font-weight: 700;
-  line-height: 1.6;
-}
-.deploy-handoff { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.deploy-handoff div {
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-}
-.deploy-handoff span { display: block; color: var(--dim); font-size: 11px; font-weight: 700; letter-spacing: .06em; }
-.deploy-handoff strong { display: block; margin-top: 4px; color: var(--text); font-size: 13.5px; line-height: 1.5; }
-
 .deploy-overview { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 18px 0 8px; }
 .deploy-card {
   padding: 16px 14px;
@@ -817,6 +784,7 @@ body.footer-visible .xlp-consult-fab { opacity: 0; pointer-events: none; transfo
 .deploy-copy-label { margin: 14px 0 0; color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .deploy-list { margin: 12px 0; padding-left: 1.4em; }
 .deploy-list li { margin: 8px 0; }
+.deploy-list li::marker { color: var(--accent); font-weight: 800; }
 
 .qr-note { margin: 18px 0 0; color: var(--dim); font-size: 13px; }
 .qr-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 520px; margin: 22px auto 0; }
@@ -918,6 +886,7 @@ body.footer-visible .xlp-consult-fab { opacity: 0; pointer-events: none; transfo
 .prose ol { margin: 12px 0; padding-left: 1.35em; }
 .prose li { margin: 5px 0; }
 .prose strong { color: var(--text); }
+.prose strong.hl { color: var(--accent); }
 .prose a { text-decoration: underline; text-decoration-color: var(--accent-ring); text-underline-offset: 3px; overflow-wrap: anywhere; }
 .prose code { padding: 1px 6px; border: 1px solid var(--border); border-radius: 5px; background: var(--surface-2); color: var(--text); font: .88em var(--font-mono); }
 .prose pre { margin: 16px 0; padding: 16px 18px; overflow: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--code-bg); color: var(--code-text); font: 13px/1.7 var(--font-mono); }
@@ -1262,7 +1231,6 @@ body.page-legal .site-footer { margin-top: 24px; }
   .docs-pager .pager-next { align-items: flex-end; margin-left: 0; text-align: right; }
   .notice-actions { flex-direction: column; }
   .metric-grid { grid-template-columns: 1fr 1fr; }
-  .deploy-handoff { grid-template-columns: 1fr; }
   .deploy-overview { grid-template-columns: 1fr 1fr; }
   .compare-table thead { display: none; }
   .compare-table,

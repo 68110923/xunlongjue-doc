@@ -27,7 +27,7 @@
 <meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
-<link rel="stylesheet" href="assets/site.css?v=cc6cf3b4">
+<link rel="stylesheet" href="assets/site.css?v=ea2e2e2b">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
@@ -38,8 +38,8 @@
 })();
 </script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"寻龙诀 PRO","url":"https://68110923.github.io/xunlongjue-doc/","description":"寻龙诀 PRO：本地数据湖、全市场真实竞价、一进二选票与每日自动复盘。"}</script>
-<script src="assets/site.js?v=cc6cf3b4" defer></script>
-<script src="assets/consult.js?v=cc6cf3b4" defer></script>
+<script src="assets/site.js?v=ea2e2e2b" defer></script>
+<script src="assets/consult.js?v=ea2e2e2b" defer></script>
 </head>
 <body class="page page-home">
 <a class="skip-link" href="#main">跳到主要内容</a>
@@ -164,7 +164,7 @@
 <section class="section">
   <div class="container">
     <div class="section-head"><h2>PRO 版新增与升级</h2></div>
-    <div class="table-wrap"><table class="compare-table"><thead><tr><th>能力</th><th>PRO 版做法</th></tr></thead><tbody><tr><th scope="row">数据来源</th><td>专业行情数据终端，31 个接口逐个实测批量上限、延迟与字段可得性。</td></tr><tr><th scope="row">竞价数据</th><td>全市场每日每票一行的真实竞价：未匹配量、换手率、量比、占昨日成交量比。</td></tr><tr><th scope="row">涨跌停口径</th><td>权威涨停比例与涨停价随行落库，各板块 / ST / 新股幅度由数据源给出。</td></tr><tr><th scope="row">数据组织</th><td>本地数据湖：18 张表按主键只追加不覆盖、批次血缘、v_* 只读视图。</td></tr><tr><th scope="row">质量保障</th><td>53 条质量断言 + 3 条复权不变量，每个交易日自动跑，不过即非零退出。</td></tr><tr><th scope="row">调度</th><td>14 个作业由代码声明，一键安装 systemd / crontab；法定休市日自动跳过。</td></tr><tr><th scope="row">资源占用</th><td>实测 2 核 2 GB 可跑：常驻约 325 MB，最重作业峰值约 1.1 GB。</td></tr><tr><th scope="row">取数速度</th><td>批量作业并发取数（线程安全令牌桶，默认 12 QPS / 4 线程，可调回串行）。</td></tr><tr><th scope="row">策略</th><td>20 道硬闸 + 10 维评分 + 板块共振 + 期望收益口径；参数重标定有回测。</td></tr><tr><th scope="row">文档</th><td>18 份活文档（策略 / 指标 / 接口 / 数据字典 / 性能 / 运维 / 部署 / 工作流），CI 守卫不许漂。</td></tr><tr><th scope="row">AI 层</th><td>核心层零 LLM 可独立运行；AI 层（推送 / 对话）可选叠加。</td></tr><tr><th scope="row">业绩口径</th><td>不写死胜率：由 xlp stats 用你自己库里的真实自评现算，并附幸存者偏差标注。</td></tr></tbody></table></div>
+    <div class="table-wrap"><table class="compare-table"><thead><tr><th>能力</th><th>PRO 版做法</th></tr></thead><tbody><tr><th scope="row">长期维护</th><td>源码买断后持续维护，策略长期更新；后续更新通过私有仓库 git pull 同步，不另收费。</td></tr><tr><th scope="row">数据来源</th><td>专业行情数据终端，31 个接口逐个实测批量上限、延迟与字段可得性。</td></tr><tr><th scope="row">竞价数据</th><td>全市场每日每票一行的真实竞价：未匹配量、换手率、量比、占昨日成交量比。</td></tr><tr><th scope="row">涨跌停口径</th><td>权威涨停比例与涨停价随行落库，各板块 / ST / 新股幅度由数据源给出。</td></tr><tr><th scope="row">数据组织</th><td>本地数据湖：18 张表按主键只追加不覆盖、批次血缘、v_* 只读视图。</td></tr><tr><th scope="row">质量保障</th><td>53 条质量断言 + 3 条复权不变量，每个交易日自动跑，不过即非零退出。</td></tr><tr><th scope="row">调度</th><td>14 个作业由代码声明，一键安装 systemd / crontab；法定休市日自动跳过。</td></tr><tr><th scope="row">资源占用</th><td>实测 2 核 2 GB 可跑：常驻约 325 MB，最重作业峰值约 1.1 GB。</td></tr><tr><th scope="row">取数速度</th><td>批量作业并发取数（线程安全令牌桶，默认 12 QPS / 4 线程，可调回串行）。</td></tr><tr><th scope="row">策略</th><td>20 道硬闸 + 10 维评分 + 板块共振 + 期望收益口径；参数重标定有回测。</td></tr><tr><th scope="row">文档</th><td>18 份活文档（策略 / 指标 / 接口 / 数据字典 / 性能 / 运维 / 部署 / 工作流），CI 守卫不许漂。</td></tr><tr><th scope="row">AI 层</th><td>核心层零 LLM 可独立运行；AI 层（推送 / 对话）可选叠加。</td></tr><tr><th scope="row">业绩口径</th><td>不写死胜率：由 xlp stats 用你自己库里的真实自评现算，并附幸存者偏差标注。</td></tr></tbody></table></div>
   </div>
 </section>
 

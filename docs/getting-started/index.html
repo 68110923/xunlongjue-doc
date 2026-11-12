@@ -27,7 +27,7 @@
 <meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
-<link rel="stylesheet" href="../../assets/site.css?v=cc6cf3b4">
+<link rel="stylesheet" href="../../assets/site.css?v=ea2e2e2b">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
@@ -38,8 +38,8 @@
 })();
 </script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"安装与部署","description":"寻龙诀 PRO 部署流程：准备设备、让 AI 装 DSH、绑定微信、把 PAT 交给 AI 完成部署；设备自己准备，凭证付款后私聊发送。","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/docs/getting-started/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
-<script src="../../assets/site.js?v=cc6cf3b4" defer></script>
-<script src="../../assets/consult.js?v=cc6cf3b4" defer></script>
+<script src="../../assets/site.js?v=ea2e2e2b" defer></script>
+<script src="../../assets/consult.js?v=ea2e2e2b" defer></script>
 </head>
 <body class="page page-docs">
 <a class="skip-link" href="#main">跳到主要内容</a>
@@ -75,28 +75,16 @@
   <div class="docs-main">
     <nav class="breadcrumb" aria-label="面包屑"><a href="../../docs/">文档</a> / <span>安装与部署</span></nav>
     <h1>安装与部署</h1>
-    <p class="docs-lead">不用自己敲命令：准备一台设备，把两段话发给 AI，剩下的它来做。付款后作者私聊发你私有仓库 PAT 和数据快照密码。</p>
-    <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>设备自己准备：本地电脑或云服务器都可以。</li><li>你只需要把两段话发给 AI，装 DSH、部署、拉数据都由它完成。</li><li>PAT 和快照密码付款后私聊发送，不放在公开页。</li></ul></div>
+
+    <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>设备自己准备：本地电脑或云服务器；示例里的 IP、端口、密码只是占位。</li><li>你只需要把两段话发给 AI，装 DSH、部署、拉数据都由它完成。</li><li>PAT 和快照密码付款后私聊发送；作者不会索要你的服务器密码。</li></ul></div>
     <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：在 DSH 里绑定微信 / 钉钉</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></details>
     <div class="prose">
-<div class="deploy-summary">
-  <p class="deploy-kicker">一句话版本</p>
-  <p class="deploy-oneliner">准备设备 → 把第一段话发给 AI → 在 DSH 里绑定微信 → 把第二段话发给同一个 AI → 完成。</p>
-  <div class="deploy-handoff">
-    <div><span>你准备</span><strong>一台电脑或云服务器</strong></div>
-    <div><span>作者发你</span><strong>私有仓库 PAT + 数据快照密码</strong></div>
-    <div><span>预计耗时</span><strong>20~40 分钟，大部分由 AI 完成</strong></div>
-  </div>
-</div>
-
 <div class="deploy-overview" aria-label="部署四步">
   <div class="deploy-card"><span class="deploy-num">01</span><strong>准备设备</strong><small>本地电脑或云服务器</small></div>
   <div class="deploy-card"><span class="deploy-num">02</span><strong>装 DSH</strong><small>把第一段话发给 AI</small></div>
   <div class="deploy-card"><span class="deploy-num">03</span><strong>绑定微信</strong><small>在 DSH 网页点几下</small></div>
   <div class="deploy-card"><span class="deploy-num">04</span><strong>部署寻龙诀</strong><small>把第二段话发给同一个 AI</small></div>
 </div>
-
-<div class="callout callout-note"><p><strong>设备自己准备。</strong>本页示例里的 IP、端口、密码只是格式占位，换成你自己的。作者不会索要你的服务器密码，只会在付款后私聊发送 PAT 和数据快照密码。</p></div>
 
 <h2 id="h-1">第一步：准备设备</h2>
 <div class="device-choice">
@@ -114,7 +102,7 @@
 <p class="deploy-hint">不想买服务器？本地电脑也能装。云服务器只是让定时任务 24 小时在线。</p>
 
 <h2 id="h-2">第二步：让 AI 装 DSH</h2>
-<p>把下面整段发给任意支持 shell 的 AI（豆包、WorkBuddy、Codex、DSH、Trae 等）。它会装 Node.js、DSH 和三个插件，并告诉你访问地址。</p>
+<p><strong class="hl">豆包、WorkBuddy、Codex、DSH、Trae 等皆可</strong>，AI 装好 DSH 之后会告诉你<strong>访问链接</strong>。</p>
 <p class="deploy-copy-label">第一段话 · 复制发给 AI</p>
 <pre><code>设备：&lt;本地电脑 / 云服务器 Ubuntu 24.04&gt;
 （服务器填写）IP：&lt;你的服务器 IP&gt;，SSH 端口：&lt;你的端口&gt;，用户：&lt;root&gt;，密码：&lt;你的密码&gt;
@@ -135,10 +123,10 @@
 
 <h2 id="h-3">第三步：在 DSH 里绑定微信 / 钉钉</h2>
 <ol class="deploy-list">
-  <li><strong>给 DeepSeek 充 10 元</strong>（token 费用）：<a href="https://platform.deepseek.com/usage" target="_blank" rel="noopener">platform.deepseek.com/usage</a>。二选一：创建 API Key 填到「设置 → 模型」，或直接登录账号。</li>
-  <li><strong>打开 DSH 链接</strong>，找到「IM 机器人」，绑定微信、钉钉或其他使用方式。</li>
-  <li><strong>配置投递</strong>：DSH-IM → 设置 → 更多设置 → 投递设置 → 新建投递目标 → 勾选「会话双向同步」→ 点测试，确认能收到消息。</li>
-  <li><strong>打开模型回答投递</strong>：DSH-IM 右上角 → 设置 → 投递 → 勾选「投递模型回答」→ 保存。</li>
+  <li><strong>给 DeepSeek 充 10 元</strong>（token 费用）：<a href="https://platform.deepseek.com/usage" target="_blank" rel="noopener">platform.deepseek.com/usage</a>。二选一：<strong class="hl">创建 API Key</strong> 填到「设置 → 模型」，或<strong class="hl">直接登录账号</strong>。</li>
+  <li><strong>打开 DSH 链接</strong>，找到「IM 机器人」，绑定<strong class="hl">微信、钉钉</strong>或其他使用方式。</li>
+  <li><strong>配置投递</strong>：DSH-IM → 设置 → 更多设置 → 投递设置 → 新建投递目标 → 勾选<strong class="hl">「会话双向同步」</strong>→ 点测试，确认能收到消息。</li>
+  <li><strong>打开模型回答投递</strong>：DSH-IM 右上角 → 设置 → 投递 → 勾选<strong class="hl">「投递模型回答」</strong>→ 保存。</li>
 </ol>
 <div class="callout callout-tip"><p><strong>验收标准：</strong>测试消息能在微信 / 钉钉里收到，再进入下一步。</p></div>
 
