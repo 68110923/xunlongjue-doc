@@ -1,5 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="寻龙诀 PRO">
-  <rect width="64" height="64" rx="14" fill="#c62828"/>
-  <text x="32" y="45" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, 'Microsoft YaHei', sans-serif" font-size="38" font-weight="700" fill="#ffffff">龙</text>
-  <circle cx="49" cy="15" r="4" fill="#d4a853"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="寻龙诀 PRO">
+  <rect x="6" y="27" width="38" height="18" rx="9" fill="#3b82f6"/>
+  <circle cx="44" cy="31" r="16" fill="#3b82f6"/>
+  <path d="M31 18c0-5 2-8 5-8s5 3 5 8z" fill="#3b82f6"/>
+  <path d="M39 15c0-5 2-8 5-8s5 3 5 8z" fill="#3b82f6"/>
+  <path d="M47 18c0-5 2-8 5-8s5 3 5 8z" fill="#3b82f6"/>
+  <circle cx="46" cy="26" r="6" fill="#dbeafe"/>
+  <circle cx="46" cy="26" r="2.6" fill="#1e3a8a"/>
+  <circle cx="47" cy="25" r="0.9" fill="#fff"/>
+  <circle cx="14" cy="31" r="1.8" fill="#1e3a8a"/>
+  <path d="M12 38c8 4 20 4 28 0" stroke="#dbeafe" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M18 39l2 3 2-3M26 40l2 3 2-3M34 40l2 3 2-3" fill="#dbeafe"/>
 </svg>
