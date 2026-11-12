@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>功能说明 · 寻龙诀 PRO</title>
+<meta name="description" content="寻龙诀 PRO 每天自动做什么、结果在哪里看、六个功能分别怎么用。">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/docs/features/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="寻龙诀 PRO">
+<meta property="og:title" content="功能说明">
+<meta property="og:description" content="寻龙诀 PRO 每天自动做什么、结果在哪里看、六个功能分别怎么用。">
+<meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/docs/features/">
+<meta property="og:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="600">
+<meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="../../media/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../../media/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../../media/apple-touch-icon.png">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="../../assets/site.css?v=ea2e2e2b">
+<script>
+(function(){
+  var m = location.search.match(/[?&]theme=(dark|light)/);
+  var saved = '';
+  try { saved = localStorage.getItem('xlp-theme') || ''; } catch (e) {}
+  var prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme', m ? m[1] : (saved || (prefers ? 'dark' : 'light')));
+})();
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"功能说明","description":"寻龙诀 PRO 每天自动做什么、结果在哪里看、六个功能分别怎么用。","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/docs/features/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
+<script src="../../assets/site.js?v=ea2e2e2b" defer></script>
+<script src="../../assets/consult.js?v=ea2e2e2b" defer></script>
+</head>
+<body class="page page-docs">
+<a class="skip-link" href="#main">跳到主要内容</a>
+<header class="topbar">
+  <div class="topbar-inner container">
+    <a class="brand" href="../../" aria-label="寻龙诀 PRO 首页">
+      <span class="brand-mark" aria-hidden="true">🐉</span>
+      <span class="brand-name">寻龙诀 <b>PRO</b></span>
+    </a>
+    <nav class="top-nav" aria-label="主导航"><a href="../../docs/" aria-current="page">文档</a><a href="../../pricing/">定价</a><a href="../../docs/changelog/">更新日志</a></nav>
+    <div class="top-actions">
+      <a class="icon-btn dashboard-link" href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener" aria-label="进入客户看板">看板 <span class="ext" aria-hidden="true">↗</span></a>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="切换明暗主题">🌙</button>
+      <a class="icon-btn github" href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <button class="icon-btn menu-toggle" id="menuToggle" type="button" aria-label="打开导航" aria-expanded="false" aria-controls="navDrawer">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-overlay" id="navOverlay"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="站点导航" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="drawer-title">导航</span>
+    <button class="icon-btn" type="button" data-drawer-close aria-label="关闭导航">✕</button>
+  </div>
+  <p class="drawer-label">常用</p>
+  <nav class="drawer-main" aria-label="常用导航"><a href="../../docs/" aria-current="page">文档</a><a href="../../pricing/">定价</a><a href="../../docs/changelog/">更新日志</a></nav>
+<div class="drawer-scroll"><div class="drawer-section"><p class="drawer-label">文档目录</p><details class="side-group" open><summary>开始</summary><div class="side-links"><a href="../../docs/">文档首页</a><a href="../../docs/features/" aria-current="page">功能说明</a><a href="../../docs/getting-started/">安装与部署</a></div></details><details class="side-group"><summary>理解策略</summary><div class="side-links"><a href="../../docs/strategy/">策略总览</a><a href="../../docs/strategy/first-board/">A 股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../../docs/data/">数据湖</a><a href="../../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></div></details></div></div>
+</aside>
+<main id="main">
+<div class="docs-layout container">
+  <aside class="docs-side" id="docsSide" aria-label="文档目录"><details class="side-group" open><summary>开始</summary><div class="side-links"><a href="../../docs/">文档首页</a><a href="../../docs/features/" aria-current="page">功能说明</a><a href="../../docs/getting-started/">安装与部署</a></div></details><details class="side-group"><summary>理解策略</summary><div class="side-links"><a href="../../docs/strategy/">策略总览</a><a href="../../docs/strategy/first-board/">A 股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../../docs/data/">数据湖</a><a href="../../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></div></details></aside>
+  <div class="docs-main">
+    <nav class="breadcrumb" aria-label="面包屑"><a href="../../docs/">文档</a> / <span>功能说明</span></nav>
+    <h1>功能说明</h1>
+<p class="docs-lead">每天自动做什么、结果在哪里看、每个功能怎么用。</p>
+    <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>每天自动跑：竞价 → 选票 → 盘中扫描 → 复盘。</li><li>六个功能：一进二、复盘、观察、预测、深度分析、两个出口。</li><li>只做研究整理，不代下单、不承诺收益。</li></ul></div>
+    <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">一天怎么跑</a><a href="#h-2">六个功能</a><a href="#h-3">功能、数据与策略的关系</a><a href="#h-4">每天看什么</a><a href="#h-5">边界</a></div></details>
+    <div class="prose">
+<h2 id="h-1">一天怎么跑</h2>
+<table>
+  <thead><tr><th>时间</th><th>发生什么</th><th>你会看到</th></tr></thead>
+  <tbody>
+    <tr><td>09:25</td><td>全市场真实竞价定盘</td><td>竞价数据落库</td></tr>
+    <tr><td>09:26–09:27</td><td>一进二候选</td><td>≤3 只候选、买点类型、触发与放弃条件</td></tr>
+    <tr><td>盘中</td><td>强多扫描</td><td>按固定节奏更新的强多票</td></tr>
+    <tr><td>16:19</td><td>每日复盘</td><td>命中 / 遗漏 / 盲区 / 不该漏</td></tr>
+    <tr><td>盘后</td><td>明日观察</td><td>次日关注方向与条件</td></tr>
+  </tbody>
+</table>
+<p>所有环节的产物都落到本地数据湖；网页看板和微信推送只读产物，互不依赖。</p>
+
+<h2 id="h-2">六个功能</h2>
+<h3>一进二寻龙</h3>
+<p><strong>做什么</strong>：全市场首板扫描，09:25 竞价定盘后给出候选（≤3 只）。</p>
+<p><strong>你会看到</strong>：候选、买点类型、触发条件、放弃条件、评分与硬闸结果。</p>
+<p><strong>依赖</strong>：真实竞价、涨停池、板块共振。</p>
+<p><strong>入口</strong>：网页看板 / 微信推送。</p>
+<p><strong>边界</strong>：只给研究结论，不代下单；不保证次日涨停。</p>
+
+<h3>每日自动复盘</h3>
+<p><strong>做什么</strong>：收盘后汇总当日结果，区分命中、遗漏、盲区，并附「不该漏」清单。</p>
+<p><strong>你会看到</strong>：推送表现、命中/遗漏/盲区、漏在哪里、为什么漏。</p>
+<p><strong>依赖</strong>：当日推送、收盘行情、涨停与梯队数据。</p>
+<p><strong>入口</strong>：网页看板 / 微信推送。</p>
+<p><strong>边界</strong>：复盘是研究记录，不是收益承诺。</p>
+
+<h3>明日观察</h3>
+<p><strong>做什么</strong>：盘后结合涨停梯队、板块合力、封板质量与竞价抢筹，梳理次日关注方向。</p>
+<p><strong>你会看到</strong>：少量核心标的、关注条件与放弃条件。</p>
+<p><strong>依赖</strong>：涨停梯队、板块强度、封板质量、竞价数据。</p>
+<p><strong>入口</strong>：网页看板 / 微信推送。</p>
+<p><strong>边界</strong>：观察是盘后研究，不预测次日一定上涨。</p>
+
+<h3>个股 / 大盘预测</h3>
+<p><strong>做什么</strong>：发代码即回方向参考与关键指标；也能看当日涨跌家数、情绪档位与大盘系数。</p>
+<p><strong>你会看到</strong>：方向参考、关键指标、情绪与大盘环境。</p>
+<p><strong>依赖</strong>：长周期价量、指标与全市场统计。</p>
+<p><strong>入口</strong>：对话 / 看板。</p>
+<p><strong>边界</strong>：预测只作研究参考，不构成买卖建议。</p>
+
+<h3>深度分析</h3>
+<p><strong>做什么</strong>：拉取长周期价量序列做结构化解析，辅助判断主力行为痕迹。</p>
+<p><strong>你会看到</strong>：形态、量能、指标分位与关键节点。</p>
+<p><strong>依赖</strong>：长周期日线、盘中快照与派生指标。</p>
+<p><strong>入口</strong>：对话 / 看板。</p>
+<p><strong>边界</strong>：分析结果不保证未来走势。</p>
+
+<h3>两个出口</h3>
+<p><strong>做什么</strong>：同一份产物同时供给网页看板和微信推送；任选其一或都要。</p>
+<p><strong>你会看到</strong>：看板随时查看；微信推送可叠加 AI 分析。</p>
+<p><strong>依赖</strong>：<code>display/*.json</code> 产物；核心层零 LLM 也能运行。</p>
+<p><strong>入口</strong>：网页看板 / 微信推送。</p>
+<p><strong>边界</strong>：两个出口互不依赖，都只读产物。</p>
+
+<h2 id="h-3">功能、数据与策略的关系</h2>
+<table>
+  <thead><tr><th>功能</th><th>主要输入</th><th>输出去哪看</th></tr></thead>
+  <tbody>
+    <tr><td>一进二</td><td>真实竞价、首板、板块共振</td><td>看板 / 微信推送</td></tr>
+    <tr><td>复盘</td><td>当日推送、收盘行情</td><td>看板 / 微信推送</td></tr>
+    <tr><td>明日观察</td><td>涨停梯队、封板质量、竞价抢筹</td><td>看板 / 微信推送</td></tr>
+    <tr><td>预测 / 深度分析</td><td>长周期价量、指标</td><td>对话 / 看板</td></tr>
+    <tr><td>两个出口</td><td><code>display/*.json</code> 产物</td><td>看板 / 推送</td></tr>
+  </tbody>
+</table>
+<p>功能负责「每天给你什么」，策略负责「为什么这样筛」，数据负责「结果能不能核对」。</p>
+
+<h2 id="h-4">每天看什么</h2>
+<ul>
+  <li><strong>09:26</strong>：看候选和推送，先看触发条件与放弃条件。</li>
+  <li><strong>盘中</strong>：看强多票有没有新增，不反复刷新。</li>
+  <li><strong>16:19</strong>：看复盘，重点看「不该漏」。</li>
+  <li><strong>盘后</strong>：看明日观察，第二天竞价再验证。</li>
+</ul>
+
+<h2 id="h-5">边界</h2>
+<div class="callout callout-warn"><p><strong>只做研究整理：</strong>不接券商、不代下单、不经手资金，也不承诺收益。所有候选都要自己判断。</p></div>
+<div class="callout callout-tip"><p><strong>下一步：</strong>先看 <a href="../getting-started/">安装与部署</a>，或继续读 <a href="../strategy/">策略总览</a>、<a href="../data/">数据湖</a>、<a href="../backtest/">回测</a>。</p></div>
+</div>
+    <nav class="docs-pager" aria-label="文档翻页"><a class="pager-prev" href="../../docs/"><span>上一篇</span><strong>文档首页</strong></a><a class="pager-next" href="../../docs/getting-started/"><span>下一篇</span><strong>安装与部署</strong></a></nav>
+  </div>
+  <aside class="docs-toc" aria-label="本页目录"><p class="toc-title">本页目录</p><div class="toc-links"><a href="#h-1">一天怎么跑</a><a href="#h-2">六个功能</a><a href="#h-3">功能、数据与策略的关系</a><a href="#h-4">每天看什么</a><a href="#h-5">边界</a></div></aside>
+</div>
+</main>
+  <!-- ── 咨询入口（电脑右侧抽屉 / 手机全屏）────────────────────── -->
+  <button id="xlp-consult-open" class="xlp-consult-fab" type="button"
+          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询作者"><svg class="fab-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="fab-label">咨询作者</span></button>
+
+  <div id="xlp-consult" class="xlp-consult" role="dialog" aria-modal="false"
+       aria-labelledby="xlp-consult-title" aria-hidden="true">
+    <header class="xlp-consult-head">
+      <div>
+        <strong id="xlp-consult-title">咨询作者</strong>
+        <span class="xlp-consult-sub">购买 · 试用 · 看板问题</span>
+      </div>
+      <button class="xlp-consult-close" type="button" data-close aria-label="关闭咨询">✕</button>
+    </header>
+    <div class="xlp-consult-body" id="xlp-consult-body" aria-live="polite">
+      <p class="xlp-consult-hint">购买、试用、部署问题直接说；请勿发送密码、PAT、API Key。</p>
+    </div>
+    <form class="xlp-consult-form" id="xlp-consult-form">
+      <input type="file" accept="image/*" id="xlp-consult-file" hidden>
+      <button type="button" id="xlp-consult-img" aria-label="发送图片">📷</button>
+      <input type="text" id="xlp-consult-input" placeholder="输入问题…" maxlength="2000"
+             autocomplete="off" aria-label="咨询内容">
+      <button type="submit">发送</button>
+    </form>
+  </div>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">🐉</span><span class="brand-name">寻龙诀 <b>PRO</b></span></a>
+      <p>部署在自己电脑或服务器上的 A 股量化研究工具。本地数据湖、全市场真实竞价、一进二选票与每日自动复盘。</p>
+      <p class="footer-note">仅供研究与学习，不构成任何投资建议，不承诺任何收益。</p>
+    </div>
+    <nav class="footer-col" aria-label="文档">
+      <p class="footer-title">文档</p>
+      <a href="../../docs/">文档首页</a>
+      <a href="../../docs/getting-started/">安装与部署</a>
+      <a href="../../docs/strategy/">策略总览</a>
+      <a href="../../docs/data/">数据湖</a>
+      <a href="../../docs/backtest/">回测</a>
+    </nav>
+    <nav class="footer-col" aria-label="产品">
+      <p class="footer-title">产品</p>
+      <a href="../../pricing/">定价与购买</a>
+      <a href="../../docs/faq/">常见问题</a>
+      <a href="../../docs/changelog/">更新日志</a>
+      <a href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">客户看板 ↗</a>
+      <a href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <nav class="footer-col" aria-label="协议">
+      <p class="footer-title">协议</p>
+      <a href="../../legal/terms.html">用户协议</a>
+      <a href="../../legal/privacy.html">隐私政策</a>
+      <a href="../../legal/risk.html">风险揭示书</a>
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <p>© 2026 寻龙诀 PRO</p>
+    <p>股市有风险 · 投资须谨慎</p>
+  </div>
+</footer>
+</body>
+</html>

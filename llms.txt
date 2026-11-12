@@ -10,6 +10,7 @@
 - 客户看板：https://xunlongjue.68110923.xyz/
 
 - 文档首页：https://68110923.github.io/xunlongjue-doc/docs/
+- 功能说明：https://68110923.github.io/xunlongjue-doc/docs/features/
 - 安装与部署：https://68110923.github.io/xunlongjue-doc/docs/getting-started/
 - 策略总览：https://68110923.github.io/xunlongjue-doc/docs/strategy/
 - A 股一进二：https://68110923.github.io/xunlongjue-doc/docs/strategy/first-board/
