@@ -27,7 +27,7 @@
 <meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
-<link rel="stylesheet" href="../assets/site.css?v=0fd1fe66">
+<link rel="stylesheet" href="../assets/site.css?v=3d852be8">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
@@ -38,8 +38,8 @@
 })();
 </script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"寻龙诀 PRO 源码","description":"A 股一进二量化研究工具：本地数据湖、全市场真实竞价、每日自动复盘。","brand":{"@type":"Brand","name":"寻龙诀 PRO"},"offers":[{"@type":"Offer","name":"PRO 版源码","price":"1288","priceCurrency":"CNY","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"看板试用","price":"88","priceCurrency":"CNY","availability":"https://schema.org/InStock"}]}</script>
-<script src="../assets/site.js?v=0fd1fe66" defer></script>
-<script src="../assets/consult.js?v=0fd1fe66" defer></script>
+<script src="../assets/site.js?v=3d852be8" defer></script>
+<script src="../assets/consult.js?v=3d852be8" defer></script>
 </head>
 <body class="page page-pricing">
 <a class="skip-link" href="#main">跳到主要内容</a>
@@ -74,41 +74,29 @@
   <div class="container">
     <p class="eyebrow">PRICING</p>
     <h1>一次买断，按需选择</h1>
-    <p class="lead">源码、协助部署、看板试用分开定价；不绑定订阅，不承诺收益。</p>
+    <p class="lead">先看结果、买断源码、需要时加购部署协助。三档放在一张表里，按行对比。</p>
   </div>
 </section>
 
 <section class="section section-tight">
   <div class="container">
-    <div class="price-grid"><article class="price-card" id="price-trial"><h2>看板试用</h2><div class="price-amount"><strong>88</strong><span>元</span><em>5~7 个交易日</em></div><p>不含源码，直接看实际推送结果；试用期内购买源码可全额抵扣。</p><ul class="check-list"><li>看板内查看每日推送</li><li>看板内聊天交流</li><li>5~7 个交易日</li></ul><a class="btn btn-ghost" href="#buy">了解怎么买</a></article><article class="price-card featured" id="price-source"><span class="price-badge">推荐</span><h2>PRO 版源码</h2><div class="price-amount"><strong>1288</strong><span>元</span><em>一次买断</em></div><p>交付源码 + 部署教程 + 全部文档；包含后续策略更新，通过私有仓库 git pull 同步。</p><ul class="check-list"><li>完整源码与文档</li><li>后续策略更新</li><li>私有仓库只读 PAT</li><li>本地数据湖</li></ul><a class="btn btn-primary" href="#buy">了解怎么买</a></article><article class="price-card" id="price-deploy"><h2>远程协助部署</h2><div class="price-amount"><strong>+200</strong><span>元</span><em>可选</em></div><p>一对一远程协助，约 2 小时；不想折腾服务器就选它。</p><ul class="check-list"><li>一对一远程</li><li>约 2 小时</li><li>装好后交付验收命令</li></ul><a class="btn btn-ghost" href="#buy">了解怎么买</a></article></div>
-    <p class="pricing-note">原版 xunlongjue 同为 1288 元；已购买原版的老用户可直接同步 PRO 版源码。</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section-head"><h2>买到的到底是什么</h2><p>把包含和不包含说清楚，避免误解。</p></div>
-    <div class="grid-2">
-      <div class="panel"><h3>包含</h3><ul class="check-list">
-        <li>完整源码、文档与 CLI，可在自己的项目里引用。</li>
-        <li>私有仓库只读 PAT + 数据快照密码，可 git pull 获取后续策略更新。</li>
-        <li>部署教程与数据快照，首次运行自己拉取。</li>
-        <li>本地数据湖与每日自动作业。</li>
-      </ul></div>
-      <div class="panel"><h3>不包含</h3><ul class="cross-list">
-        <li>不连接券商、不代下单、不经手资金。</li>
-        <li>不承诺收益，也不提供买卖建议。</li>
-        <li>不包含云服务器费用（自购约 38~99 元/年，2 核 2 GB 即可）。</li>
-        <li>不包含可选的 AI token 费用（约 0.2 元/天）。</li>
-      </ul></div>
+    <p class="mobile-scroll-hint">左右滑动查看三档 →</p>
+    <div class="price-matrix-wrap">
+      <table class="price-matrix">
+        <caption class="sr-only">寻龙诀 PRO 价格对比</caption>
+        <thead><tr><th scope="col">方案</th><th scope="col" id="price-trial" class="price-plan"><span class="price-plan-name">看板试用</span><span class="price-amount"><strong>88</strong><span>元</span></span><span class="price-note">5~7 个交易日</span></th><th scope="col" id="price-source" class="price-plan featured"><span class="price-badge">推荐</span><span class="price-plan-name">PRO 版源码</span><span class="price-amount"><strong>1288</strong><span>元</span></span><span class="price-note">一次买断</span></th><th scope="col" id="price-deploy" class="price-plan"><span class="price-plan-name">远程协助</span><span class="price-amount"><strong>+200</strong><span>元</span></span><span class="price-note">可选加购</span></th></tr></thead>
+        <tbody><tr><th scope="row">适合谁</th><td>先看真实推送结果</td><td class=featured>想长期自用或二次开发</td><td>已买源码，不想自己装</td></tr><tr><th scope="row">交付</th><td>看板账号</td><td class=featured>源码 + 部署文档 + 只读 PAT</td><td>一对一远程协助</td></tr><tr><th scope="row">包含</th><td>每日推送、复盘、看板聊天</td><td class=featured>本地数据湖、CLI、后续 git pull</td><td>环境安装与验收</td></tr><tr><th scope="row">不包含</th><td>源码、数据快照</td><td class=featured>服务器与 AI token 费用</td><td>源码（需另购）</td></tr><tr><th scope="row">抵扣</th><td>购买源码可全额抵扣</td><td class=featured>—</td><td>—</td></tr></tbody>
+        <tfoot><tr><th scope="row">下一步</th><td class="price-action"><a class="btn btn-ghost" href="#buy">试用 / 咨询</a></td><td class="price-action featured"><a class="btn btn-primary" href="#buy">购买源码</a></td><td class="price-action"><a class="btn btn-ghost" href="#buy">加购协助</a></td></tr></tfoot>
+      </table>
     </div>
+    <p class="pricing-note">原版 xunlongjue 同为 1288 元；已购买原版的老用户可直接同步 PRO 版源码。</p>
   </div>
 </section>
 
 <section class="section" id="buy">
   <div class="container">
     <div class="section-head"><h2>购买到部署</h2></div>
-    <ol class="buy-flow"><li><span class="buy-num">01</span><div class="buy-body"><h3>付款</h3><p>有疑问可以先咨询作者；确认后扫码付款：源码 1288 元；试用 88 元；需要远程协助另加 200 元。</p></div></li><li><span class="buy-num">02</span><div class="buy-body"><h3>备注微信</h3><p>购买源码留微信号；试用 / 看板留手机号或邮箱，方便作者找到你。</p></div></li><li><span class="buy-num">03</span><div class="buy-body"><h3>加微信 / 进群</h3><p>购买源码的，作者会按备注加你微信，并拉进微信交流群。</p></div></li><li><span class="buy-num">04</span><div class="buy-body"><h3>收凭证</h3><p>作者私聊发你私有仓库只读 PAT 和数据快照密码；不要贴到公开群、issue 或截图里。</p></div></li><li><span class="buy-num">05</span><div class="buy-body"><h3>按部署页部署</h3><p>把 <a href="../docs/getting-started/">部署页</a> 的两段话交给 AI，装 DSH、部署寻龙诀、拉数据快照。</p></div></li><li><span class="buy-num">06</span><div class="buy-body"><h3>申请看板</h3><p>部署完成后<a href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">申请看板账号</a>，管理员审核通过即可登录；试用与日常交流在看板内聊天。</p></div></li></ol>
+    <ol class="buy-flow"><li><span class="buy-num">01</span><div class="buy-body"><h3>付款</h3><p>有疑问先咨询作者；确认方案后扫码付款，金额见上方对比表。</p></div></li><li><span class="buy-num">02</span><div class="buy-body"><h3>备注微信</h3><p>购买源码留微信号；试用 / 看板留手机号或邮箱，方便作者联系。</p></div></li><li><span class="buy-num">03</span><div class="buy-body"><h3>收凭证</h3><p>作者私聊发你私有仓库只读 PAT 和数据快照密码；不要贴到公开群、issue 或截图里。</p></div></li><li><span class="buy-num">04</span><div class="buy-body"><h3>部署并申请看板</h3><p>按<a href="../docs/getting-started/">部署页</a>执行；完成后申请看板账号，管理员审核通过即可登录，试用与交流都在看板内。</p></div></li></ol>
     <div class="callout callout-warn"><p>密码、PAT、API Key 只私聊发送，不要贴到公开 issue、群聊或截图里。</p></div>
     <p class="qr-note">扫码付款，或关注公众号看每日战绩；点击二维码可放大。</p>
     <div class="qr-grid">
