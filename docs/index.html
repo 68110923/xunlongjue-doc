@@ -16,6 +16,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="zh_CN">
 <meta name="wechat:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
 <meta name="wechat:image:width" content="1200">
 <meta name="wechat:image:height" content="1200">
@@ -24,47 +25,73 @@
 <meta name="wxwork:image:height" content="1200">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
-<link rel="stylesheet" href="../assets/site.css?v=20261112-4">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="../assets/site.css?v=5c7c5cfa">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
   var saved = '';
   try { saved = localStorage.getItem('xlp-theme') || ''; } catch (e) {}
-  document.documentElement.setAttribute('data-theme', m ? m[1] : (saved === 'dark' ? 'dark' : 'light'));
+  var prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme', m ? m[1] : (saved || (prefers ? 'dark' : 'light')));
 })();
 </script>
-<script src="../assets/site.js?v=20261112-4" defer></script>
-<script src="../assets/consult.js?v=20261112-4" defer></script>
+
+<script src="../assets/site.js?v=5c7c5cfa" defer></script>
+<script src="../assets/consult.js?v=5c7c5cfa" defer></script>
 </head>
-<body>
-<header class="topbar docs-top">
-  <a class="brand" href="../">🐉 寻龙诀 <span>PRO</span></a>
-  <nav class="top-links">
-    <a href="../docs/">文档</a>
-    <a href="../pricing/">定价</a>
-    <a href="../docs/changelog/">更新日志</a>
-  </nav>
-  <div class="top-actions">
-    <button class="menu-toggle" id="menuToggle" type="button" aria-label="打开目录" aria-expanded="false">☰</button>
-    <a href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener">GitHub</a>
-    <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
+<body class="page page-docs">
+<a class="skip-link" href="#main">跳到主要内容</a>
+<header class="topbar">
+  <div class="topbar-inner container">
+    <a class="brand" href="../" aria-label="寻龙诀 PRO 首页">
+      <span class="brand-mark" aria-hidden="true">🐉</span>
+      <span class="brand-name">寻龙诀 <b>PRO</b></span>
+    </a>
+    <nav class="top-nav" aria-label="主导航"><a href="../docs/" aria-current="page">文档</a><a href="../pricing/">定价</a><a href="../docs/changelog/">更新日志</a></nav>
+    <div class="top-actions">
+      <a class="icon-btn dashboard-link" href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener" aria-label="进入客户看板">看板 <span class="ext" aria-hidden="true">↗</span></a>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="切换明暗主题">🌙</button>
+      <a class="icon-btn github" href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <button class="icon-btn menu-toggle" id="menuToggle" type="button" aria-label="打开导航" aria-expanded="false" aria-controls="navDrawer">☰</button>
+    </div>
   </div>
 </header>
 
-<div class="menu-overlay" id="menuOverlay"></div>
-<div class="docs-shell"><aside class="docs-side" id="docsSide"><details open><summary>文档</summary><a href="../docs/" class=active>文档首页</a></details><details open><summary>入门</summary><a href="../docs/getting-started/">安装与部署</a></details><details open><summary>策略</summary><a href="../docs/strategy/">策略总览</a><a href="../docs/strategy/first-board/">A股一进二</a><a href="../docs/strategy/auction/">竞价打板</a><a href="../docs/strategy/dragon-tiger/">龙虎榜</a></details><details open><summary>数据与验证</summary><a href="../docs/data/">数据湖</a><a href="../docs/backtest/">回测</a></details><details open><summary>帮助</summary><a href="../docs/faq/">常见问题</a><a href="../docs/changelog/">更新日志</a></details></aside><main class="docs-body">
-<h1>寻龙诀 PRO 文档</h1>
-<p class="docs-lead">从安装到策略、数据、回测和常见问题，按主题查阅。</p>
-<div class="cards">
-  <div class="card"><h3>安装与部署</h3><p>环境、数据、定时任务和看板。</p><p><a href="getting-started/">开始 →</a></p></div>
-  <div class="card"><h3>策略</h3><p>一进二、竞价、龙虎榜和风险过滤。</p><p><a href="strategy/">阅读 →</a></p></div>
-  <div class="card"><h3>数据湖</h3><p>本地数据分层、主键、质量校验。</p><p><a href="data/">阅读 →</a></p></div>
-  <div class="card"><h3>回测</h3><p>命中率、失败均亏、期望收益。</p><p><a href="backtest/">阅读 →</a></p></div>
+<div class="nav-overlay" id="navOverlay"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="站点导航" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="drawer-title">导航</span>
+    <button class="icon-btn" type="button" data-drawer-close aria-label="关闭导航">✕</button>
+  </div>
+  <p class="drawer-label">常用</p>
+  <nav class="drawer-main" aria-label="常用导航"><a href="../docs/" aria-current="page">文档</a><a href="../pricing/">定价</a><a href="../docs/changelog/">更新日志</a></nav>
+<div class="drawer-scroll"><div class="drawer-section"><p class="drawer-label">文档目录</p><details class="side-group" open><summary>开始</summary><div class="side-links"><a href="../docs/" aria-current="page">文档首页</a><a href="../docs/getting-started/">安装与部署</a></div></details><details class="side-group"><summary>理解策略</summary><div class="side-links"><a href="../docs/strategy/">策略总览</a><a href="../docs/strategy/first-board/">A 股一进二</a><a href="../docs/strategy/auction/">竞价打板</a><a href="../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../docs/data/">数据湖</a><a href="../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../docs/faq/">常见问题</a><a href="../docs/changelog/">更新日志</a></div></details></div></div>
+</aside>
+<main id="main">
+<div class="docs-layout docs-layout-wide container">
+  <aside class="docs-side" id="docsSide" aria-label="文档目录"><details class="side-group" open><summary>开始</summary><div class="side-links"><a href="../docs/" aria-current="page">文档首页</a><a href="../docs/getting-started/">安装与部署</a></div></details><details class="side-group"><summary>理解策略</summary><div class="side-links"><a href="../docs/strategy/">策略总览</a><a href="../docs/strategy/first-board/">A 股一进二</a><a href="../docs/strategy/auction/">竞价打板</a><a href="../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../docs/data/">数据湖</a><a href="../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../docs/faq/">常见问题</a><a href="../docs/changelog/">更新日志</a></div></details></aside>
+  <div class="docs-main docs-home">
+    <h1>寻龙诀 PRO 文档</h1>
+    <p class="docs-lead">从安装到策略、数据、回测和常见问题，按主题查阅。</p>
+    <div class="path-grid">
+      <a class="path-card" href="getting-started/"><span class="path-index">01</span><h3>我是新手</h3><p>从环境、DSH、数据到定时任务，四步装好。</p><span class="path-arrow">开始安装 →</span></a>
+      <a class="path-card" href="data/"><span class="path-index">02</span><h3>我想验证数据与策略</h3><p>先看数据湖怎么分层，再看回测怎么读。</p><span class="path-arrow">查看数据湖 →</span></a>
+      <a class="path-card" href="../pricing/"><span class="path-index">03</span><h3>我准备购买或试用</h3><p>源码买断、看板试用与远程协助的分档。</p><span class="path-arrow">查看定价 →</span></a>
+    </div>
+    <h2>全部文档</h2>
+    <section class="doc-group"><h3>开始</h3><div class="doc-grid"><a class="doc-card" href="../docs/"><strong>文档首页</strong><span>从安装到策略、数据、回测和常见问题，按主题查阅。</span></a><a class="doc-card" href="../docs/getting-started/"><strong>安装与部署</strong><span>环境、数据、定时任务和看板，四步完成部署。</span></a></div></section><section class="doc-group"><h3>理解策略</h3><div class="doc-grid"><a class="doc-card" href="../docs/strategy/"><strong>策略总览</strong><span>一进二、竞价、龙虎榜和风险过滤之间的关系。</span></a><a class="doc-card" href="../docs/strategy/first-board/"><strong>A 股一进二</strong><span>首板到二板的筛选逻辑、核心维度与常见误区。</span></a><a class="doc-card" href="../docs/strategy/auction/"><strong>竞价打板</strong><span>09:25 集合竞价、竞价量能与高开幅度。</span></a><a class="doc-card" href="../docs/strategy/dragon-tiger/"><strong>龙虎榜</strong><span>总榜、机构榜、游资榜分别代表什么。</span></a></div></section><section class="doc-group"><h3>数据与验证</h3><div class="doc-grid"><a class="doc-card" href="../docs/data/"><strong>数据湖</strong><span>DuckDB、Parquet、分层存储与质量校验。</span></a><a class="doc-card" href="../docs/backtest/"><strong>回测</strong><span>命中率、失败均亏、7 日最佳与期望收益。</span></a></div></section><section class="doc-group"><h3>帮助</h3><div class="doc-grid"><a class="doc-card" href="../docs/faq/"><strong>常见问题</strong><span>购买、部署、数据、稳定性和二次开发。</span></a><a class="doc-card" href="../docs/changelog/"><strong>更新日志</strong><span>产品与公开站的可感知变化。</span></a></div></section>
+    <div class="cta-band">
+      <div><h2>找不到想看的内容？</h2><p>常见问题里没有的，可以直接咨询作者。</p></div>
+      <div class="cta-actions"><a class="btn btn-primary" href="faq/">查看常见问题</a><a class="btn btn-ghost" href="../pricing/">查看定价</a></div>
+    </div>
+  </div>
 </div>
-</main></div>
+</main>
   <!-- ── 咨询入口（电脑右侧抽屉 / 手机全屏）────────────────────── -->
   <button id="xlp-consult-open" class="xlp-consult-fab" type="button"
-          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询作者">💬 咨询作者</button>
+          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询作者"><span aria-hidden="true">💬</span><span class="fab-label">咨询作者</span></button>
 
   <div id="xlp-consult" class="xlp-consult" role="dialog" aria-modal="false"
        aria-labelledby="xlp-consult-title" aria-hidden="true">
@@ -87,17 +114,40 @@
     </form>
   </div>
 
-<footer class="wrap page-foot">
-  <div class="links">
-    <a href="../docs/">文档</a>
-    <a href="../pricing/">定价</a>
-    <a href="../docs/faq/">常见问题</a>
-    <a href="../docs/changelog/">更新日志</a>
-    <a href="../legal/terms.html">用户协议</a>
-    <a href="../legal/privacy.html">隐私政策</a>
-    <a href="../legal/risk.html">风险揭示书</a>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="../"><span class="brand-mark" aria-hidden="true">🐉</span><span class="brand-name">寻龙诀 <b>PRO</b></span></a>
+      <p>部署在自己电脑或服务器上的 A 股量化研究工具。本地数据湖、全市场真实竞价、一进二选票与每日自动复盘。</p>
+      <p class="footer-note">仅供研究与学习，不构成任何投资建议，不承诺任何收益。</p>
+    </div>
+    <nav class="footer-col" aria-label="文档">
+      <p class="footer-title">文档</p>
+      <a href="../docs/">文档首页</a>
+      <a href="../docs/getting-started/">安装与部署</a>
+      <a href="../docs/strategy/">策略总览</a>
+      <a href="../docs/data/">数据湖</a>
+      <a href="../docs/backtest/">回测</a>
+    </nav>
+    <nav class="footer-col" aria-label="产品">
+      <p class="footer-title">产品</p>
+      <a href="../pricing/">定价与购买</a>
+      <a href="../docs/faq/">常见问题</a>
+      <a href="../docs/changelog/">更新日志</a>
+      <a href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">客户看板 ↗</a>
+      <a href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <nav class="footer-col" aria-label="协议">
+      <p class="footer-title">协议</p>
+      <a href="../legal/terms.html">用户协议</a>
+      <a href="../legal/privacy.html">隐私政策</a>
+      <a href="../legal/risk.html">风险揭示书</a>
+    </nav>
   </div>
-  <p>⚠️ 仅供研究与学习，不构成任何投资建议，不承诺任何收益。股市有风险，投资须谨慎。</p>
+  <div class="container footer-bottom">
+    <p>© 2026 寻龙诀 PRO</p>
+    <p>股市有风险 · 投资须谨慎</p>
+  </div>
 </footer>
 </body>
 </html>

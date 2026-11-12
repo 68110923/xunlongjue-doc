@@ -16,6 +16,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="zh_CN">
 <meta name="wechat:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
 <meta name="wechat:image:width" content="1200">
 <meta name="wechat:image:height" content="1200">
@@ -24,71 +25,140 @@
 <meta name="wxwork:image:height" content="1200">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
-<link rel="stylesheet" href="../assets/site.css?v=20261112-4">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="../assets/site.css?v=5c7c5cfa">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
   var saved = '';
   try { saved = localStorage.getItem('xlp-theme') || ''; } catch (e) {}
-  document.documentElement.setAttribute('data-theme', m ? m[1] : (saved === 'dark' ? 'dark' : 'light'));
+  var prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme', m ? m[1] : (saved || (prefers ? 'dark' : 'light')));
 })();
 </script>
-<script src="../assets/site.js?v=20261112-4" defer></script>
-<script src="../assets/consult.js?v=20261112-4" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"寻龙诀 PRO 源码","description":"A 股一进二量化研究工具：本地数据湖、全市场真实竞价、每日自动复盘。","brand":{"@type":"Brand","name":"寻龙诀 PRO"},"offers":[{"@type":"Offer","name":"PRO 版源码","price":"1288","priceCurrency":"CNY","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"看板试用","price":"88","priceCurrency":"CNY","availability":"https://schema.org/InStock"}]}</script>
+<script src="../assets/site.js?v=5c7c5cfa" defer></script>
+<script src="../assets/consult.js?v=5c7c5cfa" defer></script>
 </head>
-<body>
+<body class="page page-pricing">
+<a class="skip-link" href="#main">跳到主要内容</a>
 <header class="topbar">
-  <a class="brand" href="../">🐉 寻龙诀 <span>PRO</span></a>
-  <nav class="top-links">
-    <a href="../docs/">文档</a>
-    <a href="../pricing/">定价</a>
-    <a href="../docs/changelog/">更新日志</a>
-  </nav>
-  <div class="top-actions">
-    <button class="menu-toggle" id="menuToggle" type="button" aria-label="打开目录" aria-expanded="false">☰</button>
-    <a href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener">GitHub</a>
-    <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
+  <div class="topbar-inner container">
+    <a class="brand" href="../" aria-label="寻龙诀 PRO 首页">
+      <span class="brand-mark" aria-hidden="true">🐉</span>
+      <span class="brand-name">寻龙诀 <b>PRO</b></span>
+    </a>
+    <nav class="top-nav" aria-label="主导航"><a href="../docs/">文档</a><a href="../pricing/" aria-current="page">定价</a><a href="../docs/changelog/">更新日志</a></nav>
+    <div class="top-actions">
+      <a class="icon-btn dashboard-link" href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener" aria-label="进入客户看板">看板 <span class="ext" aria-hidden="true">↗</span></a>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="切换明暗主题">🌙</button>
+      <a class="icon-btn github" href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <button class="icon-btn menu-toggle" id="menuToggle" type="button" aria-label="打开导航" aria-expanded="false" aria-controls="navDrawer">☰</button>
+    </div>
   </div>
 </header>
 
-<div class="menu-overlay" id="menuOverlay"></div>
-<main class="wrap">
-<div class="hero" style="padding-bottom:24px">
-  <div class="eyebrow">PRICING</div>
-  <h1>一次买断，按需选择</h1>
-  <p class="lead">源码、协助部署、看板试用分开定价；不绑定订阅，不承诺收益。</p>
-</div>
-<section class="section" style="border-top:0;padding-top:8px">
-  <div class="home-price-panel">
-    <div class="home-price-main"><span>1288</span><small>元</small></div>
-    <p class="home-price-desc">📦 源码定价（交付源码 + 部署教程）</p>
-    <div class="home-perks"><span>源码交付</span><span>部署教程</span><span>策略持续更新</span><span>本地数据湖</span></div>
-    <div class="home-alt"><b>协助部署 200 元</b><span>一对一远程协助，约 2 小时</span></div>
-    <p class="home-trial">💡 想先试？<b>88 元</b> 看板试用 5~7 个交易日，购买源码可全额抵扣。</p>
-    <p class="home-scan">扫码付款，备注微信；付款后作者主动联系。</p>
-    <div class="home-qr-row">
-      <div class="home-qr"><img src="../media/收款码/支付宝收款码.jpg" alt="支付宝收款码"><span>支付宝支付</span></div>
-      <div class="home-qr"><img src="../media/收款码/微信收款码.jpg" alt="微信收款码"><span>微信支付</span></div>
-      <div class="home-qr"><img src="../media/公众号/公众号二维码.jpg" alt="公众号二维码"><span>公众号 · 每日战绩</span></div>
-    </div>
-    <div class="home-price-actions"><a class="btn primary" href="../docs/getting-started/">部署流程</a><a class="btn ghost" href="../docs/faq/">先看 FAQ</a></div>
+<div class="nav-overlay" id="navOverlay"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="站点导航" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="drawer-title">导航</span>
+    <button class="icon-btn" type="button" data-drawer-close aria-label="关闭导航">✕</button>
+  </div>
+  <p class="drawer-label">常用</p>
+  <nav class="drawer-main" aria-label="常用导航"><a href="../docs/">文档</a><a href="../pricing/" aria-current="page">定价</a><a href="../docs/changelog/">更新日志</a></nav>
+<div class="drawer-scroll"><div class="drawer-section"><p class="drawer-label">文档目录</p><details class="side-group" open><summary>开始</summary><div class="side-links"><a href="../docs/">文档首页</a><a href="../docs/getting-started/">安装与部署</a></div></details><details class="side-group"><summary>理解策略</summary><div class="side-links"><a href="../docs/strategy/">策略总览</a><a href="../docs/strategy/first-board/">A 股一进二</a><a href="../docs/strategy/auction/">竞价打板</a><a href="../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../docs/data/">数据湖</a><a href="../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../docs/faq/">常见问题</a><a href="../docs/changelog/">更新日志</a></div></details></div></div>
+</aside>
+<main id="main">
+<section class="page-hero">
+  <div class="container">
+    <p class="eyebrow">PRICING</p>
+    <h1>一次买断，按需选择</h1>
+    <p class="lead">源码、协助部署、看板试用分开定价；不绑定订阅，不承诺收益。</p>
   </div>
 </section>
+
+<section class="section section-tight">
+  <div class="container">
+    <div class="price-grid"><article class="price-card" id="price-trial"><h2>看板试用</h2><div class="price-amount"><strong>88</strong><span>元</span><em>5~7 个交易日</em></div><p>不含源码，直接看实际推送结果；试用期内购买源码可全额抵扣。</p><ul class="check-list"><li>看板内查看每日推送</li><li>看板内聊天交流</li><li>5~7 个交易日</li></ul><a class="btn btn-ghost" href="#buy">了解怎么买</a></article><article class="price-card featured" id="price-source"><span class="price-badge">推荐</span><h2>PRO 版源码</h2><div class="price-amount"><strong>1288</strong><span>元</span><em>一次买断</em></div><p>交付源码 + 部署教程 + 全部文档；包含后续策略更新，通过私有仓库 git pull 同步。</p><ul class="check-list"><li>完整源码与文档</li><li>后续策略更新</li><li>私有仓库只读 PAT</li><li>本地数据湖</li></ul><a class="btn btn-primary" href="#buy">了解怎么买</a></article><article class="price-card" id="price-deploy"><h2>远程协助部署</h2><div class="price-amount"><strong>+200</strong><span>元</span><em>可选</em></div><p>一对一远程协助，约 2 小时；不想折腾服务器就选它。</p><ul class="check-list"><li>一对一远程</li><li>约 2 小时</li><li>装好后交付验收命令</li></ul><a class="btn btn-ghost" href="#buy">了解怎么买</a></article></div>
+    <p class="pricing-note">原版 xunlongjue 同为 1288 元；已购买原版的老用户可直接同步 PRO 版源码。</p>
+  </div>
+</section>
+
 <section class="section">
-  <div class="section-head"><h2>怎么购买</h2><p>付款后备注微信；作者看到后会主动联系你。</p></div>
-  <ol class="steps">
-    <li><b>扫码付款</b>：源码 1288 元；试用 88 元；需要远程协助另加 200 元。</li>
-    <li><b>备注微信</b>：付款时在备注里留微信号，方便作者找到你。</li>
-    <li><b>等待联系</b>：作者会发送服务器信息、私有仓库 PAT 和快照密码等部署配置。</li>
-    <li><b>看板试用</b>：付款后申请账号，管理员审核通过即可查看推送。</li>
-  </ol>
-  <div class="note-box" style="margin-top:16px"><p>密码、PAT、API Key 只私聊发送，不要贴到公开 issue、群聊或截图里。</p></div>
-  <div class="cta-band" style="margin-top:24px"><div><h2>还有问题？</h2><p>先看 FAQ，或直接咨询作者。</p></div><a class="btn primary" href="../docs/faq/">查看 FAQ</a></div>
+  <div class="container">
+    <div class="section-head"><h2>买到的到底是什么</h2><p>把包含和不包含说清楚，避免误解。</p></div>
+    <div class="grid-2">
+      <div class="panel"><h3>包含</h3><ul class="check-list">
+        <li>完整源码、文档与 CLI，可在自己的项目里引用。</li>
+        <li>私有仓库只读 PAT + 数据快照密码，可 git pull 获取后续策略更新。</li>
+        <li>部署教程与数据快照，首次运行自己拉取。</li>
+        <li>本地数据湖与每日自动作业。</li>
+      </ul></div>
+      <div class="panel"><h3>不包含</h3><ul class="cross-list">
+        <li>不连接券商、不代下单、不经手资金。</li>
+        <li>不承诺收益，也不提供买卖建议。</li>
+        <li>不包含云服务器费用（自购约 38~99 元/年，2 核 2 GB 即可）。</li>
+        <li>不包含可选的 AI token 费用（约 0.2 元/天）。</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="buy">
+  <div class="container">
+    <div class="section-head"><h2>购买到部署</h2></div>
+    <ol class="buy-flow"><li><span class="buy-num">01</span><div class="buy-body"><h3>付款</h3><p>有疑问可以先咨询作者；确认后扫码付款：源码 1288 元；试用 88 元；需要远程协助另加 200 元。</p></div></li><li><span class="buy-num">02</span><div class="buy-body"><h3>备注微信</h3><p>购买源码留微信号；试用 / 看板留手机号或邮箱，方便作者找到你。</p></div></li><li><span class="buy-num">03</span><div class="buy-body"><h3>加微信 / 进群</h3><p>购买源码的，作者会按备注加你微信，并拉进微信交流群。</p></div></li><li><span class="buy-num">04</span><div class="buy-body"><h3>收凭证</h3><p>作者私聊发你私有仓库只读 PAT 和数据快照密码；不要贴到公开群、issue 或截图里。</p></div></li><li><span class="buy-num">05</span><div class="buy-body"><h3>按部署页部署</h3><p>把 <a href="../docs/getting-started/">部署页</a> 的两段话交给 AI，装 DSH、部署寻龙诀、拉数据快照。</p></div></li><li><span class="buy-num">06</span><div class="buy-body"><h3>申请看板</h3><p>部署完成后<a href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">申请看板账号</a>，管理员审核通过即可登录；试用与日常交流在看板内聊天。</p></div></li></ol>
+    <div class="callout callout-warn"><p>密码、PAT、API Key 只私聊发送，不要贴到公开 issue、群聊或截图里。</p></div>
+    <p class="qr-note">扫码付款，或关注公众号看每日战绩；点击二维码可放大。</p>
+    <div class="qr-grid">
+      <figure class="qr-item">
+        <button class="qr-button" type="button" data-qr-src="../media/收款码/支付宝收款码.jpg" data-qr-alt="支付宝收款码" data-qr-title="支付宝收款码" data-qr-caption="支付宝支付" aria-label="放大支付宝收款码">
+          <img src="../media/收款码/支付宝收款码.jpg" width="1151" height="1155" alt="支付宝收款码">
+        </button>
+        <figcaption>支付宝支付</figcaption>
+      </figure>
+      <figure class="qr-item">
+        <button class="qr-button" type="button" data-qr-src="../media/收款码/微信收款码.jpg" data-qr-alt="微信收款码" data-qr-title="微信收款码" data-qr-caption="微信支付" aria-label="放大微信收款码">
+          <img src="../media/收款码/微信收款码.jpg" width="376" height="378" alt="微信收款码">
+        </button>
+        <figcaption>微信支付</figcaption>
+      </figure>
+      <figure class="qr-item">
+        <button class="qr-button" type="button" data-qr-src="../media/公众号/公众号二维码.jpg" data-qr-alt="公众号二维码" data-qr-title="公众号二维码" data-qr-caption="公众号 · 每日战绩" aria-label="放大公众号二维码">
+          <img src="../media/公众号/公众号二维码.jpg" width="644" height="640" alt="公众号二维码">
+        </button>
+        <figcaption>公众号 · 每日战绩</figcaption>
+      </figure>
+    </div>
+    <dialog class="qr-dialog" id="qrDialog" aria-labelledby="qrDialogTitle">
+      <header class="qr-dialog-head"><strong id="qrDialogTitle">二维码</strong><button class="icon-btn" type="button" data-qr-close aria-label="关闭">✕</button></header>
+      <img id="qrDialogImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+      <p class="qr-dialog-caption" id="qrDialogCaption"></p>
+    </dialog>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>购买前常见问题</h2><p>还有疑问，可以查看完整 FAQ 或直接咨询作者。</p></div>
+    <div class="faq-list"><details class="faq-item"><summary>怎么试用？</summary><div class="faq-answer"><p>88 元看板试用 5~7 个交易日，不含源码，结果在看板内查看；试用期内购买源码可全额抵扣。</p></div></details><details class="faq-item"><summary>交付什么形式？</summary><div class="faq-answer"><p>私有仓库只读 PAT + 数据快照密码 + 部署教程 + 全部文档；把部署页的两段话交给 AI 即可代你装好。</p></div></details><details class="faq-item"><summary>不会部署怎么办？</summary><div class="faq-answer"><p>可以按部署文档自己安装；也可选 200 元远程协助（约 2 小时）；暂时不部署可先申请看板试用。</p></div></details><details class="faq-item"><summary>后续策略更新怎么拿？</summary><div class="faq-answer"><p>源码买断包含后续策略更新，作者打包到私有仓库，买家通过 git pull 同步，不另收费。</p></div></details><details class="faq-item"><summary>怎么咨询 / 试用？</summary><div class="faq-answer"><p>购买源码：付款备注微信，加微信后拉进微信交流群；试用 / 看板：付款后申请看板账号（需审核），交流在看板内的聊天。</p></div></details></div>
+    <p class="section-more"><a href="../docs/faq/">查看全部问题 →</a></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="cta-band">
+      <div><h2>还没决定？</h2><p>先读部署文档，或花 88 元看 5~7 个交易日的实际推送。</p></div>
+      <div class="cta-actions"><a class="btn btn-primary" href="../docs/getting-started/">查看部署流程</a><a class="btn btn-ghost" href="../docs/faq/">查看 FAQ</a></div>
+    </div>
+  </div>
 </section>
 </main>
   <!-- ── 咨询入口（电脑右侧抽屉 / 手机全屏）────────────────────── -->
   <button id="xlp-consult-open" class="xlp-consult-fab" type="button"
-          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询作者">💬 咨询作者</button>
+          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询作者"><span aria-hidden="true">💬</span><span class="fab-label">咨询作者</span></button>
 
   <div id="xlp-consult" class="xlp-consult" role="dialog" aria-modal="false"
        aria-labelledby="xlp-consult-title" aria-hidden="true">
@@ -111,17 +181,40 @@
     </form>
   </div>
 
-<footer class="wrap page-foot">
-  <div class="links">
-    <a href="../docs/">文档</a>
-    <a href="../pricing/">定价</a>
-    <a href="../docs/faq/">常见问题</a>
-    <a href="../docs/changelog/">更新日志</a>
-    <a href="../legal/terms.html">用户协议</a>
-    <a href="../legal/privacy.html">隐私政策</a>
-    <a href="../legal/risk.html">风险揭示书</a>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="../"><span class="brand-mark" aria-hidden="true">🐉</span><span class="brand-name">寻龙诀 <b>PRO</b></span></a>
+      <p>部署在自己电脑或服务器上的 A 股量化研究工具。本地数据湖、全市场真实竞价、一进二选票与每日自动复盘。</p>
+      <p class="footer-note">仅供研究与学习，不构成任何投资建议，不承诺任何收益。</p>
+    </div>
+    <nav class="footer-col" aria-label="文档">
+      <p class="footer-title">文档</p>
+      <a href="../docs/">文档首页</a>
+      <a href="../docs/getting-started/">安装与部署</a>
+      <a href="../docs/strategy/">策略总览</a>
+      <a href="../docs/data/">数据湖</a>
+      <a href="../docs/backtest/">回测</a>
+    </nav>
+    <nav class="footer-col" aria-label="产品">
+      <p class="footer-title">产品</p>
+      <a href="../pricing/">定价与购买</a>
+      <a href="../docs/faq/">常见问题</a>
+      <a href="../docs/changelog/">更新日志</a>
+      <a href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">客户看板 ↗</a>
+      <a href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <nav class="footer-col" aria-label="协议">
+      <p class="footer-title">协议</p>
+      <a href="../legal/terms.html">用户协议</a>
+      <a href="../legal/privacy.html">隐私政策</a>
+      <a href="../legal/risk.html">风险揭示书</a>
+    </nav>
   </div>
-  <p>⚠️ 仅供研究与学习，不构成任何投资建议，不承诺任何收益。股市有风险，投资须谨慎。</p>
+  <div class="container footer-bottom">
+    <p>© 2026 寻龙诀 PRO</p>
+    <p>股市有风险 · 投资须谨慎</p>
+  </div>
 </footer>
 </body>
 </html>

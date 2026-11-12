@@ -3,19 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>竞价打板怎么看？09:25 集合竞价与一进二 · 寻龙诀 PRO</title>
-<meta name="description" content="A股集合竞价在 09:25 定盘，竞价价格、竞价量、高开幅度如何影响一进二筛选。">
+<title>竞价打板 · 寻龙诀 PRO</title>
+<meta name="description" content="A 股集合竞价在 09:25 定盘，竞价价格、竞价量、高开幅度如何影响一进二筛选。">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/docs/strategy/auction/">
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:site_name" content="寻龙诀 PRO">
-<meta property="og:title" content="竞价打板怎么看？09:25 集合竞价与一进二">
-<meta property="og:description" content="A股集合竞价在 09:25 定盘，竞价价格、竞价量、高开幅度如何影响一进二筛选。">
+<meta property="og:title" content="竞价打板">
+<meta property="og:description" content="A 股集合竞价在 09:25 定盘，竞价价格、竞价量、高开幅度如何影响一进二筛选。">
 <meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/docs/strategy/auction/">
 <meta property="og:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
+<meta property="og:locale" content="zh_CN">
 <meta name="wechat:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
 <meta name="wechat:image:width" content="1200">
 <meta name="wechat:image:height" content="1200">
@@ -24,37 +25,60 @@
 <meta name="wxwork:image:height" content="1200">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro.png">
-<link rel="stylesheet" href="../../../assets/site.css?v=20261112-4">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="../../../assets/site.css?v=5c7c5cfa">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
   var saved = '';
   try { saved = localStorage.getItem('xlp-theme') || ''; } catch (e) {}
-  document.documentElement.setAttribute('data-theme', m ? m[1] : (saved === 'dark' ? 'dark' : 'light'));
+  var prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme', m ? m[1] : (saved || (prefers ? 'dark' : 'light')));
 })();
 </script>
-<script src="../../../assets/site.js?v=20261112-4" defer></script>
-<script src="../../../assets/consult.js?v=20261112-4" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"竞价打板","description":"A 股集合竞价在 09:25 定盘，竞价价格、竞价量、高开幅度如何影响一进二筛选。","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/docs/strategy/auction/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
+<script src="../../../assets/site.js?v=5c7c5cfa" defer></script>
+<script src="../../../assets/consult.js?v=5c7c5cfa" defer></script>
 </head>
-<body>
-<header class="topbar docs-top">
-  <a class="brand" href="../../../">🐉 寻龙诀 <span>PRO</span></a>
-  <nav class="top-links">
-    <a href="../../../docs/">文档</a>
-    <a href="../../../pricing/">定价</a>
-    <a href="../../../docs/changelog/">更新日志</a>
-  </nav>
-  <div class="top-actions">
-    <button class="menu-toggle" id="menuToggle" type="button" aria-label="打开目录" aria-expanded="false">☰</button>
-    <a href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener">GitHub</a>
-    <button id="themeToggle" type="button" aria-label="切换主题">🌙</button>
+<body class="page page-docs">
+<a class="skip-link" href="#main">跳到主要内容</a>
+<header class="topbar">
+  <div class="topbar-inner container">
+    <a class="brand" href="../../../" aria-label="寻龙诀 PRO 首页">
+      <span class="brand-mark" aria-hidden="true">🐉</span>
+      <span class="brand-name">寻龙诀 <b>PRO</b></span>
+    </a>
+    <nav class="top-nav" aria-label="主导航"><a href="../../../docs/" aria-current="page">文档</a><a href="../../../pricing/">定价</a><a href="../../../docs/changelog/">更新日志</a></nav>
+    <div class="top-actions">
+      <a class="icon-btn dashboard-link" href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener" aria-label="进入客户看板">看板 <span class="ext" aria-hidden="true">↗</span></a>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="切换明暗主题">🌙</button>
+      <a class="icon-btn github" href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <button class="icon-btn menu-toggle" id="menuToggle" type="button" aria-label="打开导航" aria-expanded="false" aria-controls="navDrawer">☰</button>
+    </div>
   </div>
 </header>
 
-<div class="menu-overlay" id="menuOverlay"></div>
-<div class="docs-shell"><aside class="docs-side" id="docsSide"><details open><summary>文档</summary><a href="../../../docs/">文档首页</a></details><details open><summary>入门</summary><a href="../../../docs/getting-started/">安装与部署</a></details><details open><summary>策略</summary><a href="../../../docs/strategy/">策略总览</a><a href="../../../docs/strategy/first-board/">A股一进二</a><a href="../../../docs/strategy/auction/" class=active>竞价打板</a><a href="../../../docs/strategy/dragon-tiger/">龙虎榜</a></details><details open><summary>数据与验证</summary><a href="../../../docs/data/">数据湖</a><a href="../../../docs/backtest/">回测</a></details><details open><summary>帮助</summary><a href="../../../docs/faq/">常见问题</a><a href="../../../docs/changelog/">更新日志</a></details></aside><main class="docs-body"><h1>竞价打板怎么看？</h1>
-<p class="docs-lead">09:25 的集合竞价结果，是一进二当天第一份可用的真实需求信号。</p>
-
+<div class="nav-overlay" id="navOverlay"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="站点导航" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="drawer-title">导航</span>
+    <button class="icon-btn" type="button" data-drawer-close aria-label="关闭导航">✕</button>
+  </div>
+  <p class="drawer-label">常用</p>
+  <nav class="drawer-main" aria-label="常用导航"><a href="../../../docs/" aria-current="page">文档</a><a href="../../../pricing/">定价</a><a href="../../../docs/changelog/">更新日志</a></nav>
+<div class="drawer-scroll"><div class="drawer-section"><p class="drawer-label">文档目录</p><details class="side-group"><summary>开始</summary><div class="side-links"><a href="../../../docs/">文档首页</a><a href="../../../docs/getting-started/">安装与部署</a></div></details><details class="side-group" open><summary>理解策略</summary><div class="side-links"><a href="../../../docs/strategy/">策略总览</a><a href="../../../docs/strategy/first-board/">A 股一进二</a><a href="../../../docs/strategy/auction/" aria-current="page">竞价打板</a><a href="../../../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../../../docs/data/">数据湖</a><a href="../../../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../../../docs/faq/">常见问题</a><a href="../../../docs/changelog/">更新日志</a></div></details></div></div>
+</aside>
+<main id="main">
+<div class="docs-layout container">
+  <aside class="docs-side" id="docsSide" aria-label="文档目录"><details class="side-group"><summary>开始</summary><div class="side-links"><a href="../../../docs/">文档首页</a><a href="../../../docs/getting-started/">安装与部署</a></div></details><details class="side-group" open><summary>理解策略</summary><div class="side-links"><a href="../../../docs/strategy/">策略总览</a><a href="../../../docs/strategy/first-board/">A 股一进二</a><a href="../../../docs/strategy/auction/" aria-current="page">竞价打板</a><a href="../../../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../../../docs/data/">数据湖</a><a href="../../../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../../../docs/faq/">常见问题</a><a href="../../../docs/changelog/">更新日志</a></div></details></aside>
+  <div class="docs-main">
+    <nav class="breadcrumb" aria-label="面包屑"><a href="../../../docs/">文档</a> / <span>理解策略</span> / <span>竞价打板</span></nav>
+    <h1>竞价打板怎么看？</h1>
+    <p class="docs-lead">09:25 的集合竞价结果，是一进二当天第一份可用的真实需求信号。</p>
+    <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>9:15–9:20 可以撤单，9:20–9:25 不可撤单，9:25 定盘。</li><li>高开幅度、竞价量能、前一日封板质量要一起看。</li><li>竞价只反映开盘前供需，不能保证全天走势。</li></ul></div>
+    <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">竞价看什么</a><a href="#h-2">竞价时间线</a><a href="#h-3">为什么强调真实竞价</a><a href="#h-4">竞价不是预测</a><a href="#h-5">常见误区</a></div></details>
+    <div class="prose">
 <p>9:15 到 9:25 是集合竞价阶段，9:25 产生开盘参考价和成交量。对一进二来说，最重要的不是“高开就好”，而是高开幅度、竞价量能和前一日封板质量的组合。</p>
 <h2 id="h-1">竞价看什么</h2>
 <ul>
@@ -63,22 +87,28 @@
   <li><strong>竞价换手</strong>：高换手不等于好，要结合位置和板块。</li>
   <li><strong>是否封死</strong>：一字板与可买入的竞价开盘，风险完全不同。</li>
 </ul>
-<h2 id="h-2">竞价不是预测</h2>
-<p>竞价只能反映开盘前的供需，不能保证全天走势。高开可能低走，低开也可能反包。策略要做的是把竞价放进一整套条件里，而不是单看一个数字。</p>
-<h2 id="h-3">为什么强调真实竞价</h2>
-<h2 id="h-4">竞价时间线</h2>
+<h2 id="h-2">竞价时间线</h2>
 <ul>
   <li><strong>09:15–09:20</strong>：可以撤单，价格和量还不稳定。</li>
   <li><strong>09:20–09:25</strong>：不可撤单，竞价结果逐渐定型。</li>
   <li><strong>09:25</strong>：产生开盘参考价和成交量。</li>
 </ul>
+<h2 id="h-3">为什么强调真实竞价</h2>
+<p>盘中价格可以事后回看，但竞价是开盘前唯一一次全市场同时给出的供需快照。只用自己的估值价或收盘价回推，会把“能不能买到”这个关键条件抹掉。寻龙诀 PRO 使用全市场每日每票一行的真实竞价数据。</p>
+<h2 id="h-4">竞价不是预测</h2>
+<p>竞价只能反映开盘前的供需，不能保证全天走势。高开可能低走，低开也可能反包。策略要做的是把竞价放进一整套条件里，而不是单看一个数字。</p>
 <h2 id="h-5">常见误区</h2>
 <p>只看高开百分比，不看竞价额；只看竞价额，不看是否一字；或者把竞价结果当成全天走势的保证。这些都是单指标判断。</p>
 <p>竞价数据要和首板质量、所处位置、板块强度一起使用。开盘后还要观察承接，不能把 09:25 的结论机械执行到收盘。</p>
-</main><aside class="docs-toc"><strong>本页目录</strong><a href="#h-1">竞价看什么</a><a href="#h-2">竞价不是预测</a><a href="#h-3">为什么强调真实竞价</a><a href="#h-4">竞价时间线</a><a href="#h-5">常见误区</a></aside></div>
+</div>
+    <nav class="docs-pager" aria-label="文档翻页"><a class="pager-prev" href="../../../docs/strategy/first-board/"><span>上一篇</span><strong>A 股一进二</strong></a><a class="pager-next" href="../../../docs/strategy/dragon-tiger/"><span>下一篇</span><strong>龙虎榜</strong></a></nav>
+  </div>
+  <aside class="docs-toc" aria-label="本页目录"><p class="toc-title">本页目录</p><div class="toc-links"><a href="#h-1">竞价看什么</a><a href="#h-2">竞价时间线</a><a href="#h-3">为什么强调真实竞价</a><a href="#h-4">竞价不是预测</a><a href="#h-5">常见误区</a></div></aside>
+</div>
+</main>
   <!-- ── 咨询入口（电脑右侧抽屉 / 手机全屏）────────────────────── -->
   <button id="xlp-consult-open" class="xlp-consult-fab" type="button"
-          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询作者">💬 咨询作者</button>
+          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询作者"><span aria-hidden="true">💬</span><span class="fab-label">咨询作者</span></button>
 
   <div id="xlp-consult" class="xlp-consult" role="dialog" aria-modal="false"
        aria-labelledby="xlp-consult-title" aria-hidden="true">
@@ -101,17 +131,40 @@
     </form>
   </div>
 
-<footer class="wrap page-foot">
-  <div class="links">
-    <a href="../../../docs/">文档</a>
-    <a href="../../../pricing/">定价</a>
-    <a href="../../../docs/faq/">常见问题</a>
-    <a href="../../../docs/changelog/">更新日志</a>
-    <a href="../../../legal/terms.html">用户协议</a>
-    <a href="../../../legal/privacy.html">隐私政策</a>
-    <a href="../../../legal/risk.html">风险揭示书</a>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true">🐉</span><span class="brand-name">寻龙诀 <b>PRO</b></span></a>
+      <p>部署在自己电脑或服务器上的 A 股量化研究工具。本地数据湖、全市场真实竞价、一进二选票与每日自动复盘。</p>
+      <p class="footer-note">仅供研究与学习，不构成任何投资建议，不承诺任何收益。</p>
+    </div>
+    <nav class="footer-col" aria-label="文档">
+      <p class="footer-title">文档</p>
+      <a href="../../../docs/">文档首页</a>
+      <a href="../../../docs/getting-started/">安装与部署</a>
+      <a href="../../../docs/strategy/">策略总览</a>
+      <a href="../../../docs/data/">数据湖</a>
+      <a href="../../../docs/backtest/">回测</a>
+    </nav>
+    <nav class="footer-col" aria-label="产品">
+      <p class="footer-title">产品</p>
+      <a href="../../../pricing/">定价与购买</a>
+      <a href="../../../docs/faq/">常见问题</a>
+      <a href="../../../docs/changelog/">更新日志</a>
+      <a href="https://xunlongjue.68110923.xyz/" target="_blank" rel="noopener">客户看板 ↗</a>
+      <a href="https://github.com/68110923/xunlongjue-doc" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <nav class="footer-col" aria-label="协议">
+      <p class="footer-title">协议</p>
+      <a href="../../../legal/terms.html">用户协议</a>
+      <a href="../../../legal/privacy.html">隐私政策</a>
+      <a href="../../../legal/risk.html">风险揭示书</a>
+    </nav>
   </div>
-  <p>⚠️ 仅供研究与学习，不构成任何投资建议，不承诺任何收益。股市有风险，投资须谨慎。</p>
+  <div class="container footer-bottom">
+    <p>© 2026 寻龙诀 PRO</p>
+    <p>股市有风险 · 投资须谨慎</p>
+  </div>
 </footer>
 </body>
 </html>
