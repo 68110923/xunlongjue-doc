@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="寻龙诀 PRO">
+  <rect width="64" height="64" rx="14" fill="#c62828"/>
+  <text x="32" y="45" text-anchor="middle" font-family="PingFang SC, Hiragino Sans GB, 'Microsoft YaHei', sans-serif" font-size="38" font-weight="700" fill="#ffffff">龙</text>
+  <circle cx="49" cy="15" r="4" fill="#d4a853"/>
+</svg>
