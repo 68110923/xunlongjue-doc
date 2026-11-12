@@ -71,94 +71,48 @@
   <div class="docs-main">
     <nav class="breadcrumb" aria-label="面包屑"><a href="../../docs/">文档</a> / <span>功能说明</span></nav>
     <h1>功能说明</h1>
-<p class="docs-lead">每天自动做什么、结果在哪里看、每个功能怎么用。</p>
-    <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>每天自动跑：竞价 → 选票 → 盘中扫描 → 复盘。</li><li>六个功能：一进二、复盘、观察、预测、深度分析、两个出口。</li><li>只做研究整理，不代下单、不承诺收益。</li></ul></div>
-    <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">一天怎么跑</a><a href="#h-2">六个功能</a><a href="#h-3">功能、数据与策略的关系</a><a href="#h-4">每天看什么</a><a href="#h-5">边界</a></div></details>
+
+    <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>每天自动跑：竞价 → 选票 → 盘中实时数据 → 复盘。</li><li>六个功能：一进二、复盘、观察、预测、深度分析、两个出口。</li><li>只做研究整理，不代下单、不承诺收益。</li></ul></div>
+    <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">一天怎么跑</a><a href="#h-2">六个功能</a><a href="#h-3">每天看什么</a><a href="#h-4">边界</a></div></details>
     <div class="prose">
 <h2 id="h-1">一天怎么跑</h2>
-<table>
-  <thead><tr><th>时间</th><th>发生什么</th><th>你会看到</th></tr></thead>
+<table class="flow-table">
+  <thead><tr><th>时间</th><th>功能</th><th>主要输入</th><th>输出去哪看</th></tr></thead>
   <tbody>
-    <tr><td>09:25</td><td>全市场真实竞价定盘</td><td>竞价数据落库</td></tr>
-    <tr><td>09:26–09:27</td><td>一进二候选</td><td>≤3 只候选、买点类型、触发与放弃条件</td></tr>
-    <tr><td>盘中</td><td>强多扫描</td><td>按固定节奏更新的强多票</td></tr>
-    <tr><td>16:19</td><td>每日复盘</td><td>命中 / 遗漏 / 盲区 / 不该漏</td></tr>
-    <tr><td>盘后</td><td>明日观察</td><td>次日关注方向与条件</td></tr>
+    <tr><td data-label="时间" class="flow-time">09:25</td><td data-label="功能">竞价定盘</td><td data-label="主要输入">全市场真实竞价</td><td data-label="输出去哪看">看板 / 微信</td></tr>
+    <tr><td data-label="时间" class="flow-time">09:26–09:27</td><td data-label="功能">一进二寻龙</td><td data-label="主要输入">竞价、首板、板块共振</td><td data-label="输出去哪看">看板 / 微信</td></tr>
+    <tr><td data-label="时间" class="flow-time">盘中</td><td data-label="功能">实时看板 / 预测 / 深度分析</td><td data-label="主要输入">每分钟实时行情</td><td data-label="输出去哪看">看板 / 对话</td></tr>
+    <tr><td data-label="时间" class="flow-time">16:19</td><td data-label="功能">每日复盘</td><td data-label="主要输入">当日推送、收盘行情</td><td data-label="输出去哪看">看板 / 微信</td></tr>
+    <tr><td data-label="时间" class="flow-time">盘后</td><td data-label="功能">明日观察</td><td data-label="主要输入">涨停梯队、封板质量、竞价抢筹</td><td data-label="输出去哪看">看板 / 微信</td></tr>
   </tbody>
 </table>
-<p>所有环节的产物都落到本地数据湖；网页看板和微信推送只读产物，互不依赖。</p>
 
 <h2 id="h-2">六个功能</h2>
-<h3>一进二寻龙</h3>
-<p><strong>做什么</strong>：全市场首板扫描，09:25 竞价定盘后给出候选（≤3 只）。</p>
-<p><strong>你会看到</strong>：候选、买点类型、触发条件、放弃条件、评分与硬闸结果。</p>
-<p><strong>依赖</strong>：真实竞价、涨停池、板块共振。</p>
-<p><strong>入口</strong>：网页看板 / 微信推送。</p>
-<p><strong>边界</strong>：只给研究结论，不代下单；不保证次日涨停。</p>
+<div class="docs-features">
+  <div class="feature-grid">
+    <article class="feature-card"><span class="feature-num">01</span><h3>一进二寻龙</h3><p>09:25 竞价定盘后给出 ≤3 只候选，附买点、触发与放弃条件。</p><p class="feature-meta">入口：看板 / 微信</p></article>
+    <article class="feature-card"><span class="feature-num">02</span><h3>每日自动复盘</h3><p>收盘后汇总命中、遗漏、盲区，并附「不该漏」清单。</p><p class="feature-meta">入口：看板 / 微信</p></article>
+    <article class="feature-card"><span class="feature-num">03</span><h3>明日观察</h3><p>结合涨停梯队、板块合力、封板质量与竞价抢筹，梳理次日关注方向。</p><p class="feature-meta">入口：看板 / 微信</p></article>
+    <article class="feature-card"><span class="feature-num">04</span><h3>个股 / 大盘预测</h3><p>发代码即回方向参考；也能看涨跌家数、情绪档位与大盘系数。</p><p class="feature-meta">入口：对话 / 看板</p></article>
+    <article class="feature-card"><span class="feature-num">05</span><h3>深度分析</h3><p>长周期价量结构化解析，辅助判断主力行为痕迹。</p><p class="feature-meta">入口：对话 / 看板</p></article>
+    <article class="feature-card"><span class="feature-num">06</span><h3>两个出口</h3><p>看板与微信推送共用同一份产物；核心层零 LLM 也能跑。</p><p class="feature-meta">入口：看板 / 微信</p></article>
+  </div>
+</div>
 
-<h3>每日自动复盘</h3>
-<p><strong>做什么</strong>：收盘后汇总当日结果，区分命中、遗漏、盲区，并附「不该漏」清单。</p>
-<p><strong>你会看到</strong>：推送表现、命中/遗漏/盲区、漏在哪里、为什么漏。</p>
-<p><strong>依赖</strong>：当日推送、收盘行情、涨停与梯队数据。</p>
-<p><strong>入口</strong>：网页看板 / 微信推送。</p>
-<p><strong>边界</strong>：复盘是研究记录，不是收益承诺。</p>
-
-<h3>明日观察</h3>
-<p><strong>做什么</strong>：盘后结合涨停梯队、板块合力、封板质量与竞价抢筹，梳理次日关注方向。</p>
-<p><strong>你会看到</strong>：少量核心标的、关注条件与放弃条件。</p>
-<p><strong>依赖</strong>：涨停梯队、板块强度、封板质量、竞价数据。</p>
-<p><strong>入口</strong>：网页看板 / 微信推送。</p>
-<p><strong>边界</strong>：观察是盘后研究，不预测次日一定上涨。</p>
-
-<h3>个股 / 大盘预测</h3>
-<p><strong>做什么</strong>：发代码即回方向参考与关键指标；也能看当日涨跌家数、情绪档位与大盘系数。</p>
-<p><strong>你会看到</strong>：方向参考、关键指标、情绪与大盘环境。</p>
-<p><strong>依赖</strong>：长周期价量、指标与全市场统计。</p>
-<p><strong>入口</strong>：对话 / 看板。</p>
-<p><strong>边界</strong>：预测只作研究参考，不构成买卖建议。</p>
-
-<h3>深度分析</h3>
-<p><strong>做什么</strong>：拉取长周期价量序列做结构化解析，辅助判断主力行为痕迹。</p>
-<p><strong>你会看到</strong>：形态、量能、指标分位与关键节点。</p>
-<p><strong>依赖</strong>：长周期日线、盘中快照与派生指标。</p>
-<p><strong>入口</strong>：对话 / 看板。</p>
-<p><strong>边界</strong>：分析结果不保证未来走势。</p>
-
-<h3>两个出口</h3>
-<p><strong>做什么</strong>：同一份产物同时供给网页看板和微信推送；任选其一或都要。</p>
-<p><strong>你会看到</strong>：看板随时查看；微信推送可叠加 AI 分析。</p>
-<p><strong>依赖</strong>：<code>display/*.json</code> 产物；核心层零 LLM 也能运行。</p>
-<p><strong>入口</strong>：网页看板 / 微信推送。</p>
-<p><strong>边界</strong>：两个出口互不依赖，都只读产物。</p>
-
-<h2 id="h-3">功能、数据与策略的关系</h2>
-<table>
-  <thead><tr><th>功能</th><th>主要输入</th><th>输出去哪看</th></tr></thead>
-  <tbody>
-    <tr><td>一进二</td><td>真实竞价、首板、板块共振</td><td>看板 / 微信推送</td></tr>
-    <tr><td>复盘</td><td>当日推送、收盘行情</td><td>看板 / 微信推送</td></tr>
-    <tr><td>明日观察</td><td>涨停梯队、封板质量、竞价抢筹</td><td>看板 / 微信推送</td></tr>
-    <tr><td>预测 / 深度分析</td><td>长周期价量、指标</td><td>对话 / 看板</td></tr>
-    <tr><td>两个出口</td><td><code>display/*.json</code> 产物</td><td>看板 / 推送</td></tr>
-  </tbody>
-</table>
-<p>功能负责「每天给你什么」，策略负责「为什么这样筛」，数据负责「结果能不能核对」。</p>
-
-<h2 id="h-4">每天看什么</h2>
+<h2 id="h-3">每天看什么</h2>
 <ul>
   <li><strong>09:26</strong>：看候选和推送，先看触发条件与放弃条件。</li>
-  <li><strong>盘中</strong>：看强多票有没有新增，不反复刷新。</li>
+  <li><strong>盘中</strong>：看实时数据每分钟更新；需要时用预测、深度分析，或直接问 AI。</li>
   <li><strong>16:19</strong>：看复盘，重点看「不该漏」。</li>
   <li><strong>盘后</strong>：看明日观察，第二天竞价再验证。</li>
 </ul>
 
-<h2 id="h-5">边界</h2>
+<h2 id="h-4">边界</h2>
 <div class="callout callout-warn"><p><strong>只做研究整理：</strong>不接券商、不代下单、不经手资金，也不承诺收益。所有候选都要自己判断。</p></div>
-<div class="callout callout-tip"><p><strong>下一步：</strong>先看 <a href="../getting-started/">安装与部署</a>，或继续读 <a href="../strategy/">策略总览</a>、<a href="../data/">数据湖</a>、<a href="../backtest/">回测</a>。</p></div>
 </div>
     <nav class="docs-pager" aria-label="文档翻页"><a class="pager-prev" href="../../docs/"><span>上一篇</span><strong>文档首页</strong></a><a class="pager-next" href="../../docs/getting-started/"><span>下一篇</span><strong>安装与部署</strong></a></nav>
   </div>
-  <aside class="docs-toc" aria-label="本页目录"><p class="toc-title">本页目录</p><div class="toc-links"><a href="#h-1">一天怎么跑</a><a href="#h-2">六个功能</a><a href="#h-3">功能、数据与策略的关系</a><a href="#h-4">每天看什么</a><a href="#h-5">边界</a></div></aside>
+  <aside class="docs-toc" aria-label="本页目录"><p class="toc-title">本页目录</p><div class="toc-links"><a href="#h-1">一天怎么跑</a><a href="#h-2">六个功能</a><a href="#h-3">每天看什么</a><a href="#h-4">边界</a></div></aside>
 </div>
 </main>
   <!-- ── 咨询入口（电脑右侧抽屉 / 手机全屏）────────────────────── -->
