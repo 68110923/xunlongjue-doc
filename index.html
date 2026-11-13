@@ -96,7 +96,7 @@
         <div class="stat"><b>10 年</b><span>全市场日线</span></div>
         <div class="stat"><b>18 张</b><span>本地数据表</span></div>
         <div class="stat"><b>53 条</b><span>质量断言</span></div>
-        <div class="stat"><b>14 个</b><span>自动作业</span></div>
+        <div class="stat"><b>15 个</b><span>自动作业</span></div>
       </div>
     </div>
     <div class="hero-visual" aria-hidden="true">
@@ -153,7 +153,7 @@
     <div class="section-head"><h2>数据底座与工程可信度</h2></div>
     <div class="grid-2">
       <div class="panel"><h3>数据底座</h3><ul class="check-list"><li><strong>十年全市场日线</strong>：2016 → 今，五千余只标的，未复权原始数据 + 完整复权因子事件流。</li><li><strong>真实竞价明细</strong>：竞价成交量额、未匹配量、竞价换手率、量比、占昨日成交量比，每日每票一行。</li><li><strong>涨停与梯队</strong>：涨停池、炸板池、跌停池、连板梯队矩阵，含权威连板数与涨停原因。</li><li><strong>资金与热度</strong>：龙虎榜机构 / 游资净买卖、热股榜与排名趋势、个股异动原因。</li><li><strong>板块体系</strong>：行业与概念指数成分股，可做行业级与概念级共振分析。</li><li><strong>指数与估值</strong>：宽基 / 行业 / 概念指数日线与指标，以及市盈率、市净率、市销率快照。</li></ul></div>
-      <div class="panel"><h3>工程可信度</h3><div class="metric-grid"><div class="metric"><b>53 条</b><span>质量断言</span></div><div class="metric"><b>3 条</b><span>复权不变量</span></div><div class="metric"><b>14 个</b><span>自动作业</span></div><div class="metric"><b>325 MB</b><span>常驻内存</span></div></div><ul class="check-list"><li>一条命令跑完盘后：xlp daily 增量入库 → 复权口径 → 物化指标 → 池与指数 → 质量闸。</li><li>原始层只追加不覆盖，同一主键重复写入会报错。</li><li>14 个作业由代码声明，一键安装 systemd / crontab，休市日自动跳过。</li><li>只备份不可再生的原始层与状态库，逐文件校验和，恢复前可先做一次不落地的演练。</li><li>不写死胜率，战绩由 xlp stats 用你自己库里的真实自评现算。</li></ul></div>
+      <div class="panel"><h3>工程可信度</h3><div class="metric-grid"><div class="metric"><b>53 条</b><span>质量断言</span></div><div class="metric"><b>3 条</b><span>复权不变量</span></div><div class="metric"><b>15 个</b><span>自动作业</span></div><div class="metric"><b>325 MB</b><span>常驻内存</span></div></div><ul class="check-list"><li>一条命令跑完盘后：xlp daily 增量入库 → 复权口径 → 物化指标 → 池与指数 → 质量闸。</li><li>原始层只追加不覆盖，同一主键重复写入会报错。</li><li>15 个作业由代码声明，一个 funboost 调度服务统一定时，休市日自动跳过。</li><li>只备份不可再生的原始层与状态库，逐文件校验和，恢复前可先做一次不落地的演练。</li><li>不写死胜率，战绩由 xlp stats 用你自己库里的真实自评现算。</li></ul></div>
     </div>
   </div>
 </section>
@@ -161,7 +161,7 @@
 <section class="section">
   <div class="container">
     <div class="section-head"><h2>PRO 版新增与升级</h2></div>
-    <div class="table-wrap"><table class="compare-table"><thead><tr><th>能力</th><th>PRO 版做法</th></tr></thead><tbody><tr><th scope="row">长期维护</th><td>源码买断后持续维护，策略长期更新；后续更新通过私有仓库 git pull 同步，不另收费。</td></tr><tr><th scope="row">数据来源</th><td>专业行情数据终端，31 个接口逐个实测批量上限、延迟与字段可得性。</td></tr><tr><th scope="row">竞价数据</th><td>全市场每日每票一行的真实竞价：未匹配量、换手率、量比、占昨日成交量比。</td></tr><tr><th scope="row">涨跌停口径</th><td>权威涨停比例与涨停价随行落库，各板块 / ST / 新股幅度由数据源给出。</td></tr><tr><th scope="row">数据组织</th><td>本地数据湖：18 张表按主键只追加不覆盖、批次血缘、v_* 只读视图。</td></tr><tr><th scope="row">质量保障</th><td>53 条质量断言 + 3 条复权不变量，每个交易日自动跑，不过即非零退出。</td></tr><tr><th scope="row">调度</th><td>14 个作业由代码声明，一键安装 systemd / crontab；法定休市日自动跳过。</td></tr><tr><th scope="row">资源占用</th><td>实测 2 核 2 GB 可跑：常驻约 325 MB，最重作业峰值约 1.1 GB。</td></tr><tr><th scope="row">取数速度</th><td>批量作业并发取数（线程安全令牌桶，默认 12 QPS / 4 线程，可调回串行）。</td></tr><tr><th scope="row">策略</th><td>20 道硬闸 + 10 维评分 + 板块共振 + 期望收益口径；参数重标定有回测。</td></tr><tr><th scope="row">文档</th><td>18 份活文档（策略 / 指标 / 接口 / 数据字典 / 性能 / 运维 / 部署 / 工作流），CI 守卫不许漂。</td></tr><tr><th scope="row">AI 层</th><td>核心层零 LLM 可独立运行；AI 层（推送 / 对话）可选叠加。</td></tr><tr><th scope="row">业绩口径</th><td>不写死胜率：由 xlp stats 用你自己库里的真实自评现算，并附幸存者偏差标注。</td></tr></tbody></table></div>
+    <div class="table-wrap"><table class="compare-table"><thead><tr><th>能力</th><th>PRO 版做法</th></tr></thead><tbody><tr><th scope="row">长期维护</th><td>源码买断后持续维护，策略长期更新；后续更新通过私有仓库 git pull 同步，不另收费。</td></tr><tr><th scope="row">数据来源</th><td>专业行情数据终端，31 个接口逐个实测批量上限、延迟与字段可得性。</td></tr><tr><th scope="row">竞价数据</th><td>全市场每日每票一行的真实竞价：未匹配量、换手率、量比、占昨日成交量比。</td></tr><tr><th scope="row">涨跌停口径</th><td>权威涨停比例与涨停价随行落库，各板块 / ST / 新股幅度由数据源给出。</td></tr><tr><th scope="row">数据组织</th><td>本地数据湖：18 张表按主键只追加不覆盖、批次血缘、v_* 只读视图。</td></tr><tr><th scope="row">质量保障</th><td>53 条质量断言 + 3 条复权不变量，每个交易日自动跑，不过即非零退出。</td></tr><tr><th scope="row">调度</th><td>15 个作业由代码声明，一个 funboost 调度服务统一定时；法定休市日自动跳过。</td></tr><tr><th scope="row">资源占用</th><td>实测 2 核 2 GB 可跑：常驻约 325 MB，最重作业峰值约 1.1 GB。</td></tr><tr><th scope="row">取数速度</th><td>批量作业并发取数（线程安全令牌桶，默认 12 QPS / 4 线程，可调回串行）。</td></tr><tr><th scope="row">策略</th><td>20 道硬闸 + 10 维评分 + 板块共振 + 期望收益口径；参数重标定有回测。</td></tr><tr><th scope="row">文档</th><td>18 份活文档（策略 / 指标 / 接口 / 数据字典 / 性能 / 运维 / 部署 / 工作流），CI 守卫不许漂。</td></tr><tr><th scope="row">AI 层</th><td>核心层零 LLM 可独立运行；AI 层（推送 / 对话）可选叠加。</td></tr><tr><th scope="row">业绩口径</th><td>不写死胜率：由 xlp stats 用你自己库里的真实自评现算，并附幸存者偏差标注。</td></tr></tbody></table></div>
   </div>
 </section>
 
