@@ -4,19 +4,20 @@
    ========================================================================== */
 
 :root {
-  --bg: #ffffff;
-  --bg-subtle: #f6f7f9;
+  --bg: #fffafa;
+  --bg-subtle: #fdf3f5;
   --surface: #ffffff;
-  --surface-2: #f0f2f5;
-  --border: #e6e8eb;
-  --border-strong: #d6d9de;
-  --text: #23272f;
-  --text-2: #4b5563;
-  --dim: #6b7280;
-  --accent: #3b3bd6;
-  --accent-strong: #2f2fae;
-  --accent-soft: #ececff;
-  --accent-ring: rgba(59, 59, 214, .18);
+  --surface-2: #fbeaee;
+  --border: #f2dde2;
+  --border-strong: #e7c8ce;
+  --text: #2b2226;
+  --text-2: #5a4a4f;
+  --dim: #806b71;
+  --accent: #9c4f5f;
+  --accent-strong: #803e4d;
+  --accent-soft: #fce8ec;
+  --accent-ring: rgba(216, 156, 166, .35);
+  --on-accent: #ffffff;
   --gold: #8a6a1e;
   --gold-soft: rgba(138, 106, 30, .08);
   --green: #1a7f37;
@@ -25,9 +26,9 @@
   --red-soft: rgba(198, 40, 40, .08);
   --code-bg: #16181d;
   --code-text: #e6edf3;
-  --shadow-sm: 0 1px 2px rgba(18, 18, 28, .05);
-  --shadow-md: 0 8px 24px rgba(18, 18, 28, .08);
-  --shadow-lg: 0 24px 60px rgba(18, 18, 28, .14);
+  --shadow-sm: 0 1px 2px rgba(76, 42, 50, .05);
+  --shadow-md: 0 8px 24px rgba(76, 42, 50, .08);
+  --shadow-lg: 0 24px 60px rgba(76, 42, 50, .14);
   --radius-sm: 8px;
   --radius: 12px;
   --radius-lg: 16px;
@@ -60,19 +61,20 @@
 }
 
 html[data-theme="dark"] {
-  --bg: #0d1117;
-  --bg-subtle: #11161d;
-  --surface: #161b22;
-  --surface-2: #1b222b;
-  --border: #2a3038;
-  --border-strong: #3a424c;
-  --text: #e6edf3;
-  --text-2: #9da7b3;
-  --dim: #7d8590;
-  --accent: #818cf8;
-  --accent-strong: #a5b4fc;
-  --accent-soft: #1e1b4a;
-  --accent-ring: rgba(129, 140, 248, .28);
+  --bg: #121013;
+  --bg-subtle: #171316;
+  --surface: #1c1619;
+  --surface-2: #241c20;
+  --border: #332529;
+  --border-strong: #463439;
+  --text: #f3e8ea;
+  --text-2: #bfa8ad;
+  --dim: #9a8187;
+  --accent: #ffc5ce;
+  --accent-strong: #ffdbe1;
+  --accent-soft: #2e1c22;
+  --accent-ring: rgba(255, 197, 206, .3);
+  --on-accent: #241a1e;
   --gold: #d4a853;
   --gold-soft: rgba(212, 168, 83, .1);
   --green: #3fb950;
@@ -132,7 +134,7 @@ button { font: inherit; color: inherit; }
   padding: 10px 16px;
   border-radius: 8px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-size: 14px;
   font-weight: 700;
   transform: translateY(-160%);
@@ -426,8 +428,8 @@ body.footer-visible .xlp-consult-fab { opacity: 0; pointer-events: none; transfo
   transition: transform .15s, background .15s, border-color .15s, color .15s;
 }
 .btn:hover { text-decoration: none; transform: translateY(-1px); }
-.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-.btn-primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn-primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); color: var(--on-accent); }
 .btn-ghost { background: var(--surface); border-color: var(--border-strong); color: var(--text); }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 .btn-gold { background: var(--gold); border-color: var(--gold); color: #fff; }
@@ -729,7 +731,7 @@ body.footer-visible .xlp-consult-fab { opacity: 0; pointer-events: none; transfo
   padding: 3px 9px;
   border-radius: 999px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: .06em;
@@ -1000,7 +1002,7 @@ body.page-legal .site-footer { margin-top: 24px; }
   border: 1px solid var(--accent);
   border-radius: 999px;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-size: 14px;
   font-weight: 700;
   letter-spacing: .02em;
@@ -1093,9 +1095,9 @@ body.xlp-consult-open { touch-action: none; }
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
-.xlp-msg.mine { align-self: flex-end; border-color: transparent; border-radius: 14px 14px 4px 14px; background: var(--accent); color: #fff; }
+.xlp-msg.mine { align-self: flex-end; border-color: transparent; border-radius: 14px 14px 4px 14px; background: var(--accent); color: var(--on-accent); }
 .xlp-msg time { display: block; margin-top: 3px; color: var(--dim); font-size: 10px; text-align: right; }
-.xlp-msg.mine time { color: rgba(255, 255, 255, .72); }
+.xlp-msg.mine time { color: color-mix(in srgb, var(--on-accent) 72%, transparent); }
 .xlp-msg img { display: block; max-width: 100%; height: auto; margin-top: 2px; border-radius: 9px; }
 .xlp-msg a { display: block; max-width: 100%; }
 .xlp-consult-form {
@@ -1134,9 +1136,9 @@ body.xlp-consult-open { touch-action: none; }
   line-height: 1;
   cursor: pointer;
 }
-.xlp-consult-form button[type="submit"] { border-color: var(--accent); background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; }
+.xlp-consult-form button[type="submit"] { border-color: var(--accent); background: var(--accent); color: var(--on-accent); font-size: 14px; font-weight: 700; }
 .xlp-consult-form button:hover { border-color: var(--accent); color: var(--accent); }
-.xlp-consult-form button[type="submit"]:hover { color: #fff; }
+.xlp-consult-form button[type="submit"]:hover { color: var(--on-accent); }
 .xlp-consult-form button:disabled { opacity: .45; cursor: not-allowed; }
 
 /* ── 响应式 ─────────────────────────────────────────────────────────── */
