@@ -524,6 +524,8 @@
       scheduleKeyboardInset();
     });
     window.visualViewport.addEventListener("scroll", function () {
+      /* ⚠️ 只有聊天面板打开时才归零：否则页面正常下滑也会被强行拉回顶部 */
+      if (!panel.classList.contains("open") || !isMobile()) return;
       if (window.scrollY !== 0) window.scrollTo(0, 0);
       scheduleKeyboardInset();
     });
