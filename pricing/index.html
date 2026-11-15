@@ -22,7 +22,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="../media/apple-touch-icon.png">
 <meta name="theme-color" content="#fffafa">
-<link rel="stylesheet" href="../assets/site.css?v=f4e183e7">
+<link rel="stylesheet" href="../assets/site.css?v=06d4e206">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
@@ -35,8 +35,8 @@
 })();
 </script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"寻龙诀 PRO 源码","description":"A 股一进二量化研究工具：本地数据湖、全市场真实竞价、每日自动复盘。","brand":{"@type":"Brand","name":"寻龙诀 PRO"},"offers":[{"@type":"Offer","name":"永久版","price":"1288","priceCurrency":"CNY","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"看板试用","price":"88","priceCurrency":"CNY","availability":"https://schema.org/InStock"}]}</script>
-<script src="../assets/site.js?v=f4e183e7" defer></script>
-<script src="../assets/consult.js?v=f4e183e7" defer></script>
+<script src="../assets/site.js?v=06d4e206" defer></script>
+<script src="../assets/consult.js?v=06d4e206" defer></script>
 </head>
 <body class="page page-pricing">
 <a class="skip-link" href="#main">跳到主要内容</a>
@@ -69,7 +69,22 @@
     </div>
   </div>
 </header>
-
+<div class="announce" id="announcement" data-announce-id="2027-02-16-price">
+  <div class="announce-inner container">
+    <span class="announce-tag">公告</span>
+    <button class="announce-main" id="announcementOpen" type="button">
+      <span>2027-02-16 起涨价 · 永久版 1288 · 试用 88</span>
+      <span class="announce-more">查看</span>
+    </button>
+    <button class="announce-close" id="announcementClose" type="button" aria-label="关闭公告">✕</button>
+  </div>
+</div>
+<dialog class="notice-dialog" id="noticeDialog" aria-labelledby="noticeTitle">
+  <header class="notice-head"><strong id="noticeTitle">公告</strong><button class="icon-btn" type="button" data-notice-close aria-label="关闭">✕</button></header>
+  <div class="notice-body"><p><strong>涨价预告：2027 年 2 月 16 日（春节过后）起价格上调。</strong></p><p>届时 <strong>永久版</strong>不再包含源码；<strong>源码版</strong> = 永久版全部权益 + 源码：✓ 技术支持、✓ 商业使用、✗ 在线升级（后续更新照常支持）、✓ 付费定制。</p><p><strong>涨价前购买永久版仍含源码、按现价</strong>：<strong>永久版 1288 元</strong>，一次买断；<strong>看板试用 88 元</strong>，有效期 7 个交易日，购买永久版可全额抵扣。</p><p>永久版买家付款备注微信，作者会主动联系并发送私有仓库 PAT 和数据快照密码，拉进微信群答疑。公众号每天更新盘前推送、复盘和操作记录。</p>
+    <div class="notice-actions"><a class="btn btn-primary" href="../pricing/">查看定价</a><a class="btn btn-ghost" href="../docs/faq/">先看 FAQ</a></div>
+  </div>
+</dialog>
 <div class="nav-overlay" id="navOverlay"></div>
 <aside class="nav-drawer" id="navDrawer" aria-label="站点导航" aria-hidden="true">
   <div class="drawer-head">

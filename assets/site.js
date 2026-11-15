@@ -131,15 +131,17 @@
   /* ── 公告 ─────────────────────────────────────────────────────────── */
   var announcement = document.getElementById("announcement");
   var announcementClose = document.getElementById("announcementClose");
+  var announcementId = announcement && announcement.getAttribute("data-announce-id") || "default";
+  var announcementKey = "xlp-announce-closed:" + announcementId;
   try {
-    if (localStorage.getItem("xlp-announce-closed") === "1" && announcement) {
+    if (localStorage.getItem(announcementKey) === "1" && announcement) {
       announcement.hidden = true;
     }
   } catch (e) {}
   if (announcementClose && announcement) {
     announcementClose.addEventListener("click", function () {
       announcement.hidden = true;
-      try { localStorage.setItem("xlp-announce-closed", "1"); } catch (e) {}
+      try { localStorage.setItem(announcementKey, "1"); } catch (e) {}
     });
   }
 
