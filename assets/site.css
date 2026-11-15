@@ -1290,3 +1290,21 @@ body.page-legal .site-footer { margin-top: 24px; }
   *::before,
   *::after { transition-duration: .001ms !important; animation-duration: .001ms !important; }
 }
+
+/* ── 苹果式连续圆角 ───────────────────────────────────────────────────
+   `corner-shape: squircle` 是 CSS 原生的超椭圆（squircle）圆角，
+   与 `border-radius` 配合使用，曲率比普通圆弧更连续、更接近 Apple 控件。
+   目前 Chrome / Edge 139+ 原生支持；Safari / Firefox 尚未支持时会自动
+   退回普通 `border-radius`，布局与可读性不受影响。
+   正圆与胶囊保持 round，避免 squircle 把圆形端点压扁。 */
+@supports (corner-shape: squircle) {
+  *,
+  *::before,
+  *::after { corner-shape: squircle; }
+
+  .terminal-bar span,
+  .price-summary-main .tag,
+  .faq-cats a,
+  .price-badge,
+  .xlp-consult-fab { corner-shape: round; }
+}
