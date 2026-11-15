@@ -54,8 +54,11 @@
     if (inset < 40) inset = 0; // 地址栏 / 工具栏的小变化不算键盘
     if (inset === lastInset) return;
     lastInset = inset;
+    /* 先记录改高度之前是否在底部；改完 composer 高度后 body 变矮，
+       再判断 nearBottom() 会误判为“不在底部”，导致最新消息被顶出视野。 */
+    var stick = nearBottom();
     panel.style.setProperty("--keyboard-inset", inset + "px");
-    if (nearBottom()) scrollToBottom(false);
+    if (stick) scrollToBottom(false);
   }
 
   function scheduleKeyboardInset() {
@@ -437,6 +440,28 @@
     var text = input.value.trim();
     if (text) sendText(text);
   });
+  var sendBtn = form.querySelector('button[type="submit"]');
+  if (sendBtn) {
+    /* 桌面：mousedown 默认会把焦点移到按钮，输入框失焦 */
+    sendBtn.addEventListener("mousedown", function (event) {
+      event.preventDefault();
+    });
+    /* 手机：touchstart 默认同样会让输入框失焦、键盘收起。
+       阻止默认后手动提交，焦点和键盘都留在输入框里。 */
+    sendBtn.addEventListener("touchstart", function (event) {
+      if (!isMobile()) return;
+      event.preventDefault();
+    }, { passive: false });
+    sendBtn.addEventListener("touchend", function (event) {
+      if (!isMobile()) return;
+      event.preventDefault();
+      if (form.requestSubmit) {
+        form.requestSubmit();
+      } else {
+        form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+      }
+    }, { passive: false });
+  }
   imageBtn.addEventListener("click", function () { fileInput.click(); });
   fileInput.addEventListener("change", function () {
     var file = fileInput.files && fileInput.files[0];
