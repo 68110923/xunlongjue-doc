@@ -166,6 +166,32 @@
 
   var lastDay = "";
 
+  function pad(value) {
+    return value < 10 ? "0" + value : String(value);
+  }
+
+  /* 新接口带 ISO 时间戳（含时区），按浏览器本地时区显示；
+     老接口只有 at_text / day（站点时区），原样兜底。 */
+  function messageDate(message) {
+    if (!message.at) return null;
+    var date = new Date(message.at);
+    return isNaN(date.getTime()) ? null : date;
+  }
+
+  function messageDay(message) {
+    var date = messageDate(message);
+    if (date) {
+      return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate());
+    }
+    return message.day || "";
+  }
+
+  function timeLabel(message) {
+    var date = messageDate(message);
+    if (date) return pad(date.getHours()) + ":" + pad(date.getMinutes());
+    return message.at_text || "";
+  }
+
   function dayLabel(iso) {
     if (!iso) return "";
     var parts = iso.split("-");
@@ -196,7 +222,7 @@
     var who = document.createElement("span");
     who.textContent = message.mine ? "我" : "作者";
     var time = document.createElement("time");
-    time.textContent = message.at_text || "";
+    time.textContent = timeLabel(message);
     meta.appendChild(who);
     meta.appendChild(time);
     main.appendChild(meta);
@@ -236,7 +262,7 @@
     messages.forEach(function (message) {
       if (!message || !message.id || message.id <= lastId) return;
       if (message.mine) hasMine = true;
-      var day = message.day || "";
+      var day = messageDay(message);
       if (day && day !== lastDay) {
         var sep = document.createElement("div");
         sep.className = "xlp-day";
