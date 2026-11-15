@@ -25,8 +25,9 @@
     return window.matchMedia && window.matchMedia("(max-width: 840px)").matches;
   }
 
-  var keyboardTimers = [];
-  var lastViewportSync = 0;
+  var insetRaf = 0;
+  var insetTimers = [];
+  var lastInset = 0;
   var keyboardWasOpen = false;
 
   function isIOS() {
@@ -42,38 +43,35 @@
     );
   }
 
-  // 键盘动画期间 resize 每帧触发；限到约 20fps，落定后再强制对齐几次。
-  // fixed 元素相对布局视口定位，必须同时补 height 和 offsetTop，
-  // 否则 iOS 挪动视觉视口时页眉会跳。
-  function syncViewport(force) {
+  /* 手机键盘：面板本身固定不动，只把输入区按键盘高度顶起来。
+     页眉永远不参与位移，快速开合也不会累积 top / height 误差。 */
+  function updateKeyboardInset() {
     if (!panel.classList.contains("open") || !isMobile()) return;
     var vv = window.visualViewport;
     if (!vv) return;
-    var now = Date.now();
-    if (!force && now - lastViewportSync < 48) return;
-    lastViewportSync = now;
-    var stick = nearBottom();
-    var height = Math.floor(vv.height);
-    var top = Math.round(vv.offsetTop || 0);
-    var nextTop = top > 0 ? top + "px" : "0px";
-    if (panel.style.height !== height + "px" || panel.style.top !== nextTop) {
-      panel.style.height = height + "px";
-      panel.style.top = nextTop;
-      panel.style.bottom = "auto";
-    }
-    if (stick) scrollToBottom(false);
+    var inset = window.innerHeight - vv.height - (vv.offsetTop || 0);
+    inset = Math.round(Math.min(Math.max(0, inset), window.innerHeight));
+    if (inset < 40) inset = 0; // 地址栏 / 工具栏的小变化不算键盘
+    if (inset === lastInset) return;
+    lastInset = inset;
+    panel.style.setProperty("--keyboard-inset", inset + "px");
+    if (nearBottom()) scrollToBottom(false);
   }
 
-  function scheduleViewport() {
-    if (!isMobile()) return;
-    syncViewport(true);
-    keyboardTimers.forEach(function (timer) {
+  function scheduleKeyboardInset() {
+    if (!isMobile() || !panel.classList.contains("open")) return;
+    if (insetRaf) cancelAnimationFrame(insetRaf);
+    insetRaf = requestAnimationFrame(function () {
+      insetRaf = 0;
+      updateKeyboardInset();
+    });
+    /* iOS 26 偶尔 offsetTop / height 不刷新：落定后补测两次 */
+    insetTimers.forEach(function (timer) {
       clearTimeout(timer);
     });
-    keyboardTimers = [60, 160, 320, 600, 900].map(function (delay) {
+    insetTimers = [320, 900].map(function (delay) {
       return setTimeout(function () {
-        syncViewport(true);
-        // iOS 偶尔无视 overflow:hidden 去滚文档：归零，避免二次位移
+        updateKeyboardInset();
         if (window.scrollY !== 0) window.scrollTo(0, 0);
       }, delay);
     });
@@ -92,14 +90,19 @@
     document.body.style.right = "0";
     document.body.style.bottom = "0";
     document.body.style.width = "100%";
-    scheduleViewport();
+    scheduleKeyboardInset();
   }
 
   function unlockPage() {
-    keyboardTimers.forEach(function (timer) { clearTimeout(timer); });
-    keyboardTimers = [];
-    lastViewportSync = 0;
+    if (insetRaf) {
+      cancelAnimationFrame(insetRaf);
+      insetRaf = 0;
+    }
+    insetTimers.forEach(function (timer) { clearTimeout(timer); });
+    insetTimers = [];
+    lastInset = 0;
     keyboardWasOpen = false;
+    panel.style.removeProperty("--keyboard-inset");
     document.documentElement.classList.remove("xlp-consult-open");
     document.body.classList.remove("xlp-consult-open");
     document.body.style.position = "";
@@ -451,7 +454,19 @@
       form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
     }
   });
-  input.addEventListener("focus", function () { scheduleViewport(); });
+  input.addEventListener("focus", function () { scheduleKeyboardInset(); });
+  /* iOS 默认会滚动 / 平移整页去露出输入框；手动 preventScroll 聚焦，
+     再靠 --keyboard-inset 把输入区顶起来，页眉就不会被带着跑。 */
+  input.addEventListener("touchend", function (event) {
+    if (!isIOS() || document.activeElement === input) return;
+    event.preventDefault();
+    try {
+      input.focus({ preventScroll: true });
+    } catch (e) {
+      input.focus();
+    }
+    scheduleKeyboardInset();
+  }, { passive: false });
 
   /* 图片加载后会撑高，若本来就在底部则跟着贴底 */
   body.addEventListener("load", function (event) {
@@ -506,11 +521,16 @@
         }
         keyboardWasOpen = open;
       }
-      scheduleViewport();
+      scheduleKeyboardInset();
     });
-    window.visualViewport.addEventListener("scroll", function () { syncViewport(false); });
+    window.visualViewport.addEventListener("scroll", function () {
+      if (window.scrollY !== 0) window.scrollTo(0, 0);
+      scheduleKeyboardInset();
+    });
   }
-  window.addEventListener("resize", function () { scheduleViewport(); });
+  window.addEventListener("resize", scheduleKeyboardInset);
+  window.addEventListener("focus", scheduleKeyboardInset);
+  window.addEventListener("blur", function () { setTimeout(scheduleKeyboardInset, 50); });
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" && panel.classList.contains("open")) closePanel();
   });
