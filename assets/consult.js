@@ -22,6 +22,7 @@
   var firstDay = "";
   var loadingOlder = false;
   var noMoreOlder = false;
+  var olderTimer = null;
   var timer = null;
   var sending = false;
   var pageScroll = 0;
@@ -110,6 +111,10 @@
     insetTimers = [];
     lastInset = 0;
     keyboardWasOpen = false;
+    if (olderTimer) {
+      clearTimeout(olderTimer);
+      olderTimer = null;
+    }
     panel.style.removeProperty("--keyboard-inset");
     document.documentElement.classList.remove("xlp-consult-open");
     document.body.classList.remove("xlp-consult-open");
@@ -606,7 +611,17 @@
   }, true);
 
   body.addEventListener("scroll", function () {
-    if (body.scrollTop < 80) loadOlder();
+    if (body.scrollTop < 80) {
+      /* 等滚动惯性停一下再拉历史，避免在 iOS 动量滚动中途插内容 */
+      if (olderTimer) clearTimeout(olderTimer);
+      olderTimer = setTimeout(function () {
+        olderTimer = null;
+        if (panel.classList.contains("open") && body.scrollTop < 80) loadOlder();
+      }, 120);
+    } else if (olderTimer) {
+      clearTimeout(olderTimer);
+      olderTimer = null;
+    }
   }, { passive: true });
 
   /* 电脑端点击面板外关闭；手机端是全屏，不适用 */
