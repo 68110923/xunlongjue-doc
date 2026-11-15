@@ -22,7 +22,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../media/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="../media/apple-touch-icon.png">
 <meta name="theme-color" content="#fffafa">
-<link rel="stylesheet" href="../assets/site.css?v=7ac0e6f3">
+<link rel="stylesheet" href="../assets/site.css?v=44c5960d">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
@@ -35,8 +35,8 @@
 })();
 </script>
 
-<script src="../assets/site.js?v=7ac0e6f3" defer></script>
-<script src="../assets/consult.js?v=7ac0e6f3" defer></script>
+<script src="../assets/site.js?v=44c5960d" defer></script>
+<script src="../assets/consult.js?v=44c5960d" defer></script>
 </head>
 <body class="page page-legal">
 <a class="skip-link" href="#main">跳到主要内容</a>
@@ -118,26 +118,37 @@
 </main>
   <!-- ── 咨询入口（电脑右侧抽屉 / 手机全屏）────────────────────── -->
   <button id="xlp-consult-open" class="xlp-consult-fab" type="button"
-          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询作者"><svg class="fab-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="fab-label">咨询作者</span></button>
+          aria-controls="xlp-consult" aria-expanded="false" aria-label="咨询作者" title="咨询作者"><svg class="fab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span class="fab-label">咨询作者</span></button>
 
   <div id="xlp-consult" class="xlp-consult" role="dialog" aria-modal="false"
        aria-labelledby="xlp-consult-title" aria-hidden="true">
     <header class="xlp-consult-head">
-      <div>
+      <span class="xlp-consult-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+      <div class="xlp-consult-title-wrap">
         <strong id="xlp-consult-title">咨询作者</strong>
         <span class="xlp-consult-sub">购买 · 试用 · 看板问题</span>
       </div>
-      <button class="xlp-consult-close" type="button" data-close aria-label="关闭咨询">✕</button>
+      <button class="xlp-consult-close" type="button" data-close aria-label="关闭咨询" title="关闭">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
     </header>
-    <div class="xlp-consult-body" id="xlp-consult-body" aria-live="polite">
-      <p class="xlp-consult-hint">购买、试用、部署问题直接说；请勿发送密码、PAT、API Key。</p>
+    <div class="xlp-consult-body" id="xlp-consult-body" role="log" aria-live="polite">
+      <div class="xlp-consult-empty">
+        <span class="xlp-consult-empty-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+        <p><strong>有什么可以帮你？</strong>购买、试用、部署问题都可以直接问。</p>
+        <small>请勿发送密码、PAT、API Key</small>
+      </div>
     </div>
-    <form class="xlp-consult-form" id="xlp-consult-form">
+    <form class="xlp-consult-form" id="xlp-consult-form" autocomplete="off">
       <input type="file" accept="image/*" id="xlp-consult-file" hidden>
-      <button type="button" id="xlp-consult-img" aria-label="发送图片">📷</button>
-      <input type="text" id="xlp-consult-input" placeholder="输入问题…" maxlength="2000"
-             autocomplete="off" aria-label="咨询内容">
-      <button type="submit">发送</button>
+      <button class="xlp-consult-tool" type="button" id="xlp-consult-img" aria-label="发送图片" title="发送图片">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v14H3zM3 15l5-4 4 3 3-2 6 5M15 9h.01"/></svg>
+      </button>
+      <textarea id="xlp-consult-input" rows="1" placeholder="输入问题…" maxlength="2000"
+                enterkeyhint="send" aria-label="咨询内容"></textarea>
+      <button class="xlp-consult-send" type="submit" aria-label="发送" title="发送">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 20 4l-4 16-4-6-8-2z"/></svg>
+      </button>
     </form>
   </div>
 

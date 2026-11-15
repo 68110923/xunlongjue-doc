@@ -140,8 +140,8 @@
   }
 
   function clearHint() {
-    var hint = body.querySelector(".xlp-consult-hint");
-    if (hint) hint.remove();
+    var nodes = body.querySelectorAll(".xlp-consult-hint, .xlp-consult-empty");
+    for (var i = 0; i < nodes.length; i += 1) nodes[i].remove();
   }
 
   function showHint(text) {
@@ -152,36 +152,102 @@
     body.appendChild(p);
   }
 
+  function nearBottom() {
+    return body.scrollHeight - body.scrollTop - body.clientHeight < 96;
+  }
+
+  function scrollToBottom(smooth) {
+    if (smooth && body.scrollTo) {
+      body.scrollTo({ top: body.scrollHeight, behavior: "smooth" });
+    } else {
+      body.scrollTop = body.scrollHeight;
+    }
+  }
+
+  var lastDay = "";
+
+  function dayLabel(iso) {
+    if (!iso) return "";
+    var parts = iso.split("-");
+    if (parts.length !== 3) return iso;
+    var date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var diff = Math.round((today - date) / 86400000);
+    if (diff === 0) return "今天";
+    if (diff === 1) return "昨天";
+    return (date.getMonth() + 1) + "月" + date.getDate() + "日";
+  }
+
+  function makeRow(message) {
+    var row = document.createElement("div");
+    row.className = "xlp-msg-row" + (message.mine ? " mine" : "");
+
+    var avatar = document.createElement("span");
+    avatar.className = "xlp-msg-avatar";
+    avatar.setAttribute("aria-hidden", "true");
+    avatar.textContent = message.mine ? "我" : "龙";
+
+    var main = document.createElement("div");
+    main.className = "xlp-msg-main";
+
+    var meta = document.createElement("div");
+    meta.className = "xlp-msg-meta";
+    var who = document.createElement("span");
+    who.textContent = message.mine ? "我" : "作者";
+    var time = document.createElement("time");
+    time.textContent = message.at_text || "";
+    meta.appendChild(who);
+    meta.appendChild(time);
+    main.appendChild(meta);
+
+    var bubble = document.createElement("div");
+    bubble.className = "xlp-msg";
+    if (message.kind === "image" && message.image_url) {
+      bubble.className += " is-image";
+      var link = document.createElement("a");
+      link.className = "xlp-msg-image";
+      link.href = asset(message.image_url);
+      link.target = "_blank";
+      link.rel = "noopener";
+      var img = document.createElement("img");
+      img.loading = "lazy";
+      img.alt = "咨询图片";
+      img.src = asset(message.thumb_url || message.image_url);
+      link.appendChild(img);
+      bubble.appendChild(link);
+    } else {
+      var span = document.createElement("span");
+      span.textContent = message.body || "";
+      bubble.appendChild(span);
+    }
+    main.appendChild(bubble);
+    row.appendChild(avatar);
+    row.appendChild(main);
+    return row;
+  }
+
   function render(messages) {
     if (!messages || !messages.length) return;
+    var firstLoad = lastId === 0;
+    var stick = nearBottom() || firstLoad;
     clearHint();
+    var hasMine = false;
     messages.forEach(function (message) {
       if (!message || !message.id || message.id <= lastId) return;
-      var row = document.createElement("div");
-      row.className = "xlp-msg" + (message.mine ? " mine" : "");
-      if (message.kind === "image" && message.image_url) {
-        var link = document.createElement("a");
-        link.href = asset(message.image_url);
-        link.target = "_blank";
-        link.rel = "noopener";
-        var img = document.createElement("img");
-        img.loading = "lazy";
-        img.alt = "咨询图片";
-        img.src = asset(message.thumb_url || message.image_url);
-        link.appendChild(img);
-        row.appendChild(link);
-      } else {
-        var span = document.createElement("span");
-        span.textContent = message.body || "";
-        row.appendChild(span);
+      if (message.mine) hasMine = true;
+      var day = message.day || "";
+      if (day && day !== lastDay) {
+        var sep = document.createElement("div");
+        sep.className = "xlp-day";
+        sep.textContent = dayLabel(day);
+        body.appendChild(sep);
+        lastDay = day;
       }
-      var time = document.createElement("time");
-      time.textContent = message.at_text || "";
-      row.appendChild(time);
-      body.appendChild(row);
+      body.appendChild(makeRow(message));
       lastId = message.id;
     });
-    body.scrollTop = body.scrollHeight;
+    if (stick || hasMine) scrollToBottom(!firstLoad);
   }
 
   function poll(showError) {
@@ -202,8 +268,15 @@
     panel.classList.toggle("open", open);
     panel.setAttribute("aria-hidden", open ? "false" : "true");
     openBtn.setAttribute("aria-expanded", open ? "true" : "false");
-    if (open) lockPage(); else unlockPage();
-    if (!open && timer) { clearInterval(timer); timer = null; }
+    if (open) {
+      panel.style.transition = "";
+      lockPage();
+    } else {
+      panel.style.transition = "";
+      panel.style.transform = "";
+      unlockPage();
+      if (timer) { clearInterval(timer); timer = null; }
+    }
   }
 
   function openPanel() {
@@ -215,20 +288,48 @@
     });
     if (timer) clearInterval(timer);
     timer = setInterval(function () { poll(false).catch(function () {}); }, 5000);
-    setTimeout(function () { input.focus(); }, 80);
+    requestAnimationFrame(function () { scrollToBottom(false); });
+    if (!isMobile()) {
+      setTimeout(function () { input.focus(); }, 140);
+    }
   }
 
   function closePanel() {
     // 先收键盘，再解锁页面；顺序反了会让 iOS 在解锁后自己滚一下。
     if (input) input.blur();
     setOpen(false);
+    if (!isMobile()) {
+      try {
+        openBtn.focus({ preventScroll: true });
+      } catch (e) {
+        openBtn.focus();
+      }
+    }
+  }
+
+  function autoGrow() {
+    input.style.height = "auto";
+    input.style.height = Math.min(input.scrollHeight, 112) + "px";
+  }
+
+  function resetInput() {
+    input.value = "";
+    input.style.height = "";
+  }
+
+  function setSending(state) {
+    sending = state;
+    form.classList.toggle("is-sending", state);
+    var submit = form.querySelector('button[type="submit"]');
+    if (submit) submit.disabled = state;
+    if (imageBtn) imageBtn.disabled = state;
   }
 
   function sendText(text) {
     if (sending) return;
-    sending = true;
-    var submit = form.querySelector('button[type="submit"]');
-    if (submit) submit.disabled = true;
+    setSending(true);
+    resetInput();
+    var sent = false;
     ready().then(function () {
       return fetch(BASE + "/api/v1/contact/messages", {
         method: "POST",
@@ -238,13 +339,18 @@
     }).then(function (r) {
       if (r.status === 429) throw new Error("slow");
       if (!r.ok) throw new Error("send " + r.status);
-      input.value = "";
-      return poll(false);
+      sent = true;
+      return poll(false).catch(function () {});
     }).catch(function (err) {
-      showHint(err && err.message === "slow" ? "发送太频繁，稍后再试。" : "发送失败，请稍后再试。");
+      if (!sent) {
+        if (!input.value.trim()) {
+          input.value = text;
+          autoGrow();
+        }
+        showHint(err && err.message === "slow" ? "发送太频繁，稍后再试。" : "发送失败，请稍后再试。");
+      }
     }).then(function () {
-      sending = false;
-      if (submit) submit.disabled = false;
+      setSending(false);
     });
   }
 
@@ -254,7 +360,7 @@
       showHint("图片不能超过 2 MB。");
       return;
     }
-    sending = true;
+    setSending(true);
     var data = new FormData();
     data.append("image", file);
     ready().then(function () {
@@ -263,11 +369,11 @@
       });
     }).then(function (r) {
       if (!r.ok) throw new Error("image " + r.status);
-      return poll(false);
+      return poll(false).catch(function () {});
     }).catch(function () {
       showHint("图片发送失败，请稍后再试。");
     }).then(function () {
-      sending = false;
+      setSending(false);
     });
   }
 
@@ -284,7 +390,61 @@
     fileInput.value = "";
     if (file) sendImage(file);
   });
+  input.addEventListener("input", autoGrow);
+  input.addEventListener("keydown", function (event) {
+    if (event.key !== "Enter" || event.shiftKey || event.isComposing || event.keyCode === 229) return;
+    event.preventDefault();
+    if (!input.value.trim()) return;
+    if (form.requestSubmit) {
+      form.requestSubmit();
+    } else {
+      form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+    }
+  });
   input.addEventListener("focus", function () { scheduleViewport(80); });
+
+  /* 图片加载后会撑高，若本来就在底部则跟着贴底 */
+  body.addEventListener("load", function (event) {
+    if (event.target && event.target.tagName === "IMG" && nearBottom()) {
+      scrollToBottom(false);
+    }
+  }, true);
+
+  /* 电脑端点击面板外关闭；手机端是全屏，不适用 */
+  document.addEventListener("click", function (event) {
+    if (!panel.classList.contains("open") || isMobile()) return;
+    if (panel.contains(event.target) || openBtn.contains(event.target)) return;
+    closePanel();
+  });
+
+  /* 手机端在页眉下滑关闭；跟手位移，松手超过阈值才关 */
+  var head = panel.querySelector(".xlp-consult-head");
+  if (head) {
+    var dragStart = null;
+    var dragY = 0;
+    head.addEventListener("touchstart", function (event) {
+      if (!isMobile() || event.touches.length !== 1) return;
+      dragStart = event.touches[0].clientY;
+      dragY = 0;
+      panel.style.transition = "none";
+    }, { passive: true });
+    head.addEventListener("touchmove", function (event) {
+      if (dragStart === null || event.touches.length !== 1) return;
+      dragY = Math.max(0, event.touches[0].clientY - dragStart);
+      if (dragY > 0) panel.style.transform = "translateY(" + dragY + "px)";
+    }, { passive: true });
+    var endDrag = function () {
+      if (dragStart === null) return;
+      dragStart = null;
+      panel.style.transition = "";
+      panel.style.transform = "";
+      if (dragY > 96) closePanel();
+      dragY = 0;
+    };
+    head.addEventListener("touchend", endDrag, { passive: true });
+    head.addEventListener("touchcancel", endDrag, { passive: true });
+  }
+
   if (window.visualViewport) {
     window.visualViewport.addEventListener("resize", function () { scheduleViewport(120); });
     window.visualViewport.addEventListener("scroll", function () { scheduleViewport(120); });
