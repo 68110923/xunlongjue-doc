@@ -1159,6 +1159,8 @@ body.xlp-consult-open { touch-action: none; }
     var(--bg-subtle);
   touch-action: pan-y;
   overscroll-behavior: contain;
+  /* 新消息追加时由脚本自己判断是否贴底，不让浏览器锚定再补一次 */
+  overflow-anchor: none;
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--dim) 30%, transparent) transparent;
   -webkit-overflow-scrolling: touch;
