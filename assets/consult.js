@@ -23,6 +23,7 @@
   var loadingOlder = false;
   var noMoreOlder = false;
   var olderTimer = null;
+  var suppressScroll = false;
   var timer = null;
   var sending = false;
   var pageScroll = 0;
@@ -373,6 +374,7 @@
       body.insertBefore(sameDay, body.firstChild);
       body.insertBefore(before, body.firstChild);
     }
+    suppressScroll = true;
     if (anchor) {
       var anchorAfter =
         anchor.getBoundingClientRect().top -
@@ -382,6 +384,9 @@
     } else {
       body.scrollTop += body.scrollHeight - heightBefore;
     }
+    requestAnimationFrame(function () {
+      suppressScroll = false;
+    });
     oldestId = messages[0].id;
     firstDay = messageDay(messages[0]) || firstDay;
   }
@@ -611,6 +616,7 @@
   }, true);
 
   body.addEventListener("scroll", function () {
+    if (suppressScroll) return;
     if (body.scrollTop < 80) {
       /* 等滚动惯性停一下再拉历史，避免在 iOS 动量滚动中途插内容 */
       if (olderTimer) clearTimeout(olderTimer);
