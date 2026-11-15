@@ -4,8 +4,9 @@
 
   var BASE = "https://" + "xunlongjue.68110923.xyz";
   var KEY = "xlp-pro-contact-2026";
-  var OLDER_SETTLE_MS = 2500;
-  /* 历史消息：请求立刻发，插入前等 2.5 秒让惯性滚动停稳 */
+  var SCROLL_END_FALLBACK_MS = 2000;
+  var SUPPORTS_SCROLL_END = "onscrollend" in window;
+  /* 历史消息：请求立刻发，等 scrollend 后再插入；不支持的浏览器 2 秒兜底 */
   var TOKEN_KEY = "xlp-pro-consult-token";
   var INSTALL_KEY = "xlp-pro-install-id";
 
@@ -390,14 +391,55 @@
 
   function loadOlder() {
     if (loadingOlder || noMoreOlder || !oldestId || !panel.classList.contains("open")) return;
-    var started = Date.now();
+    var messages = null;
+    var settled = false;
+    var finished = false;
+    var settleTimer = null;
     loadingOlder = true;
     if (historyHint) historyHint.hidden = false;
 
+    function cleanup() {
+      if (settleTimer) {
+        clearTimeout(settleTimer);
+        settleTimer = null;
+      }
+      if (SUPPORTS_SCROLL_END) body.removeEventListener("scrollend", onScrollEnd);
+    }
+
     function finish() {
+      if (finished) return;
+      finished = true;
+      cleanup();
       loadingOlder = false;
       if (historyHint) historyHint.hidden = true;
     }
+
+    function insertIfReady() {
+      if (finished || !settled || !messages) return;
+      if (panel.classList.contains("open")) {
+        prependOlder(messages);
+        if (messages.length < 50) noMoreOlder = true;
+      }
+      finish();
+    }
+
+    function onScrollEnd() {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      insertIfReady();
+    }
+
+    function fallback() {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      insertIfReady();
+    }
+
+    if (SUPPORTS_SCROLL_END) body.addEventListener("scrollend", onScrollEnd);
+    /* 不支持 scrollend / 事件没触发时，2 秒兜底 */
+    settleTimer = setTimeout(fallback, SCROLL_END_FALLBACK_MS);
 
     fetch(
       BASE + "/api/v1/contact/messages?before=" + encodeURIComponent(oldestId) + "&limit=50",
@@ -408,25 +450,19 @@
         return r.json();
       })
       .then(function (data) {
+        if (finished) return;
         if (!panel.classList.contains("open")) {
           finish();
           return;
         }
-        var messages = data.messages || [];
-        if (!messages.length) {
+        var page = data.messages || [];
+        if (!page.length) {
           noMoreOlder = true;
           finish();
           return;
         }
-        /* 请求完成得再快，也等满 2.5 秒再插入：给惯性滚动留出停稳时间 */
-        var wait = Math.max(0, OLDER_SETTLE_MS - (Date.now() - started));
-        setTimeout(function () {
-          if (panel.classList.contains("open")) {
-            prependOlder(messages);
-            if (messages.length < 50) noMoreOlder = true;
-          }
-          finish();
-        }, wait);
+        messages = page;
+        insertIfReady();
       })
       .catch(function () {
         /* 失败不提示：下次滚到顶再试 */
@@ -631,7 +667,7 @@
   body.addEventListener("scroll", function () {
     if (suppressScroll) return;
     if (body.scrollTop < 80) {
-      /* 请求立即发；插入在 loadOlder 里等 2.5 秒，给惯性滚动留时间 */
+      /* 请求立即发；插入在 loadOlder 里等 scrollend（不支持的 2 秒兜底） */
       loadOlder();
     }
   }, { passive: true });
