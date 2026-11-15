@@ -25,35 +25,58 @@
     return window.matchMedia && window.matchMedia("(max-width: 840px)").matches;
   }
 
-  var viewportTimer = null;
-  var lastViewportHeight = 0;
-  var lastViewportTop = -1;
+  var keyboardTimers = [];
+  var lastViewportSync = 0;
+  var keyboardWasOpen = false;
 
-  function syncViewport() {
+  function isIOS() {
+    return (
+      /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+    );
+  }
+
+  function keyboardIsOpen() {
+    return Boolean(
+      window.visualViewport && window.visualViewport.height < window.innerHeight - 120
+    );
+  }
+
+  // 键盘动画期间 resize 每帧触发；限到约 20fps，落定后再强制对齐几次。
+  // fixed 元素相对布局视口定位，必须同时补 height 和 offsetTop，
+  // 否则 iOS 挪动视觉视口时页眉会跳。
+  function syncViewport(force) {
     if (!panel.classList.contains("open") || !isMobile()) return;
     var vv = window.visualViewport;
     if (!vv) return;
-    // fixed 元素相对布局视口定位；iOS 键盘弹起时视觉视口会整体位移，
-    // 必须同时补 height 和 offsetTop，否则页眉被顶出屏幕。
+    var now = Date.now();
+    if (!force && now - lastViewportSync < 48) return;
+    lastViewportSync = now;
+    var stick = nearBottom();
     var height = Math.floor(vv.height);
     var top = Math.round(vv.offsetTop || 0);
-    if (Math.abs(height - lastViewportHeight) < 2 && Math.abs(top - lastViewportTop) < 2) {
-      return;
+    var nextTop = top > 0 ? top + "px" : "0px";
+    if (panel.style.height !== height + "px" || panel.style.top !== nextTop) {
+      panel.style.height = height + "px";
+      panel.style.top = nextTop;
+      panel.style.bottom = "auto";
     }
-    lastViewportHeight = height;
-    lastViewportTop = top;
-    panel.style.height = height + "px";
-    panel.style.top = (top > 0 ? top : 0) + "px";
-    panel.style.bottom = "auto";
+    if (stick) scrollToBottom(false);
   }
 
-  function scheduleViewport(delay) {
-    if (viewportTimer) clearTimeout(viewportTimer);
-    viewportTimer = setTimeout(function () {
-      syncViewport();
-      // 键盘动画收尾时再补一次；只在去抖后更新，避免页眉逐帧抖。
-      viewportTimer = setTimeout(syncViewport, 220);
-    }, delay || 100);
+  function scheduleViewport() {
+    if (!isMobile()) return;
+    syncViewport(true);
+    keyboardTimers.forEach(function (timer) {
+      clearTimeout(timer);
+    });
+    keyboardTimers = [60, 160, 320, 600, 900].map(function (delay) {
+      return setTimeout(function () {
+        syncViewport(true);
+        // iOS 偶尔无视 overflow:hidden 去滚文档：归零，避免二次位移
+        if (window.scrollY !== 0) window.scrollTo(0, 0);
+      }, delay);
+    });
   }
 
   function lockPage() {
@@ -69,12 +92,14 @@
     document.body.style.right = "0";
     document.body.style.bottom = "0";
     document.body.style.width = "100%";
-    lastViewportHeight = 0;
-    scheduleViewport(0);
+    scheduleViewport();
   }
 
   function unlockPage() {
-    if (viewportTimer) { clearTimeout(viewportTimer); viewportTimer = null; }
+    keyboardTimers.forEach(function (timer) { clearTimeout(timer); });
+    keyboardTimers = [];
+    lastViewportSync = 0;
+    keyboardWasOpen = false;
     document.documentElement.classList.remove("xlp-consult-open");
     document.body.classList.remove("xlp-consult-open");
     document.body.style.position = "";
@@ -86,7 +111,6 @@
     panel.style.top = "";
     panel.style.height = "";
     panel.style.bottom = "";
-    lastViewportHeight = 0;
     if (pageScroll) {
       var root = document.documentElement;
       var previous = root.style.scrollBehavior;
@@ -427,7 +451,7 @@
       form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
     }
   });
-  input.addEventListener("focus", function () { scheduleViewport(80); });
+  input.addEventListener("focus", function () { scheduleViewport(); });
 
   /* 图片加载后会撑高，若本来就在底部则跟着贴底 */
   body.addEventListener("load", function (event) {
@@ -472,10 +496,21 @@
   }
 
   if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", function () { scheduleViewport(120); });
-    window.visualViewport.addEventListener("scroll", function () { scheduleViewport(120); });
+    window.visualViewport.addEventListener("resize", function () {
+      if (isIOS() && panel.classList.contains("open") && isMobile()) {
+        var open = keyboardIsOpen();
+        if (keyboardWasOpen && !open && document.activeElement === input) {
+          /* 键盘收起了但焦点还在输入框，下一次点击会命中"已聚焦"分支，
+             iOS 就自己去滚页面 —— 主动 blur 掉。 */
+          input.blur();
+        }
+        keyboardWasOpen = open;
+      }
+      scheduleViewport();
+    });
+    window.visualViewport.addEventListener("scroll", function () { syncViewport(false); });
   }
-  window.addEventListener("resize", function () { scheduleViewport(120); });
+  window.addEventListener("resize", function () { scheduleViewport(); });
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" && panel.classList.contains("open")) closePanel();
   });
