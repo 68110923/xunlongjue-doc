@@ -229,6 +229,64 @@ button { font: inherit; color: inherit; }
 .icon-btn.dashboard-link:hover { background: var(--accent-soft); color: var(--accent); }
 .dashboard-link .ext { font-size: 11px; line-height: 1; }
 
+/* ── 主题切换：手机单图标；≥768px 太阳 / 月亮滑动双选 ─────────────── */
+.theme-switch { display: inline-flex; align-items: center; }
+.theme-single { display: inline-grid; place-items: center; }
+.theme-single svg { width: 18px; height: 18px; }
+.theme-icon-sun { display: none; }
+html[data-theme="dark"] .theme-icon-moon { display: none; }
+html[data-theme="dark"] .theme-icon-sun { display: block; }
+
+.theme-segment {
+  position: relative;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+}
+.theme-segment-thumb {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  transition: transform .2s ease;
+  pointer-events: none;
+}
+html[data-theme="dark"] .theme-segment-thumb { transform: translateX(100%); }
+.theme-option {
+  position: relative;
+  z-index: 1;
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+  transition: color .2s ease;
+}
+.theme-option:hover,
+.theme-option[aria-pressed="true"] { color: var(--text); }
+.theme-option svg { width: 15px; height: 15px; }
+
+@media (min-width: 768px) {
+  .theme-single { display: none; }
+  .theme-segment { display: inline-grid; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-segment-thumb,
+  .theme-option { transition: none; }
+}
+
 /* ── 公告 ───────────────────────────────────────────────────────────── */
 
 .announce { border-bottom: 1px solid var(--border); background: var(--gold-soft); font-size: 13px; }
@@ -1306,5 +1364,8 @@ body.page-legal .site-footer { margin-top: 24px; }
   .price-summary-main .tag,
   .faq-cats a,
   .price-badge,
+  .theme-segment,
+  .theme-segment-thumb,
+  .theme-option,
   .xlp-consult-fab { corner-shape: round; }
 }

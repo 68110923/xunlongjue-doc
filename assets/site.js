@@ -3,25 +3,54 @@
 
   var root = document.documentElement;
 
-  /* ── 主题 ─────────────────────────────────────────────────────────── */
-  var themeToggle = document.getElementById("themeToggle");
+  /* ── 主题（与 web 端一致：手机单图标，桌面太阳 / 月亮双选）────────── */
+  var themeRoot = document.querySelector("[data-theme-switch]");
 
-  function paintTheme() {
-    if (!themeToggle) return;
-    var dark = root.getAttribute("data-theme") === "dark";
-    themeToggle.textContent = dark ? "☀️" : "🌙";
-    themeToggle.setAttribute("aria-label", dark ? "切换到明色主题" : "切换到暗色主题");
+  function currentTheme() {
+    return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
   }
 
-  if (themeToggle) {
-    themeToggle.addEventListener("click", function () {
-      var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      try { localStorage.setItem("xlp-theme", next); } catch (e) {}
-      paintTheme();
-    });
+  function paintThemeControls(theme) {
+    var single = document.querySelector("[data-theme-toggle]");
+    if (single) {
+      var label = theme === "dark" ? "切换到亮色主题" : "切换到暗色主题";
+      single.setAttribute("aria-label", label);
+      single.setAttribute("title", label);
+    }
+    var options = document.querySelectorAll("[data-theme-set]");
+    for (var i = 0; i < options.length; i += 1) {
+      var active = options[i].getAttribute("data-theme-set") === theme;
+      options[i].setAttribute("aria-pressed", active ? "true" : "false");
+    }
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      meta.setAttribute("content", theme === "dark" ? "#121013" : "#fffafa");
+    }
   }
-  paintTheme();
+
+  function applyTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    try {
+      localStorage.setItem("xlp-theme", theme);
+    } catch (e) {}
+    paintThemeControls(theme);
+  }
+
+  if (themeRoot) {
+    paintThemeControls(currentTheme());
+    var themeSingle = themeRoot.querySelector("[data-theme-toggle]");
+    if (themeSingle) {
+      themeSingle.addEventListener("click", function () {
+        applyTheme(currentTheme() === "dark" ? "light" : "dark");
+      });
+    }
+    var themeOptions = themeRoot.querySelectorAll("[data-theme-set]");
+    for (var t = 0; t < themeOptions.length; t += 1) {
+      themeOptions[t].addEventListener("click", function () {
+        applyTheme(this.getAttribute("data-theme-set"));
+      });
+    }
+  }
 
   /* ── 手机抽屉 ─────────────────────────────────────────────────────── */
   var menuToggle = document.getElementById("menuToggle");
