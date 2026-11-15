@@ -4,6 +4,8 @@
 
   var BASE = "https://" + "xunlongjue.68110923.xyz";
   var KEY = "xlp-pro-contact-2026";
+  var OLDER_SETTLE_MS = 2500;
+  /* 历史消息：请求立刻发，插入前等 2.5 秒让惯性滚动停稳 */
   var TOKEN_KEY = "xlp-pro-consult-token";
   var INSTALL_KEY = "xlp-pro-install-id";
 
@@ -22,7 +24,6 @@
   var firstDay = "";
   var loadingOlder = false;
   var noMoreOlder = false;
-  var olderTimer = null;
   var suppressScroll = false;
   var timer = null;
   var sending = false;
@@ -112,10 +113,6 @@
     insetTimers = [];
     lastInset = 0;
     keyboardWasOpen = false;
-    if (olderTimer) {
-      clearTimeout(olderTimer);
-      olderTimer = null;
-    }
     panel.style.removeProperty("--keyboard-inset");
     document.documentElement.classList.remove("xlp-consult-open");
     document.body.classList.remove("xlp-consult-open");
@@ -393,8 +390,15 @@
 
   function loadOlder() {
     if (loadingOlder || noMoreOlder || !oldestId || !panel.classList.contains("open")) return;
+    var started = Date.now();
     loadingOlder = true;
     if (historyHint) historyHint.hidden = false;
+
+    function finish() {
+      loadingOlder = false;
+      if (historyHint) historyHint.hidden = true;
+    }
+
     fetch(
       BASE + "/api/v1/contact/messages?before=" + encodeURIComponent(oldestId) + "&limit=50",
       { headers: headers() }
@@ -404,20 +408,29 @@
         return r.json();
       })
       .then(function (data) {
+        if (!panel.classList.contains("open")) {
+          finish();
+          return;
+        }
         var messages = data.messages || [];
         if (!messages.length) {
           noMoreOlder = true;
+          finish();
           return;
         }
-        prependOlder(messages);
-        if (messages.length < 50) noMoreOlder = true;
+        /* 请求完成得再快，也等满 2.5 秒再插入：给惯性滚动留出停稳时间 */
+        var wait = Math.max(0, OLDER_SETTLE_MS - (Date.now() - started));
+        setTimeout(function () {
+          if (panel.classList.contains("open")) {
+            prependOlder(messages);
+            if (messages.length < 50) noMoreOlder = true;
+          }
+          finish();
+        }, wait);
       })
       .catch(function () {
         /* 失败不提示：下次滚到顶再试 */
-      })
-      .then(function () {
-        loadingOlder = false;
-        if (historyHint) historyHint.hidden = true;
+        finish();
       });
   }
 
@@ -618,15 +631,8 @@
   body.addEventListener("scroll", function () {
     if (suppressScroll) return;
     if (body.scrollTop < 80) {
-      /* 等滚动惯性停一下再拉历史，避免在 iOS 动量滚动中途插内容 */
-      if (olderTimer) clearTimeout(olderTimer);
-      olderTimer = setTimeout(function () {
-        olderTimer = null;
-        if (panel.classList.contains("open") && body.scrollTop < 80) loadOlder();
-      }, 120);
-    } else if (olderTimer) {
-      clearTimeout(olderTimer);
-      olderTimer = null;
+      /* 请求立即发；插入在 loadOlder 里等 2.5 秒，给惯性滚动留时间 */
+      loadOlder();
     }
   }, { passive: true });
 
