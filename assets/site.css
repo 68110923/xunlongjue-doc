@@ -1194,6 +1194,24 @@ body.xlp-consult-open { touch-action: none; }
 .xlp-consult-empty strong { display: block; margin-bottom: 2px; color: var(--text); font-size: 15px; }
 .xlp-consult-empty small { color: var(--dim); font-size: 11.5px; }
 
+.xlp-history-loading {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--dim);
+  font-size: 11px;
+  line-height: 1.4;
+  box-shadow: var(--shadow-sm);
+}
+.xlp-history-loading[hidden] { display: none; }
+
 .xlp-consult-hint {
   align-self: center;
   max-width: 100%;
@@ -1541,5 +1559,6 @@ body.page-legal .site-footer { margin-top: 24px; }
   .xlp-msg-avatar,
   .xlp-day,
   .xlp-consult-hint,
+  .xlp-history-loading,
   .xlp-consult::before { corner-shape: round; }
 }

@@ -14,9 +14,14 @@
   var input = document.getElementById("xlp-consult-input");
   var fileInput = document.getElementById("xlp-consult-file");
   var imageBtn = document.getElementById("xlp-consult-img");
+  var historyHint = document.getElementById("xlp-consult-history");
   if (!panel || !openBtn || !body || !form || !input) return;
 
   var lastId = 0;
+  var oldestId = 0;
+  var firstDay = "";
+  var loadingOlder = false;
+  var noMoreOlder = false;
   var timer = null;
   var sending = false;
   var pageScroll = 0;
@@ -301,9 +306,109 @@
         lastDay = day;
       }
       body.appendChild(makeRow(message));
+      if (!oldestId) oldestId = message.id;
+      if (!firstDay && day) firstDay = day;
       lastId = message.id;
     });
+    if (firstLoad) {
+      /* 首屏拿的是最近一页（服务端上限 100）；不足一页说明没有更早的了 */
+      noMoreOlder = messages.length < 100;
+    }
     if (stick || hasMine) scrollToBottom(!firstLoad);
+  }
+
+  /* 上翻加载更早历史：以当前第一条消息为锚，插入后把它挪回原视口位置。 */
+  function prependOlder(messages) {
+    if (!messages || !messages.length) return;
+    var heightBefore = body.scrollHeight;
+    var anchor = body.querySelector(".xlp-msg-row");
+    var anchorOffset = anchor
+      ? anchor.getBoundingClientRect().top -
+        body.getBoundingClientRect().top +
+        body.scrollTop
+      : 0;
+    var splitAt = messages.length;
+    if (firstDay) {
+      for (var i = 0; i < messages.length; i += 1) {
+        if (messageDay(messages[i]) === firstDay) {
+          splitAt = i;
+          break;
+        }
+      }
+    }
+
+    var before = document.createDocumentFragment();
+    var sameDay = document.createDocumentFragment();
+    var prevDay = "";
+    messages.forEach(function (message, index) {
+      var row = makeRow(message);
+      /* 历史消息不做入场动画，避免和滚动补位打架 */
+      row.style.animation = "none";
+      if (index >= splitAt) {
+        sameDay.appendChild(row);
+        return;
+      }
+      var day = messageDay(message);
+      if (day && day !== prevDay) {
+        var sep = document.createElement("div");
+        sep.className = "xlp-day";
+        sep.textContent = dayLabel(day);
+        sep.style.animation = "none";
+        before.appendChild(sep);
+        prevDay = day;
+      }
+      before.appendChild(row);
+    });
+
+    var dayNode = firstDay ? body.querySelector(".xlp-day") : null;
+    if (dayNode) {
+      body.insertBefore(before, dayNode);
+      body.insertBefore(sameDay, dayNode.nextSibling);
+    } else {
+      body.insertBefore(sameDay, body.firstChild);
+      body.insertBefore(before, body.firstChild);
+    }
+    if (anchor) {
+      var anchorAfter =
+        anchor.getBoundingClientRect().top -
+        body.getBoundingClientRect().top +
+        body.scrollTop;
+      body.scrollTop += anchorAfter - anchorOffset;
+    } else {
+      body.scrollTop += body.scrollHeight - heightBefore;
+    }
+    oldestId = messages[0].id;
+    firstDay = messageDay(messages[0]) || firstDay;
+  }
+
+  function loadOlder() {
+    if (loadingOlder || noMoreOlder || !oldestId || !panel.classList.contains("open")) return;
+    loadingOlder = true;
+    if (historyHint) historyHint.hidden = false;
+    fetch(
+      BASE + "/api/v1/contact/messages?before=" + encodeURIComponent(oldestId) + "&limit=50",
+      { headers: headers() }
+    )
+      .then(function (r) {
+        if (!r.ok) throw new Error("older " + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        var messages = data.messages || [];
+        if (!messages.length) {
+          noMoreOlder = true;
+          return;
+        }
+        prependOlder(messages);
+        if (messages.length < 50) noMoreOlder = true;
+      })
+      .catch(function () {
+        /* 失败不提示：下次滚到顶再试 */
+      })
+      .then(function () {
+        loadingOlder = false;
+        if (historyHint) historyHint.hidden = true;
+      });
   }
 
   function poll(showError) {
@@ -499,6 +604,10 @@
       scrollToBottom(false);
     }
   }, true);
+
+  body.addEventListener("scroll", function () {
+    if (body.scrollTop < 80) loadOlder();
+  }, { passive: true });
 
   /* 电脑端点击面板外关闭；手机端是全屏，不适用 */
   document.addEventListener("click", function (event) {
