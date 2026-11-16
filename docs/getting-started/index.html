@@ -125,17 +125,17 @@
 （本地电脑填写）操作系统：&lt;Windows / macOS&gt;
 
 请帮我完成：
-0) 如果是服务器：先检查 Swap；2 GB 内存机器先把 Swap 加到至少 6 GB
+1) 如果是服务器：先检查 Swap；2 GB 内存机器先把 Swap 加到至少 6 GB
    （没有 Swap 时 DSH/首次灌数容易因内存峰值被 OOM）
-1) 安装或升级 Node.js 到 DSH 要求的版本；npm 镜像设为 https://registry.npmmirror.com/
-2) 安装并启动 DSH：npx @deepseek-ai/dsh web --no-open
-3) 确认 DSH 宿主已配置开机自启
-4) 安装三个 DSH 插件：
+2) 安装或升级 Node.js 到 DSH 要求的版本；npm 镜像设为 https://registry.npmmirror.com/
+3) 安装并启动 DSH：npx @deepseek-ai/dsh web --no-open
+4) 确认 DSH 宿主已配置开机自启
+5) 安装三个 DSH 插件：
    github:yjh051108/dsh-super-injector（必须第一个）
    github:xmanrui/dsh-im
    github:68110923/dsh-plugin-mobile-ux
    装完重启 DSH。服务器连不上 GitHub 时不要反复重试，本地 npm pack 或者本地拉 GitHub 项目打包 + scp 到服务器再装。
-5) 如果是服务器：在我本地建立 SSH 隧道，告诉我本地访问地址
+6) 如果是服务器：在我本地建立 SSH 隧道，告诉我本地访问地址
    ssh -L 3081:127.0.0.1:3080 -f -N -p &lt;SSH端口&gt; &lt;用户&gt;@&lt;服务器IP&gt;
    如果是本地电脑：直接给我 DSH 的完整访问链接</code></pre>
 <h2 id="h-3">第三步：配置 DSH（绑定 IM 渠道）</h2>
