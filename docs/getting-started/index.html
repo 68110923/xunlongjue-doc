@@ -130,15 +130,12 @@
 1) 安装或升级 Node.js；npm 镜像设为 https://registry.npmmirror.com/
 2) 安装并启动 DSH：npx @deepseek-ai/dsh web --no-open
 3) 确认 DSH 宿主已配置开机自启
-4) 安装三个 DSH 插件（顺序：super-injector → dsh-im → dsh-plugin-mobile-ux）。
-   默认直接用 github: 安装：
-     github:yjh051108/dsh-super-injector（必须第一个）
-     github:xmanrui/dsh-im
-     github:68110923/dsh-plugin-mobile-ux
-   如果服务器连不上 GitHub（部分国内云服务器会这样），不要反复重试：
-   优先用作者提供的本地 tgz；没有就在能访问 GitHub 的本地电脑 npm pack
-   三个插件，scp 到服务器 /root/plugins/，再从本地 tgz 安装。
-   装完重启 DSH；本地也访问不了 GitHub 时停下来告诉我。
+4) 安装三个 DSH 插件（顺序：super-injector → dsh-im → dsh-plugin-mobile-ux）：
+   github:yjh051108/dsh-super-injector（必须第一个）
+   github:xmanrui/dsh-im
+   github:68110923/dsh-plugin-mobile-ux
+   装完重启 DSH。服务器连不上 GitHub 时不要反复重试，停下来告诉我；
+   改用作者提供的 tgz，或本地 npm pack + scp 到 /root/plugins/ 再装。
 5) 如果是服务器：在我本地建立 SSH 隧道，告诉我本地访问地址
    ssh -L 3081:127.0.0.1:3080 -f -N -p &lt;SSH端口&gt; &lt;用户&gt;@&lt;服务器IP&gt;
    如果是本地电脑：直接给我 DSH 的完整访问链接</code></pre>
