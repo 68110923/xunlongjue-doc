@@ -861,10 +861,7 @@ body.footer-visible .xlp-consult-fab { opacity: 0; pointer-events: none; transfo
 .device-card p { margin: 0 0 10px; color: var(--text-2); font-size: 14px; }
 .device-card ul { margin: 0; padding-left: 1.2em; color: var(--text-2); font-size: 13px; }
 .device-card li { margin: 3px 0; }
-.device-buy-list { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
-.device-card .device-buy { margin: 4px 0 0; font-size: 13px; line-height: 1.7; }
-.device-card .device-buy:first-child { margin-top: 0; }
-.device-card .device-buy b { color: var(--gold); }
+.device-card li b { color: var(--gold); }
 .deploy-hint { margin: 10px 0 0; color: var(--dim); font-size: 13px; line-height: 1.7; }
 .deploy-copy-label { margin: 14px 0 0; color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .deploy-list { margin: 12px 0; padding-left: 1.4em; }
