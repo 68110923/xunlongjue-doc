@@ -88,7 +88,7 @@
     <h1>安装与部署</h1>
 
     <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>设备自己准备：本地电脑或云服务器；示例里的 IP、端口、密码只是占位。</li><li>你只需要把两段话发给 AI，装 DSH、部署、拉数据都由它完成。</li><li>PAT 和快照密码付款后私聊发送；作者不会索要你的服务器密码。</li></ul></div>
-    <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：在 DSH 里绑定微信 / 钉钉</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></details>
+    <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：配置 DSH（绑定微信 / 钉钉 / 飞书）</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></details>
     <div class="prose">
 <div class="deploy-overview" aria-label="部署四步">
   <div class="deploy-card"><span class="deploy-num">01</span><strong>准备设备</strong><small>本地电脑或云服务器</small></div>
@@ -130,65 +130,22 @@
 1) 安装或升级 Node.js；npm 镜像设为 https://registry.npmmirror.com/
 2) 安装并启动 DSH：npx @deepseek-ai/dsh web --no-open
 3) 确认 DSH 宿主已配置开机自启
-4) 安装三个 DSH 插件。**不要在服务器上执行 github: 安装**：
-   先在本地电脑按本页「插件包准备」打包，并 scp 到服务器 /root/plugins/；
-   再在服务器按顺序安装本地 tgz：
-     /root/plugins/dsh-external-dsh-super-injector-*.tgz（必须第一个）
-     /root/plugins/xmanrui-dsh-im-*.tgz
-     /root/plugins/dsh-plugin-mobile-ux-*.tgz
-   装完重启 DSH，并确认 dsh --profile web --dump-config 里出现
-   dsh-plugin-mobile-ux（不能是 dsh-mobile-ux）。
+4) 安装三个 DSH 插件。**不要用 github: 直装**：
+   优先用作者提供的本地 tgz；没有就在能访问 GitHub 的本地电脑 npm pack
+   三个插件，scp 到服务器 /root/plugins/，再从本地 tgz 安装。
+   顺序：super-injector → dsh-im → dsh-plugin-mobile-ux；装完重启 DSH。
    如果本地也访问不了 GitHub，停下来告诉我，不要反复重试。
 5) 如果是服务器：在我本地建立 SSH 隧道，告诉我本地访问地址
    ssh -L 3081:127.0.0.1:3080 -f -N -p &lt;SSH端口&gt; &lt;用户&gt;@&lt;服务器IP&gt;
    如果是本地电脑：直接给我 DSH 的完整访问链接</code></pre>
-<p class="deploy-hint">不知道服务器信息在哪？服务器商控制台里有 IP、SSH 端口和 root 密码；本地电脑只需要告诉 AI 是 Windows 还是 macOS。</p>
-
-<div class="callout callout-warn">
-  <p><strong>插件不要从服务器直连 GitHub。</strong>国内云服务器访问 github.com / codeload
-  经常完全不可用或只有几十 KB/s；直接在服务器执行 <code>github:</code> 形式的插件安装
-  会卡很久然后失败。正确顺序是：<strong>本地电脑打包 → scp 上传 → 服务器从本地 tgz 安装</strong>。
-  包保留在 <code>/root/plugins/</code>，重装可直接复用。</p>
-</div>
-
-<h3>插件包准备（在能访问 GitHub 的本地电脑执行）</h3>
-<pre><code>mkdir -p ~/dsh-plugins &amp;&amp; cd ~/dsh-plugins
-git clone --depth 1 https://github.com/yjh051108/dsh-super-injector
-git clone --depth 1 https://github.com/xmanrui/dsh-im
-git clone --depth 1 https://github.com/68110923/dsh-plugin-mobile-ux
-
-(cd dsh-super-injector &amp;&amp; npm pack)
-(cd dsh-im &amp;&amp; npm pack)
-(cd dsh-plugin-mobile-ux &amp;&amp; npm pack)
-
-# 服务器：先建目录，再上传三个 tgz
-ssh -p &lt;SSH端口&gt; &lt;用户&gt;@&lt;服务器IP&gt; 'mkdir -p /root/plugins'
-scp -P &lt;SSH端口&gt; *.tgz &lt;用户&gt;@&lt;服务器IP&gt;:/root/plugins/</code></pre>
-<p class="deploy-hint">如果作者已经私聊发你 <code>dsh-plugins-&lt;日期&gt;.tar.gz</code>，
-优先直接上传解压，跳过上面的 git clone。本地也访问不了 GitHub 时不要硬试。</p>
-
-<h3>服务器安装（从本地 tgz，不走 GitHub）</h3>
-<pre><code>ls -lh /root/plugins/*.tgz
-dsh plugin --profile web add /root/plugins/dsh-external-dsh-super-injector-*.tgz
-dsh plugin --profile web add /root/plugins/xmanrui-dsh-im-*.tgz
-dsh plugin --profile web add /root/plugins/dsh-plugin-mobile-ux-*.tgz
-
-# 插件 bundle 有缓存，装完必须重启 DSH
-systemctl restart dsh-web
-
-# 验收：只应看到新包名
-dsh --profile web --dump-config | grep -E 'dsh-plugin-mobile-ux|dsh-mobile-ux'</code></pre>
-<p class="deploy-hint">本地电脑部署不需要 scp，直接把 <code>~/dsh-plugins/*.tgz</code>
-装进本机 DSH 即可；重启方式按本机 DSH 的启动方式操作。</p>
-
-<h2 id="h-3">第三步：在 DSH 里绑定微信 / 钉钉</h2>
+<h2 id="h-3">第三步：配置 DSH（绑定微信 / 钉钉 / 飞书）</h2>
 <ol class="deploy-list">
   <li><strong>给 DeepSeek 充 10 元</strong>（token 费用）：<a href="https://platform.deepseek.com/usage" target="_blank" rel="noopener">platform.deepseek.com/usage</a>。二选一：<strong class="hl">创建 API Key</strong> 填到「设置 → 模型」，或<strong class="hl">直接登录账号</strong>。</li>
-  <li><strong>打开 DSH 链接</strong>，找到「IM 机器人」，绑定<strong class="hl">微信、钉钉</strong>或其他使用方式。</li>
+  <li><strong>打开 DSH 链接</strong>，找到「IM 机器人」，绑定<strong class="hl">微信、钉钉、飞书</strong>或其他使用方式。</li>
   <li><strong>配置投递</strong>：DSH-IM → 设置 → 更多设置 → 投递设置 → 新建投递目标 → 勾选<strong class="hl">「会话双向同步」</strong>→ 点测试，确认能收到消息。</li>
   <li><strong>打开模型回答投递</strong>：DSH-IM 右上角 → 设置 → 投递 → 勾选<strong class="hl">「投递模型回答」</strong>→ 保存。</li>
 </ol>
-<div class="callout callout-tip"><p><strong>验收标准：</strong>测试消息能在微信 / 钉钉里收到，再进入下一步。</p></div>
+<div class="callout callout-tip"><p><strong>验收标准：</strong>测试消息能在微信 / 钉钉 / 飞书里收到，再进入下一步。</p></div>
 
 <h2 id="h-4">第四步：让同一个 AI 部署寻龙诀</h2>
 <ol class="deploy-list">
@@ -203,9 +160,12 @@ PAT：&lt;付款后作者私聊发送&gt;
 
 请按 https://github.com/68110923/xunlongjue-pro 的 docs/DEPLOY.md 部署寻龙诀 PRO：
 1) 用 PAT 克隆私有仓库
-2) 按 DEPLOY.md 安装依赖、配置数据与定时任务
-3) 用快照密码拉取数据快照
-4) 部署完成后运行 xlp doctor、xlp verify、xlp status，把结果发给我</code></pre>
+2) 按 DEPLOY.md 安装依赖、配置数据；数据作业只交给 xunlongjue-pro-scheduler
+3) 用快照密码拉取并解压数据快照；xlp status 正常后，快照压缩包可以删除
+4) 部署完成后运行 xlp doctor、xlp verify、xlp status，把结果发给我
+5) DSH 里只建两条推送定时：09:26 早盘、16:20 复盘；
+   daily/review/observe 等数据作业全部由 funboost 跑，不要排进 DSH
+6) 这一步不要重装 DSH 插件或重启 dsh-web：插件在第二步已经装好</code></pre>
 <div class="callout callout-warn"><p><strong>只私聊：</strong>PAT、快照密码、API Key 不要发到公开群、issue 或截图里。作者不会索要你的服务器密码。</p></div>
 
 <h2 id="h-5">部署完成验收</h2>
@@ -220,7 +180,7 @@ PAT：&lt;付款后作者私聊发送&gt;
 </div>
     <nav class="docs-pager" aria-label="文档翻页"><a class="pager-prev" href="../../docs/features/"><span>上一篇</span><strong>功能说明</strong></a><a class="pager-next" href="../../docs/strategy/"><span>下一篇</span><strong>策略总览</strong></a></nav>
   </div>
-  <aside class="docs-toc" aria-label="本页目录"><p class="toc-title">本页目录</p><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：在 DSH 里绑定微信 / 钉钉</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></aside>
+  <aside class="docs-toc" aria-label="本页目录"><p class="toc-title">本页目录</p><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：配置 DSH（绑定微信 / 钉钉 / 飞书）</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></aside>
 </div>
 </main>
   <!-- ── 咨询入口（电脑右侧抽屉 / 手机全屏）────────────────────── -->
