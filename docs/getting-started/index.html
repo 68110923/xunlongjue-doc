@@ -128,14 +128,56 @@
 1) 安装或升级 Node.js；npm 镜像设为 https://registry.npmmirror.com/
 2) 安装并启动 DSH：npx @deepseek-ai/dsh web --no-open
 3) 确认 DSH 宿主已配置开机自启
-4) 在 DSH 上按顺序安装插件：
-   github:yjh051108/dsh-super-injector（必须第一个）
-   github:xmanrui/dsh-im
-   github:68110923/dsh-plugin-mobile-ux
+4) 安装三个 DSH 插件。**不要在服务器上执行 github: 安装**：
+   先在本地电脑按本页「插件包准备」打包，并 scp 到服务器 /root/plugins/；
+   再在服务器按顺序安装本地 tgz：
+     /root/plugins/dsh-external-dsh-super-injector-*.tgz（必须第一个）
+     /root/plugins/xmanrui-dsh-im-*.tgz
+     /root/plugins/dsh-plugin-mobile-ux-*.tgz
+   装完重启 DSH，并确认 dsh --profile web --dump-config 里出现
+   dsh-plugin-mobile-ux（不能是 dsh-mobile-ux）。
+   如果本地也访问不了 GitHub，停下来告诉我，不要反复重试。
 5) 如果是服务器：在我本地建立 SSH 隧道，告诉我本地访问地址
    ssh -L 3081:127.0.0.1:3080 -f -N -p &lt;SSH端口&gt; &lt;用户&gt;@&lt;服务器IP&gt;
    如果是本地电脑：直接给我 DSH 的完整访问链接</code></pre>
 <p class="deploy-hint">不知道服务器信息在哪？服务器商控制台里有 IP、SSH 端口和 root 密码；本地电脑只需要告诉 AI 是 Windows 还是 macOS。</p>
+
+<div class="callout callout-warn">
+  <p><strong>插件不要从服务器直连 GitHub。</strong>国内云服务器访问 github.com / codeload
+  经常完全不可用或只有几十 KB/s；直接在服务器执行 <code>github:</code> 形式的插件安装
+  会卡很久然后失败。正确顺序是：<strong>本地电脑打包 → scp 上传 → 服务器从本地 tgz 安装</strong>。
+  包保留在 <code>/root/plugins/</code>，重装可直接复用。</p>
+</div>
+
+<h3>插件包准备（在能访问 GitHub 的本地电脑执行）</h3>
+<pre><code>mkdir -p ~/dsh-plugins &amp;&amp; cd ~/dsh-plugins
+git clone --depth 1 https://github.com/yjh051108/dsh-super-injector
+git clone --depth 1 https://github.com/xmanrui/dsh-im
+git clone --depth 1 https://github.com/68110923/dsh-plugin-mobile-ux
+
+(cd dsh-super-injector &amp;&amp; npm pack)
+(cd dsh-im &amp;&amp; npm pack)
+(cd dsh-plugin-mobile-ux &amp;&amp; npm pack)
+
+# 服务器：先建目录，再上传三个 tgz
+ssh -p &lt;SSH端口&gt; &lt;用户&gt;@&lt;服务器IP&gt; 'mkdir -p /root/plugins'
+scp -P &lt;SSH端口&gt; *.tgz &lt;用户&gt;@&lt;服务器IP&gt;:/root/plugins/</code></pre>
+<p class="deploy-hint">如果作者已经私聊发你 <code>dsh-plugins-&lt;日期&gt;.tar.gz</code>，
+优先直接上传解压，跳过上面的 git clone。本地也访问不了 GitHub 时不要硬试。</p>
+
+<h3>服务器安装（从本地 tgz，不走 GitHub）</h3>
+<pre><code>ls -lh /root/plugins/*.tgz
+dsh plugin --profile web add /root/plugins/dsh-external-dsh-super-injector-*.tgz
+dsh plugin --profile web add /root/plugins/xmanrui-dsh-im-*.tgz
+dsh plugin --profile web add /root/plugins/dsh-plugin-mobile-ux-*.tgz
+
+# 插件 bundle 有缓存，装完必须重启 DSH
+systemctl restart dsh-web
+
+# 验收：只应看到新包名
+dsh --profile web --dump-config | grep -E 'dsh-plugin-mobile-ux|dsh-mobile-ux'</code></pre>
+<p class="deploy-hint">本地电脑部署不需要 scp，直接把 <code>~/dsh-plugins/*.tgz</code>
+装进本机 DSH 即可；重启方式按本机 DSH 的启动方式操作。</p>
 
 <h2 id="h-3">第三步：在 DSH 里绑定微信 / 钉钉</h2>
 <ol class="deploy-list">
@@ -149,7 +191,7 @@
 <h2 id="h-4">第四步：让同一个 AI 部署寻龙诀</h2>
 <ol class="deploy-list">
   <li><strong>注册 fuyao 获取 API Key</strong>：前往 <a href="https://fuyao.aicubes.cn/" target="_blank" rel="noopener">fuyao.aicubes.cn</a> 注册并获取。</li>
-  <li><strong>付款后作者私聊发你两样东西</strong>：私有仓库只读 PAT、数据快照密码；同时拉进微信交流群（大佬答疑），看板权限随永久版开通。不要贴到公开群、issue 或截图里。</li>
+  <li><strong>付款后作者私聊发你两样东西</strong>：私有仓库只读 PAT、数据快照密码（如作者提供 DSH 插件包，也会一并发送）；同时拉进微信交流群（大佬答疑），看板权限随永久版开通。不要贴到公开群、issue 或截图里。</li>
   <li><strong>把下面整段发给刚刚绑定好的机器人</strong>，让它自己 clone、装依赖、拉快照、配置定时任务：</li>
 </ol>
 <p class="deploy-copy-label">第二段话 · 复制发给机器人</p>
