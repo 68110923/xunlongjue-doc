@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>安装与部署 · 寻龙诀 PRO</title>
-<meta name="description" content="寻龙诀 PRO 部署流程：准备设备、让 AI 装 DSH、绑定微信、把 PAT 交给 AI 完成部署；设备自己准备，凭证付款后私聊发送。">
+<meta name="description" content="寻龙诀 PRO 部署流程：准备设备、让 AI 装 DSH、配置 IM、把 PAT 交给 AI 完成部署；设备自己准备，凭证付款后私聊发送。">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/docs/getting-started/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="寻龙诀 PRO">
 <meta property="og:title" content="安装与部署">
-<meta property="og:description" content="寻龙诀 PRO 部署流程：准备设备、让 AI 装 DSH、绑定微信、把 PAT 交给 AI 完成部署；设备自己准备，凭证付款后私聊发送。">
+<meta property="og:description" content="寻龙诀 PRO 部署流程：准备设备、让 AI 装 DSH、配置 IM、把 PAT 交给 AI 完成部署；设备自己准备，凭证付款后私聊发送。">
 <meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/docs/getting-started/">
 <meta property="og:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
 <meta property="og:image:width" content="600">
@@ -34,7 +34,7 @@
   if (meta) meta.setAttribute('content', theme === 'dark' ? '#121013' : '#fffafa');
 })();
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"安装与部署","description":"寻龙诀 PRO 部署流程：准备设备、让 AI 装 DSH、绑定微信、把 PAT 交给 AI 完成部署；设备自己准备，凭证付款后私聊发送。","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/docs/getting-started/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"安装与部署","description":"寻龙诀 PRO 部署流程：准备设备、让 AI 装 DSH、配置 IM、把 PAT 交给 AI 完成部署；设备自己准备，凭证付款后私聊发送。","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/docs/getting-started/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
 <script src="../../assets/site.js?v=92354449" defer></script>
 <script src="../../assets/consult.js?v=92354449" defer></script>
 </head>
@@ -88,12 +88,12 @@
     <h1>安装与部署</h1>
 
     <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>设备自己准备：本地电脑或云服务器；示例里的 IP、端口、密码只是占位。</li><li>你只需要把两段话发给 AI，装 DSH、部署、拉数据都由它完成。</li><li>PAT 和快照密码付款后私聊发送；作者不会索要你的服务器密码。</li></ul></div>
-    <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：配置 DSH（绑定微信 / 钉钉 / 飞书）</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></details>
+    <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：配置 DSH（绑定 IM 渠道）</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></details>
     <div class="prose">
 <div class="deploy-overview" aria-label="部署四步">
   <div class="deploy-card"><span class="deploy-num">01</span><strong>准备设备</strong><small>本地电脑或云服务器</small></div>
   <div class="deploy-card"><span class="deploy-num">02</span><strong>装 DSH</strong><small>把第一段话发给 AI</small></div>
-  <div class="deploy-card"><span class="deploy-num">03</span><strong>绑定微信</strong><small>在 DSH 网页点几下</small></div>
+  <div class="deploy-card"><span class="deploy-num">03</span><strong>配置 IM</strong><small>在 DSH 网页点几下</small></div>
   <div class="deploy-card"><span class="deploy-num">04</span><strong>部署寻龙诀</strong><small>把第二段话发给同一个 AI</small></div>
 </div>
 
@@ -130,22 +130,26 @@
 1) 安装或升级 Node.js；npm 镜像设为 https://registry.npmmirror.com/
 2) 安装并启动 DSH：npx @deepseek-ai/dsh web --no-open
 3) 确认 DSH 宿主已配置开机自启
-4) 安装三个 DSH 插件。**不要用 github: 直装**：
+4) 安装三个 DSH 插件（顺序：super-injector → dsh-im → dsh-plugin-mobile-ux）。
+   默认直接用 github: 安装：
+     github:yjh051108/dsh-super-injector（必须第一个）
+     github:xmanrui/dsh-im
+     github:68110923/dsh-plugin-mobile-ux
+   如果服务器连不上 GitHub（部分国内云服务器会这样），不要反复重试：
    优先用作者提供的本地 tgz；没有就在能访问 GitHub 的本地电脑 npm pack
    三个插件，scp 到服务器 /root/plugins/，再从本地 tgz 安装。
-   顺序：super-injector → dsh-im → dsh-plugin-mobile-ux；装完重启 DSH。
-   如果本地也访问不了 GitHub，停下来告诉我，不要反复重试。
+   装完重启 DSH；本地也访问不了 GitHub 时停下来告诉我。
 5) 如果是服务器：在我本地建立 SSH 隧道，告诉我本地访问地址
    ssh -L 3081:127.0.0.1:3080 -f -N -p &lt;SSH端口&gt; &lt;用户&gt;@&lt;服务器IP&gt;
    如果是本地电脑：直接给我 DSH 的完整访问链接</code></pre>
-<h2 id="h-3">第三步：配置 DSH（绑定微信 / 钉钉 / 飞书）</h2>
+<h2 id="h-3">第三步：配置 DSH（绑定 IM 渠道）</h2>
 <ol class="deploy-list">
   <li><strong>给 DeepSeek 充 10 元</strong>（token 费用）：<a href="https://platform.deepseek.com/usage" target="_blank" rel="noopener">platform.deepseek.com/usage</a>。二选一：<strong class="hl">创建 API Key</strong> 填到「设置 → 模型」，或<strong class="hl">直接登录账号</strong>。</li>
-  <li><strong>打开 DSH 链接</strong>，找到「IM 机器人」，绑定<strong class="hl">微信、钉钉、飞书</strong>或其他使用方式。</li>
+  <li><strong>打开 DSH 链接</strong>，找到「IM 机器人」，绑定你的渠道（<strong class="hl">常见：微信、钉钉、飞书、企业微信</strong>；DSH-IM 原则上支持各类 IM 渠道）。</li>
   <li><strong>配置投递</strong>：DSH-IM → 设置 → 更多设置 → 投递设置 → 新建投递目标 → 勾选<strong class="hl">「会话双向同步」</strong>→ 点测试，确认能收到消息。</li>
   <li><strong>打开模型回答投递</strong>：DSH-IM 右上角 → 设置 → 投递 → 勾选<strong class="hl">「投递模型回答」</strong>→ 保存。</li>
 </ol>
-<div class="callout callout-tip"><p><strong>验收标准：</strong>测试消息能在微信 / 钉钉 / 飞书里收到，再进入下一步。</p></div>
+<div class="callout callout-tip"><p><strong>验收标准：</strong>测试消息能在你绑定的 IM 渠道里收到，再进入下一步。</p></div>
 
 <h2 id="h-4">第四步：让同一个 AI 部署寻龙诀</h2>
 <ol class="deploy-list">
@@ -180,7 +184,7 @@ PAT：&lt;付款后作者私聊发送&gt;
 </div>
     <nav class="docs-pager" aria-label="文档翻页"><a class="pager-prev" href="../../docs/features/"><span>上一篇</span><strong>功能说明</strong></a><a class="pager-next" href="../../docs/strategy/"><span>下一篇</span><strong>策略总览</strong></a></nav>
   </div>
-  <aside class="docs-toc" aria-label="本页目录"><p class="toc-title">本页目录</p><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：配置 DSH（绑定微信 / 钉钉 / 飞书）</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></aside>
+  <aside class="docs-toc" aria-label="本页目录"><p class="toc-title">本页目录</p><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：配置 DSH（绑定 IM 渠道）</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></aside>
 </div>
 </main>
   <!-- ── 咨询入口（电脑右侧抽屉 / 手机全屏）────────────────────── -->
