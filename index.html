@@ -22,7 +22,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="media/apple-touch-icon.png">
 <meta name="theme-color" content="#fffafa">
-<link rel="stylesheet" href="assets/site.css?v=92354449">
+<link rel="stylesheet" href="assets/site.css?v=073d769e">
 <script>
 (function(){
   var m = location.search.match(/[?&]theme=(dark|light)/);
@@ -35,8 +35,8 @@
 })();
 </script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"寻龙诀 PRO","url":"https://68110923.github.io/xunlongjue-doc/","description":"寻龙诀 PRO：A 股量化研究工具——竞价解读、一进二选票、个股预测、主力痕迹、仓位与复盘。"}</script>
-<script src="assets/site.js?v=92354449" defer></script>
-<script src="assets/consult.js?v=92354449" defer></script>
+<script src="assets/site.js?v=073d769e" defer></script>
+<script src="assets/consult.js?v=073d769e" defer></script>
 </head>
 <body class="page page-home">
 <a class="skip-link" href="#main">跳到主要内容</a>
@@ -186,7 +186,7 @@
 <section class="section">
   <div class="container">
     <div class="section-head"><h2>技术细节（可选看）</h2></div>
-    <details class="faq-item">
+    <details class="faq-item tech-details">
       <summary>数据来源、质量检查、调度与资源占用</summary>
       <div class="table-wrap"><table class="compare-table"><thead><tr><th>能力</th><th>PRO 版做法</th></tr></thead><tbody><tr><th scope="row">长期维护</th><td>永久看板 / 源码版买断后持续维护，市场策略长期更新；永久看板在看板内体现，源码版通过私有仓库 git pull 同步，不另收费。</td></tr><tr><th scope="row">数据来源</th><td>专业行情数据终端，31 个接口逐个实测批量上限、延迟与字段可得性。</td></tr><tr><th scope="row">竞价数据</th><td>全市场每日每票一行的真实竞价：未匹配量、换手率、量比、占昨日成交量比。</td></tr><tr><th scope="row">涨跌停口径</th><td>权威涨停比例与涨停价随行落库，各板块 / ST / 新股幅度由数据源给出。</td></tr><tr><th scope="row">数据组织</th><td>本地数据湖：21 张表按主键只追加不覆盖、批次血缘、v_* 只读视图。</td></tr><tr><th scope="row">质量保障</th><td>53 条质量断言 + 3 条复权不变量，每个交易日自动跑，不过即非零退出。</td></tr><tr><th scope="row">调度</th><td>16 个作业由代码声明，一个 funboost 调度服务统一定时；法定休市日自动跳过。</td></tr><tr><th scope="row">资源占用</th><td>实测 2 核 2 GB 可跑：常驻约 325 MB，最重作业峰值约 1.1 GB。</td></tr><tr><th scope="row">取数速度</th><td>批量作业并发取数（线程安全令牌桶，默认 12 QPS / 4 线程，可调回串行）。</td></tr><tr><th scope="row">策略</th><td>22 道硬闸 + 10 维评分 + 板块共振 + 期望收益口径；参数重标定有回测。</td></tr><tr><th scope="row">文档</th><td>18 份活文档（策略 / 指标 / 接口 / 数据字典 / 性能 / 运维 / 部署 / 工作流），CI 守卫不许漂。</td></tr><tr><th scope="row">AI 层</th><td>核心层零 LLM 可独立运行；AI 层（推送 / 对话）可选叠加。</td></tr><tr><th scope="row">业绩口径</th><td>不写死胜率：由 xlp stats 用你自己库里的真实自评现算，并附幸存者偏差标注。</td></tr></tbody></table></div>
     </details>

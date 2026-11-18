@@ -727,6 +727,8 @@ body.footer-visible .xlp-consult-fab { opacity: 0; pointer-events: none; transfo
 .faq-item summary::-webkit-details-marker { display: none; }
 .faq-item summary::after { content: "+"; color: var(--dim); font-size: 16px; font-weight: 400; line-height: 1; }
 .faq-item[open] summary::after { content: "−"; }
+/* 展开后的表格不要贴着卡片下边框；移动端再留出悬浮咨询按钮的高度 */
+.faq-item.tech-details[open] { padding-bottom: 16px; }
 .faq-answer { padding: 0 0 15px; color: var(--text-2); font-size: 14px; line-height: 1.75; }
 .faq-answer p { margin: 0; }
 .faq-cats { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; }
@@ -1412,6 +1414,7 @@ body.xlp-consult-open { touch-action: none; }
   .price-features li::before { font-size: 9px; }
   .price-column .btn { min-height: 34px; padding-inline: 2px; font-size: 9.5px; }
   .price-badge { top: -8px; left: 7px; padding: 2px 6px; font-size: 8px; }
+  .faq-item.tech-details[open] { padding-bottom: 64px; }
   .timeline { grid-template-columns: 1fr; }
   .timeline-item { border-top: 1px solid var(--border); border-left: 0; }
   .timeline-item:first-child { border-top: 0; }
