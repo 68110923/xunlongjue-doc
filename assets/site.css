@@ -782,6 +782,7 @@ body.footer-visible .xlp-consult-fab { opacity: 0; pointer-events: none; transfo
 .price-amount { display: flex; align-items: baseline; gap: 4px; margin-top: 8px; color: var(--gold); }
 .price-amount strong { font-size: clamp(2rem, 3.6vw, 2.6rem); line-height: 1; letter-spacing: -.03em; }
 .price-amount span { font-size: 12px; font-weight: 700; }
+.price-amount del { margin-left: 6px; color: var(--text-2); font-size: 14px; font-weight: 500; opacity: .7; text-decoration-thickness: 1px; }
 .price-features { display: flex; flex: 1; flex-direction: column; gap: 8px; margin: 16px 0 18px; padding: 0; list-style: none; }
 .price-features li { position: relative; padding-left: 20px; color: var(--text-2); font-size: 13px; line-height: 1.55; }
 .price-features li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--green); font-weight: 800; }
@@ -1409,6 +1410,7 @@ body.xlp-consult-open { touch-action: none; }
   .price-amount { gap: 1px; margin-top: 5px; }
   .price-amount strong { font-size: 21px; }
   .price-amount span { font-size: 9px; }
+  .price-amount del { margin-left: 3px; font-size: 10px; }
   .price-features { gap: 5px; margin: 10px 0 12px; }
   .price-features li { padding-left: 12px; font-size: 10px; line-height: 1.42; overflow-wrap: anywhere; }
   .price-features li::before { font-size: 9px; }
