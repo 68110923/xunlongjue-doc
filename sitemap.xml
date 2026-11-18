@@ -67,13 +67,79 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/strategy/first-board-failure/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://68110923.github.io/xunlongjue-doc/docs/strategy/auction/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/strategy/auction-unmatched/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/strategy/auction-volume/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/strategy/limit-rules/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/strategy/weak-to-strong/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/strategy/review-template/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://68110923.github.io/xunlongjue-doc/docs/strategy/dragon-tiger/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/strategy/dragon-tiger-seats/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/holdings/main-force/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/holdings/hold-or-cut/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/position/sizing/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/tools/review-tool/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

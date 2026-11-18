@@ -15,11 +15,22 @@
 - 源码部署（可选）：https://68110923.github.io/xunlongjue-doc/docs/getting-started/
 - 功能说明：https://68110923.github.io/xunlongjue-doc/docs/features/
 - 持仓与主力意图：https://68110923.github.io/xunlongjue-doc/docs/holdings/
+- 主力意图怎么判断：https://68110923.github.io/xunlongjue-doc/docs/holdings/main-force/
+- 被套了拿还是减：https://68110923.github.io/xunlongjue-doc/docs/holdings/hold-or-cut/
 - 仓位与攻防：https://68110923.github.io/xunlongjue-doc/docs/position/
+- 仓位几成合适：https://68110923.github.io/xunlongjue-doc/docs/position/sizing/
 - 策略总览：https://68110923.github.io/xunlongjue-doc/docs/strategy/
 - A 股一进二：https://68110923.github.io/xunlongjue-doc/docs/strategy/first-board/
+- 一进二失败原因：https://68110923.github.io/xunlongjue-doc/docs/strategy/first-board-failure/
 - 竞价打板：https://68110923.github.io/xunlongjue-doc/docs/strategy/auction/
+- 竞价未匹配量：https://68110923.github.io/xunlongjue-doc/docs/strategy/auction-unmatched/
+- 竞价量比：https://68110923.github.io/xunlongjue-doc/docs/strategy/auction-volume/
+- 涨停幅度全表：https://68110923.github.io/xunlongjue-doc/docs/strategy/limit-rules/
+- 烂板与弱转强：https://68110923.github.io/xunlongjue-doc/docs/strategy/weak-to-strong/
+- 打板复盘模板：https://68110923.github.io/xunlongjue-doc/docs/strategy/review-template/
+- 复盘工具怎么选：https://68110923.github.io/xunlongjue-doc/docs/tools/review-tool/
 - 龙虎榜：https://68110923.github.io/xunlongjue-doc/docs/strategy/dragon-tiger/
+- 游资席位：https://68110923.github.io/xunlongjue-doc/docs/strategy/dragon-tiger-seats/
 - 数据湖：https://68110923.github.io/xunlongjue-doc/docs/data/
 - 回测：https://68110923.github.io/xunlongjue-doc/docs/backtest/
 - 常见问题：https://68110923.github.io/xunlongjue-doc/docs/faq/
