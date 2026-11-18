@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>安装与部署 · 寻龙诀 PRO</title>
-<meta name="description" content="寻龙诀 PRO 部署流程：准备设备、让 AI 装 DSH、配置 IM、把 PAT 交给 AI 完成部署；设备自己准备，凭证付款后私聊发送。">
+<title>源码部署（可选） · 寻龙诀 PRO</title>
+<meta name="description" content="寻龙诀 PRO 源码版部署流程：准备设备、让 AI 装 DSH、配置 IM、把 PAT 交给 AI 完成部署；只看板用户不需要部署。">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://68110923.github.io/xunlongjue-doc/docs/getting-started/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="寻龙诀 PRO">
-<meta property="og:title" content="安装与部署">
-<meta property="og:description" content="寻龙诀 PRO 部署流程：准备设备、让 AI 装 DSH、配置 IM、把 PAT 交给 AI 完成部署；设备自己准备，凭证付款后私聊发送。">
+<meta property="og:title" content="源码部署（可选）">
+<meta property="og:description" content="寻龙诀 PRO 源码版部署流程：准备设备、让 AI 装 DSH、配置 IM、把 PAT 交给 AI 完成部署；只看板用户不需要部署。">
 <meta property="og:url" content="https://68110923.github.io/xunlongjue-doc/docs/getting-started/">
 <meta property="og:image" content="https://68110923.github.io/xunlongjue-doc/media/og-xunlongjue-pro-square.png">
 <meta property="og:image:width" content="600">
@@ -34,7 +34,7 @@
   if (meta) meta.setAttribute('content', theme === 'dark' ? '#121013' : '#fffafa');
 })();
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"安装与部署","description":"寻龙诀 PRO 部署流程：准备设备、让 AI 装 DSH、配置 IM、把 PAT 交给 AI 完成部署；设备自己准备，凭证付款后私聊发送。","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/docs/getting-started/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"源码部署（可选）","description":"寻龙诀 PRO 源码版部署流程：准备设备、让 AI 装 DSH、配置 IM、把 PAT 交给 AI 完成部署；只看板用户不需要部署。","mainEntityOfPage":"https://68110923.github.io/xunlongjue-doc/docs/getting-started/","author":{"@type":"Organization","name":"寻龙诀 PRO"}}</script>
 <script src="../../assets/site.js?v=073d769e" defer></script>
 <script src="../../assets/consult.js?v=073d769e" defer></script>
 </head>
@@ -78,18 +78,19 @@
   </div>
   <p class="drawer-label">常用</p>
   <nav class="drawer-main" aria-label="常用导航"><a href="../../docs/" aria-current="page">文档</a><a href="../../pricing/">定价</a><a href="../../docs/changelog/">更新日志</a></nav>
-<div class="drawer-scroll"><div class="drawer-section"><p class="drawer-label">文档目录</p><details class="side-group" open><summary>开始</summary><div class="side-links"><a href="../../docs/">文档首页</a><a href="../../docs/features/">功能说明</a><a href="../../docs/getting-started/" aria-current="page">安装与部署</a></div></details><details class="side-group"><summary>理解策略</summary><div class="side-links"><a href="../../docs/strategy/">策略总览</a><a href="../../docs/strategy/first-board/">A 股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../../docs/data/">数据湖</a><a href="../../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></div></details></div></div>
+<div class="drawer-scroll"><div class="drawer-section"><p class="drawer-label">文档目录</p><details class="side-group" open><summary>开始使用</summary><div class="side-links"><a href="../../docs/">文档首页</a><a href="../../docs/dashboard/">看板快速上手</a><a href="../../docs/daily/">每天怎么用</a><a href="../../docs/getting-started/" aria-current="page">源码部署（可选）</a></div></details><details class="side-group"><summary>核心功能</summary><div class="side-links"><a href="../../docs/features/">功能说明</a><a href="../../docs/holdings/">持仓与主力意图</a><a href="../../docs/position/">仓位与攻防</a></div></details><details class="side-group"><summary>策略知识</summary><div class="side-links"><a href="../../docs/strategy/">策略总览</a><a href="../../docs/strategy/first-board/">A 股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../../docs/data/">数据湖</a><a href="../../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></div></details></div></div>
 </aside>
 <main id="main">
 <div class="docs-layout container">
-  <aside class="docs-side" id="docsSide" aria-label="文档目录"><details class="side-group" open><summary>开始</summary><div class="side-links"><a href="../../docs/">文档首页</a><a href="../../docs/features/">功能说明</a><a href="../../docs/getting-started/" aria-current="page">安装与部署</a></div></details><details class="side-group"><summary>理解策略</summary><div class="side-links"><a href="../../docs/strategy/">策略总览</a><a href="../../docs/strategy/first-board/">A 股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../../docs/data/">数据湖</a><a href="../../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></div></details></aside>
+  <aside class="docs-side" id="docsSide" aria-label="文档目录"><details class="side-group" open><summary>开始使用</summary><div class="side-links"><a href="../../docs/">文档首页</a><a href="../../docs/dashboard/">看板快速上手</a><a href="../../docs/daily/">每天怎么用</a><a href="../../docs/getting-started/" aria-current="page">源码部署（可选）</a></div></details><details class="side-group"><summary>核心功能</summary><div class="side-links"><a href="../../docs/features/">功能说明</a><a href="../../docs/holdings/">持仓与主力意图</a><a href="../../docs/position/">仓位与攻防</a></div></details><details class="side-group"><summary>策略知识</summary><div class="side-links"><a href="../../docs/strategy/">策略总览</a><a href="../../docs/strategy/first-board/">A 股一进二</a><a href="../../docs/strategy/auction/">竞价打板</a><a href="../../docs/strategy/dragon-tiger/">龙虎榜</a></div></details><details class="side-group"><summary>数据与验证</summary><div class="side-links"><a href="../../docs/data/">数据湖</a><a href="../../docs/backtest/">回测</a></div></details><details class="side-group"><summary>帮助</summary><div class="side-links"><a href="../../docs/faq/">常见问题</a><a href="../../docs/changelog/">更新日志</a></div></details></aside>
   <div class="docs-main">
-    <nav class="breadcrumb" aria-label="面包屑"><a href="../../docs/">文档</a> / <span>安装与部署</span></nav>
-    <h1>安装与部署</h1>
+    <nav class="breadcrumb" aria-label="面包屑"><a href="../../docs/">文档</a> / <span>开始使用</span> / <span>源码部署（可选）</span></nav>
+    <h1>源码部署（可选）</h1>
 
     <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>设备自己准备：本地电脑或云服务器；示例里的 IP、端口、密码只是占位。</li><li>你只需要把两段话发给 AI，装 DSH、部署、拉数据都由它完成。</li><li>PAT 和快照密码付款后私聊发送；作者不会索要你的服务器密码。</li></ul></div>
     <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：配置 DSH（绑定 IM 渠道）</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></details>
     <div class="prose">
+<div class="callout callout-note"><p><strong>只看板用户不用看这一页：</strong>直接看<a href="../dashboard/">看板快速上手</a>。这里只给源码版 / 自己部署的用户。</p></div>
 <div class="deploy-overview" aria-label="部署四步">
   <div class="deploy-card"><span class="deploy-num">01</span><strong>准备设备</strong><small>本地电脑或云服务器</small></div>
   <div class="deploy-card"><span class="deploy-num">02</span><strong>装 DSH</strong><small>把第一段话发给 AI</small></div>
@@ -178,7 +179,7 @@ PAT：&lt;付款后作者私聊发送&gt;
 <h2 id="h-6">需要协助？</h2>
 <p>不想自己折腾，可以选择协助部署 +200 元；付款后作者会联系你，约 2 小时完成。设备仍然由你准备。</p>
 </div>
-    <nav class="docs-pager" aria-label="文档翻页"><a class="pager-prev" href="../../docs/features/"><span>上一篇</span><strong>功能说明</strong></a><a class="pager-next" href="../../docs/strategy/"><span>下一篇</span><strong>策略总览</strong></a></nav>
+    <nav class="docs-pager" aria-label="文档翻页"><a class="pager-prev" href="../../docs/daily/"><span>上一篇</span><strong>每天怎么用</strong></a><a class="pager-next" href="../../docs/features/"><span>下一篇</span><strong>功能说明</strong></a></nav>
   </div>
   <aside class="docs-toc" aria-label="本页目录"><p class="toc-title">本页目录</p><div class="toc-links"><a href="#h-1">第一步：准备设备</a><a href="#h-2">第二步：让 AI 装 DSH</a><a href="#h-3">第三步：配置 DSH（绑定 IM 渠道）</a><a href="#h-4">第四步：让同一个 AI 部署寻龙诀</a><a href="#h-5">部署完成验收</a><a href="#h-6">需要协助？</a></div></aside>
 </div>
@@ -230,7 +231,7 @@ PAT：&lt;付款后作者私聊发送&gt;
     <nav class="footer-col" aria-label="文档">
       <p class="footer-title">文档</p>
       <a href="../../docs/">文档首页</a>
-      <a href="../../docs/getting-started/">安装与部署</a>
+      <a href="../../docs/getting-started/">源码部署</a>
       <a href="../../docs/strategy/">策略总览</a>
       <a href="../../docs/data/">数据湖</a>
       <a href="../../docs/backtest/">回测</a>

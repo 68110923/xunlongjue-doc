@@ -10,8 +10,12 @@
 - 客户看板：https://xunlongjue.68110923.xyz/
 
 - 文档首页：https://68110923.github.io/xunlongjue-doc/docs/
+- 看板快速上手：https://68110923.github.io/xunlongjue-doc/docs/dashboard/
+- 每天怎么用：https://68110923.github.io/xunlongjue-doc/docs/daily/
+- 源码部署（可选）：https://68110923.github.io/xunlongjue-doc/docs/getting-started/
 - 功能说明：https://68110923.github.io/xunlongjue-doc/docs/features/
-- 安装与部署：https://68110923.github.io/xunlongjue-doc/docs/getting-started/
+- 持仓与主力意图：https://68110923.github.io/xunlongjue-doc/docs/holdings/
+- 仓位与攻防：https://68110923.github.io/xunlongjue-doc/docs/position/
 - 策略总览：https://68110923.github.io/xunlongjue-doc/docs/strategy/
 - A 股一进二：https://68110923.github.io/xunlongjue-doc/docs/strategy/first-board/
 - 竞价打板：https://68110923.github.io/xunlongjue-doc/docs/strategy/auction/

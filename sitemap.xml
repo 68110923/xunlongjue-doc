@@ -19,13 +19,37 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://68110923.github.io/xunlongjue-doc/docs/features/</loc>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/dashboard/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/daily/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://68110923.github.io/xunlongjue-doc/docs/getting-started/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/features/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/holdings/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://68110923.github.io/xunlongjue-doc/docs/position/</loc>
     <lastmod>2026-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
