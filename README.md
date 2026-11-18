@@ -2,7 +2,7 @@
 <!-- 源文件：README.md（与 docs/site/index.html 同源，CI 有守卫）。 -->
 
 # 寻龙诀 PRO · A 股量化研究工具
-## 🌏 [官网](https://68110923.github.io/xunlongjue-doc/) · [定价](https://68110923.github.io/xunlongjue-doc/pricing/) · [文档](https://68110923.github.io/xunlongjue-doc/docs/) · [数据看板](https://xunlongjue.68110923.xyz/)
+## 🌏 [官网](https://xunlongjue.icu/) · [定价](https://xunlongjue.icu/pricing/) · [文档](https://xunlongjue.icu/docs/) · [GitHub Pages 镜像](https://68110923.github.io/xunlongjue-doc/) · [数据看板](https://xunlongjue.68110923.xyz/)
 
 > **永久看板 1288 元，一次买断**：仅看板查看 + 拉微信群交流；看板内含竞价解读、一进二选票、个股预测、识别主力意图、持仓票仓位建议与复盘。
 > 需要自己部署 / 二次开发：**源码版 2888 元**（含永久看板全部权益 + 完整源码 + 文档 + CLI + 私有仓库 PAT + 十年全市场数据湖），可加 **协助部署 +200 元**。先 **88 元试用 7 个交易日**。
