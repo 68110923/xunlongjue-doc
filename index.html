@@ -99,32 +99,28 @@
 <section class="hero">
   <div class="container hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow">A-SHARE QUANT RESEARCH</p>
-      <h1>把 A 股短线研究<br>做成本地可核对的数据流</h1>
-      <p class="lead">寻龙诀 PRO 是一套部署在自己电脑或服务器上的量化研究工具：本地数据湖、全市场真实竞价、一进二选票、每日自动复盘。</p>
+      <p class="eyebrow">A 股短线研究工具</p>
+      <h1>每天 09:25，帮你看懂竞价<br>选出 1~3 只一进二候选</h1>
+      <p class="lead">把 A 股短线研究做成每天能看懂的一份报告：早上给候选，盘后给复盘，还会提示仓位该进攻还是防守。看板或微信直接看，不需要写代码。</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="docs/getting-started/">自行部署</a>
         <a class="btn btn-ghost" href="pricing/">查看定价</a>
       </div>
-      <p class="hero-note">核心层零 LLM 也能独立运行 · 数据保存在自己手里</p>
+      <p class="hero-note">数据在自己手里 · 不依赖 AI 也能每天跑</p>
       <div class="stats">
-        <div class="stat"><b>10 年</b><span>全市场日线</span></div>
-        <div class="stat"><b>21 张</b><span>本地数据表</span></div>
-        <div class="stat"><b>53 条</b><span>质量断言</span></div>
-        <div class="stat"><b>16 个</b><span>自动作业</span></div>
+        <div class="stat"><b>09:25</b><span>竞价整理</span></div>
+        <div class="stat"><b>≤3 只</b><span>每日候选</span></div>
+        <div class="stat"><b>0~8 成</b><span>仓位参考</span></div>
+        <div class="stat"><b>10 年</b><span>数据沉淀</span></div>
       </div>
     </div>
     <div class="hero-visual" aria-hidden="true">
       <div class="terminal">
-        <div class="terminal-bar"><span></span><span></span><span></span><em>xlp daily</em></div>
-        <pre><code><span class="c-dim">$</span> xlp daily
-<span class="c-ok">✓</span> 增量入库      <span class="c-ok">✓</span> 复权口径
-<span class="c-ok">✓</span> 物化指标      <span class="c-ok">✓</span> 池与指数
-<span class="c-ok">✓</span> 质量闸        53 条断言通过
-
-<span class="c-dim">display/*.json</span>
-├─→ 网页看板 <span class="c-dim">（只读，零 LLM）</span>
-└─→ 微信推送 <span class="c-dim">（AI 可选）</span></code></pre>
+        <div class="terminal-bar"><span></span><span></span><span></span><em>今天你会看到</em></div>
+        <pre><code><span class="c-dim">09:27</span>  今日候选   1~3 只，附入选理由
+<span class="c-dim">16:19</span>  收盘复盘   命中 / 遗漏 / 盲区
+<span class="c-dim">仓位</span>     0~8 成     防守 / 均衡 / 进攻
+<span class="c-dim">查看</span>     看板 / 微信  随时打开</code></pre>
       </div>
     </div>
   </div>
@@ -149,34 +145,59 @@
 
 <section class="section">
   <div class="container">
-    <div class="section-head"><h2>一天怎么跑</h2></div>
-    <div class="timeline"><div class="timeline-item"><span class="timeline-time">09:25</span><h3>竞价定盘</h3><p>采集全市场真实竞价，等全市场定盘后再选票。</p></div><div class="timeline-item"><span class="timeline-time">09:27</span><h3>一进二候选</h3><p>硬闸 + 评分 + 板块共振，给出 ≤3 只候选与推送。</p></div><div class="timeline-item"><span class="timeline-time">盘中</span><h3>实时更新</h3><p>实时数据每分钟更新；看板可用预测与深度分析，也能随时问 AI。</p></div><div class="timeline-item"><span class="timeline-time">盘后</span><h3>复盘与观察</h3><p>命中、遗漏、盲区自动归档，生成明日观察。</p></div></div>
+    <div class="section-head"><h2>一天怎么用</h2></div>
+    <div class="timeline"><div class="timeline-item"><span class="timeline-time">09:25</span><h3>看竞价</h3><p>全市场竞价数据自动整理，先看资金愿不愿意接。</p></div><div class="timeline-item"><span class="timeline-time">09:27</span><h3>看候选</h3><p>从首板里筛出 1~3 只，附上入选理由。</p></div><div class="timeline-item"><span class="timeline-time">盘中</span><h3>随时看</h3><p>看板实时更新；想查一只票为什么选/没选，也能看。</p></div><div class="timeline-item"><span class="timeline-time">盘后</span><h3>看复盘</h3><p>选对了没、漏了谁、明天关注什么，一并给出。</p></div></div>
     <p class="platform-strip"><span>推送方式</span> 微信 · 企业微信 · 钉钉 · 飞书 · DSH-IM</p>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="position-home">
   <div class="container">
-    <div class="section-head"><h2>核心能力</h2></div>
-    <div class="feature-grid"><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M12 12l6.5-6.5"/><path d="M12 3v3M21 12h-3"/><circle cx="12" cy="12" r="2.5"/></svg></span><h3>一进二寻龙</h3><p>全市场首板扫描，十余道硬闸 + 多维评分，09:25 竞价定盘后给出候选（≤3 只）。</p></article><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5"/><path d="M9 11l1.6 1.6L14 9"/><path d="M9 16h6"/></svg></span><h3>每日自动复盘</h3><p>收盘后汇总命中、遗漏、盲区，另附「不该漏」清单，写清楚漏在哪里。</p></article><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.6"/></svg></span><h3>明日观察</h3><p>结合涨停梯队、板块合力、封板质量与竞价抢筹，梳理次日关注方向。</p></article><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17l6-6 4 3 6-7"/><path d="M15 7h5v5"/></svg></span><h3>个股 / 大盘预测</h3><p>发代码即回方向参考与关键指标；也能看当日涨跌家数、情绪档位与大盘系数。</p></article><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 16l9 5 9-5"/></svg></span><h3>深度分析</h3><p>拉取长周期价量序列做结构化解析，辅助判断主力行为痕迹。</p></article><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4v5a3 3 0 0 0 3 3h8"/><path d="M5 20v-3a3 3 0 0 1 3-3h8"/><path d="M16 9l3 3-3 3"/><path d="M16 2l3 3-3 3"/></svg></span><h3>两个出口</h3><p>网页看板与微信推送都只读同一份产物，任选其一或都要，互不依赖。</p></article></div>
-    <p class="section-more"><a href="docs/features/">查看完整功能说明 →</a></p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section-head"><h2>数据底座与工程可信度</h2></div>
+    <div class="section-head"><h2>今天该进攻，还是先防守？</h2></div>
     <div class="grid-2">
-      <div class="panel"><h3>数据底座</h3><ul class="check-list"><li><strong>十年全市场日线</strong>：2016 → 今，五千余只标的，未复权原始数据 + 完整复权因子事件流。</li><li><strong>真实竞价明细</strong>：竞价成交量额、未匹配量、竞价换手率、量比、占昨日成交量比，每日每票一行。</li><li><strong>涨停与梯队</strong>：涨停池、炸板池、跌停池、连板梯队矩阵，含权威连板数与涨停原因。</li><li><strong>资金与热度</strong>：龙虎榜机构 / 游资净买卖、热股榜与排名趋势、个股异动原因。</li><li><strong>板块体系</strong>：行业与概念指数成分股，可做行业级与概念级共振分析。</li><li><strong>指数与估值</strong>：宽基 / 行业 / 概念指数日线与指标，以及市盈率、市净率、市销率快照。</li></ul></div>
-      <div class="panel"><h3>工程可信度</h3><div class="metric-grid"><div class="metric"><b>53 条</b><span>质量断言</span></div><div class="metric"><b>3 条</b><span>复权不变量</span></div><div class="metric"><b>16 个</b><span>自动作业</span></div><div class="metric"><b>325 MB</b><span>常驻内存</span></div></div><ul class="check-list"><li>一条命令跑完盘后：xlp daily 增量入库 → 复权口径 → 物化指标 → 池与指数 → 质量闸。</li><li>原始层只追加不覆盖，同一主键重复写入会报错。</li><li>16 个作业由代码声明，一个 funboost 调度服务统一定时，休市日自动跳过。</li><li>只备份不可再生的原始层与状态库，逐文件校验和，恢复前可先做一次不落地的演练。</li><li>不写死胜率，战绩由 xlp stats 用你自己库里的真实自评现算。</li></ul></div>
+      <div class="panel">
+        <h3>先给你一个仓位区间</h3>
+        <p>根据大盘趋势和市场热度，每天给一个参考仓位，不是一句“满仓干”。</p>
+        <ul class="check-list">
+          <li><strong>防守 0~2 成</strong>：大盘走弱、赚钱效应差</li>
+          <li><strong>均衡 3~5 成</strong>：方向不明、结构行情</li>
+          <li><strong>进攻 6~8 成</strong>：趋势向上、情绪回暖</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>为什么是这个仓位？</h3>
+        <p>看大盘趋势、涨跌家数、涨停/跌停、炸板率、市场中位数、最高连板；早上给当天，收盘给明天。</p>
+        <p><small>仓位是研究参考，不构成投资建议；买卖决定仍由你自己做。</small></p>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div class="section-head"><h2>PRO 版新增与升级</h2></div>
-    <div class="table-wrap"><table class="compare-table"><thead><tr><th>能力</th><th>PRO 版做法</th></tr></thead><tbody><tr><th scope="row">长期维护</th><td>永久看板 / 源码版买断后持续维护，市场策略长期更新；永久看板在看板内体现，源码版通过私有仓库 git pull 同步，不另收费。</td></tr><tr><th scope="row">数据来源</th><td>专业行情数据终端，31 个接口逐个实测批量上限、延迟与字段可得性。</td></tr><tr><th scope="row">竞价数据</th><td>全市场每日每票一行的真实竞价：未匹配量、换手率、量比、占昨日成交量比。</td></tr><tr><th scope="row">涨跌停口径</th><td>权威涨停比例与涨停价随行落库，各板块 / ST / 新股幅度由数据源给出。</td></tr><tr><th scope="row">数据组织</th><td>本地数据湖：21 张表按主键只追加不覆盖、批次血缘、v_* 只读视图。</td></tr><tr><th scope="row">质量保障</th><td>53 条质量断言 + 3 条复权不变量，每个交易日自动跑，不过即非零退出。</td></tr><tr><th scope="row">调度</th><td>16 个作业由代码声明，一个 funboost 调度服务统一定时；法定休市日自动跳过。</td></tr><tr><th scope="row">资源占用</th><td>实测 2 核 2 GB 可跑：常驻约 325 MB，最重作业峰值约 1.1 GB。</td></tr><tr><th scope="row">取数速度</th><td>批量作业并发取数（线程安全令牌桶，默认 12 QPS / 4 线程，可调回串行）。</td></tr><tr><th scope="row">策略</th><td>22 道硬闸 + 10 维评分 + 板块共振 + 期望收益口径；参数重标定有回测。</td></tr><tr><th scope="row">文档</th><td>18 份活文档（策略 / 指标 / 接口 / 数据字典 / 性能 / 运维 / 部署 / 工作流），CI 守卫不许漂。</td></tr><tr><th scope="row">AI 层</th><td>核心层零 LLM 可独立运行；AI 层（推送 / 对话）可选叠加。</td></tr><tr><th scope="row">业绩口径</th><td>不写死胜率：由 xlp stats 用你自己库里的真实自评现算，并附幸存者偏差标注。</td></tr></tbody></table></div>
+    <div class="section-head"><h2>核心能力</h2></div>
+    <div class="feature-grid"><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M12 12l6.5-6.5"/><path d="M12 3v3M21 12h-3"/><circle cx="12" cy="12" r="2.5"/></svg></span><h3>一进二寻龙</h3><p>早上告诉你：今天哪几只首板值得盯，最多 3 只，附上入选理由。</p></article><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5"/><path d="M9 11l1.6 1.6L14 9"/><path d="M9 16h6"/></svg></span><h3>每日自动复盘</h3><p>收盘告诉你：选对了没、漏了谁、为什么漏，明天别再错过。</p></article><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.6"/></svg></span><h3>明日观察</h3><p>明天重点看哪些方向、哪些票，不用自己翻全市场。</p></article><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17l6-6 4 3 6-7"/><path d="M15 7h5v5"/></svg></span><h3>个股 / 大盘预测</h3><p>发个代码，给方向参考；大盘冷热、涨跌家数也能一眼看懂。</p></article><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/><path d="M3 16l9 5 9-5"/></svg></span><h3>深度分析</h3><p>一只票的价量、资金痕迹和关键位置，整理成一页。</p></article><article class="feature-card"><span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4v5a3 3 0 0 0 3 3h8"/><path d="M5 20v-3a3 3 0 0 1 3-3h8"/><path d="M16 9l3 3-3 3"/><path d="M16 2l3 3-3 3"/></svg></span><h3>两个出口</h3><p>网页看板、微信推送都能看；不用装 App，随时打开。</p></article></div>
+    <p class="section-more"><a href="docs/features/">查看完整功能说明 →</a></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>数据可靠，结果可核对</h2></div>
+    <div class="grid-2">
+      <div class="panel"><h3>数据底座</h3><ul class="check-list"><li><strong>十年全市场日线</strong>：2016 → 今，五千余只标的，未复权原始数据 + 完整复权因子事件流。</li><li><strong>真实竞价明细</strong>：竞价成交量额、未匹配量、竞价换手率、量比、占昨日成交量比，每日每票一行。</li><li><strong>涨停与梯队</strong>：涨停池、炸板池、跌停池、连板梯队矩阵，含权威连板数与涨停原因。</li><li><strong>资金与热度</strong>：龙虎榜机构 / 游资净买卖、热股榜与排名趋势、个股异动原因。</li><li><strong>板块体系</strong>：行业与概念指数成分股，可做行业级与概念级共振分析。</li><li><strong>指数与估值</strong>：宽基 / 行业 / 概念指数日线与指标，以及市盈率、市净率、市销率快照。</li></ul></div>
+      <div class="panel"><h3>为什么可信</h3><div class="metric-grid"><div class="metric"><b>53 条</b><span>质量检查</span></div><div class="metric"><b>3 条</b><span>复权校验</span></div><div class="metric"><b>16 个</b><span>自动任务</span></div><div class="metric"><b>325 MB</b><span>运行占用</span></div></div><ul class="check-list"><li>每天收盘后自动更新数据、检查质量，再生成复盘和明日观察。</li><li>原始数据只追加不覆盖，重复写入会报错，避免数据被悄悄改掉。</li><li>每天自动跑 16 个任务，周末和休市日自动跳过。</li><li>自动备份原始数据，逐文件校验，恢复前可以先演练。</li><li>不写死胜率，战绩用你自己的数据现算。</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>技术细节（可选看）</h2></div>
+    <details class="faq-item">
+      <summary>数据来源、质量检查、调度与资源占用</summary>
+      <div class="table-wrap"><table class="compare-table"><thead><tr><th>能力</th><th>PRO 版做法</th></tr></thead><tbody><tr><th scope="row">长期维护</th><td>永久看板 / 源码版买断后持续维护，市场策略长期更新；永久看板在看板内体现，源码版通过私有仓库 git pull 同步，不另收费。</td></tr><tr><th scope="row">数据来源</th><td>专业行情数据终端，31 个接口逐个实测批量上限、延迟与字段可得性。</td></tr><tr><th scope="row">竞价数据</th><td>全市场每日每票一行的真实竞价：未匹配量、换手率、量比、占昨日成交量比。</td></tr><tr><th scope="row">涨跌停口径</th><td>权威涨停比例与涨停价随行落库，各板块 / ST / 新股幅度由数据源给出。</td></tr><tr><th scope="row">数据组织</th><td>本地数据湖：21 张表按主键只追加不覆盖、批次血缘、v_* 只读视图。</td></tr><tr><th scope="row">质量保障</th><td>53 条质量断言 + 3 条复权不变量，每个交易日自动跑，不过即非零退出。</td></tr><tr><th scope="row">调度</th><td>16 个作业由代码声明，一个 funboost 调度服务统一定时；法定休市日自动跳过。</td></tr><tr><th scope="row">资源占用</th><td>实测 2 核 2 GB 可跑：常驻约 325 MB，最重作业峰值约 1.1 GB。</td></tr><tr><th scope="row">取数速度</th><td>批量作业并发取数（线程安全令牌桶，默认 12 QPS / 4 线程，可调回串行）。</td></tr><tr><th scope="row">策略</th><td>22 道硬闸 + 10 维评分 + 板块共振 + 期望收益口径；参数重标定有回测。</td></tr><tr><th scope="row">文档</th><td>18 份活文档（策略 / 指标 / 接口 / 数据字典 / 性能 / 运维 / 部署 / 工作流），CI 守卫不许漂。</td></tr><tr><th scope="row">AI 层</th><td>核心层零 LLM 可独立运行；AI 层（推送 / 对话）可选叠加。</td></tr><tr><th scope="row">业绩口径</th><td>不写死胜率：由 xlp stats 用你自己库里的真实自评现算，并附幸存者偏差标注。</td></tr></tbody></table></div>
+    </details>
   </div>
 </section>
 
