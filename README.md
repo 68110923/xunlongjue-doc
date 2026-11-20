@@ -209,7 +209,7 @@ $ xlp daily
 - **定时任务改秒级**：cron 表达式支持 6 段（`秒 分 时 日 月 周`），funboost 触发器原生带 `second`；全部作业统一 6 段写法
 - **竞价链不再 sleep**：`auction_plan` 改为 `20 25 9 * * 1-5`（09:25:20 原生触发），删除 `delay_seconds` / `sleep 20`；crontab 入口仍降级为 `sleep 20`
 - **今日检点更准**：调度 id / 标记文件带秒（`pro_auction_plan_092520`），补跑与检查点不会和整分钟时刻混淆
-- **复盘/早盘自动存档**：`xlp review --save-ai` / `xlp brief --save-ai` 把简报文本存为 AI 存档（`model=brief-template`）；`postclose_chain`、`auction_plan` 链尾各接一步，真实模型原文优先、不覆盖
+- **复盘/早盘自动存档**：`xlp review --save-ai` / `xlp ai archive-template` 把简报文本存为 AI 存档（`model=brief-template`）；`postclose_chain`、`auction_plan` 链尾各接一步，存档失败不影响数据链，真实模型原文优先、不覆盖
 - **防重复写**：`run_slot` / `xlp jobs run` 同一入口加进程锁，cron 与手动触发撞车时只跑一份；检查点 + 定局 + 时间窗口三层兜底（重复触发不产生重复行）
 - **修复 auction 派生字段兜底**：源侧漏 `pre_close_price` 时用 `竞价价 ÷ (1+竞价涨幅)` 反推，`limit_ratio` / `limit_up_price` 不再留空（本次 279 行全部补回，盘后链不再被「竞价涨停口径」卡停）
 
