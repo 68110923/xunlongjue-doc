@@ -1,0 +1,41 @@
+# 寻龙诀 PRO
+
+寻龙诀 PRO：A 股量化研究工具——竞价解读、一进二选票、个股预测、主力痕迹、仓位与复盘。
+
+## 页面
+
+- 首页：https://xunlongjue.icu/
+- 定价：https://xunlongjue.icu/pricing/
+- 文档：https://xunlongjue.icu/docs/
+- 客户看板：https://xunlongjue.68110923.xyz/
+
+- 文档首页：https://xunlongjue.icu/docs/
+- 看板快速上手：https://xunlongjue.icu/docs/dashboard/
+- 每天怎么用：https://xunlongjue.icu/docs/daily/
+- 源码部署（可选）：https://xunlongjue.icu/docs/getting-started/
+- 功能说明：https://xunlongjue.icu/docs/features/
+- 持仓与主力意图：https://xunlongjue.icu/docs/holdings/
+- 主力意图怎么判断：https://xunlongjue.icu/docs/holdings/main-force/
+- 被套了拿还是减：https://xunlongjue.icu/docs/holdings/hold-or-cut/
+- 仓位与攻防：https://xunlongjue.icu/docs/position/
+- 仓位几成合适：https://xunlongjue.icu/docs/position/sizing/
+- 策略总览：https://xunlongjue.icu/docs/strategy/
+- A 股一进二：https://xunlongjue.icu/docs/strategy/first-board/
+- 一进二失败原因：https://xunlongjue.icu/docs/strategy/first-board-failure/
+- 竞价打板：https://xunlongjue.icu/docs/strategy/auction/
+- 竞价未匹配量：https://xunlongjue.icu/docs/strategy/auction-unmatched/
+- 竞价量比：https://xunlongjue.icu/docs/strategy/auction-volume/
+- 涨停幅度全表：https://xunlongjue.icu/docs/strategy/limit-rules/
+- 烂板与弱转强：https://xunlongjue.icu/docs/strategy/weak-to-strong/
+- 打板复盘模板：https://xunlongjue.icu/docs/strategy/review-template/
+- 复盘工具怎么选：https://xunlongjue.icu/docs/tools/review-tool/
+- 龙虎榜：https://xunlongjue.icu/docs/strategy/dragon-tiger/
+- 游资席位：https://xunlongjue.icu/docs/strategy/dragon-tiger-seats/
+- 数据湖：https://xunlongjue.icu/docs/data/
+- 回测：https://xunlongjue.icu/docs/backtest/
+- 常见问题：https://xunlongjue.icu/docs/faq/
+- 更新日志：https://xunlongjue.icu/docs/changelog/
+
+## 说明
+
+仅供研究与学习，不构成任何投资建议，不承诺任何收益。

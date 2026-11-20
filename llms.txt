@@ -8,6 +8,7 @@
 - 定价：https://68110923.github.io/xunlongjue-doc/pricing/
 - 文档：https://68110923.github.io/xunlongjue-doc/docs/
 - 客户看板：https://xunlongjue.68110923.xyz/
+- 官网：https://xunlongjue.icu/
 
 - 文档首页：https://68110923.github.io/xunlongjue-doc/docs/
 - 看板快速上手：https://68110923.github.io/xunlongjue-doc/docs/dashboard/
