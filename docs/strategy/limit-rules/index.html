@@ -88,7 +88,7 @@
     <nav class="breadcrumb" aria-label="面包屑"><a href="../../../docs/">文档</a> / <span>一进二与竞价</span> / <span>涨停幅度全表</span></nav>
     <h1>A 股涨停幅度全表</h1>
 <p class="docs-lead">先确认涨停价和涨停幅度，再谈竞价和选票；口径错了，后面全错。</p>
-    <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>主板 10%，创业板/科创板 20%，北交所 30%，主板 ST 通常 5%。</li><li>创业板/科创板 ST、新股上市初期规则不同，以交易所和数据源为准。</li><li>涨停口径会影响选票、回测和复盘，不能用一个固定百分比套全市场。</li></ul></div>
+    <div class="callout callout-note"><p class="callout-title">本页要点</p><ul><li>主板 10%，创业板/科创板 20%，北交所 30%；主板 ST 自 2026-07-06 起也是 10%。</li><li>创业板/科创板 ST、新股上市初期规则不同，以交易所和数据源为准。</li><li>涨停口径会影响选票、回测和复盘，不能用一个固定百分比套全市场。</li></ul></div>
     <details class="docs-toc-inline"><summary>本页目录</summary><div class="toc-links"><a href="#h-1">常见板块的涨停幅度</a><a href="#h-2">口径错了会怎样</a><a href="#h-3">工具怎么处理</a><a href="#h-4">和一进二的关系</a></div></details>
     <div class="prose">
 <p>看涨停、做一进二、跑回测，第一步都是确认涨停幅度。不同板块、不同状态的股票，涨停价不一样。</p>
@@ -97,14 +97,14 @@
   <li><strong>主板</strong>：通常 10%。</li>
   <li><strong>创业板、科创板</strong>：通常 20%。</li>
   <li><strong>北交所</strong>：通常 30%。</li>
-  <li><strong>主板 ST / *ST</strong>：通常 5%；创业板、科创板的 ST 按各自板块规则，常见为 20%。</li>
+  <li><strong>主板 ST / *ST</strong>：2026-07-06 起与主板普通股一致（10%）；此前为 5%。创业板、科创板的 ST 按各自板块规则，常见为 20%。</li>
   <li><strong>新股</strong>：上市初期可能无涨跌幅或执行特殊规则，以交易所最新规定为准。</li>
 </ul>
 <p>这张表是常见口径，不是永久不变的承诺。交易所规则调整、新股上市阶段，都会影响涨停价。</p>
 <h2 id="h-2">口径错了会怎样</h2>
 <ul>
   <li>用 10% 去套 20% 的板块，会把普通上涨误判成涨停。</li>
-  <li>忽略 ST 的 5%，会把接近涨停当成还没到。</li>
+  <li>忽略 ST 的历史档位差异（2026-07-06 前主板 ST 为 5%），会让旧数据回测失真。</li>
   <li>回测里用错涨停价，命中率和失败亏损都会失真。</li>
 </ul>
 <h2 id="h-3">工具怎么处理</h2>
